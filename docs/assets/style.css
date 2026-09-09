@@ -476,6 +476,14 @@ details.fold summary:hover{color:var(--ink)}
 .pn a.next{text-align:right}
 footer{margin-top:40px;padding-top:20px;color:var(--faint);font-size:11.5px;line-height:1.85}
 
+/* 절 참조 링크 */
+a.xref{color:var(--d1);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--d1) 32%,transparent);
+  padding-bottom:.5px;transition:border-color .13s,color .13s}
+a.xref:hover{color:var(--trace);border-bottom-color:var(--trace)}
+.bs a{color:var(--faint);text-decoration:none;border-bottom:1px solid var(--line2)}
+.bs a:hover{color:var(--trace);border-bottom-color:var(--trace)}
+h3[id],h2[id]{scroll-margin-top:28px}
+
 /* 참고문헌 */
 ol.refs li{color:var(--muted)}
 ol.refs li::before{color:var(--trace);opacity:.65}

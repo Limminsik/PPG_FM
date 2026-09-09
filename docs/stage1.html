@@ -21,7 +21,7 @@ next_label: 2단계 — 파운데이션 모델
   각 카드는 특징이 어디를 재는지 표시하고 같은 박동의 실제 계산값을 수식 아래에 적는다.</p>
 
   <section id="s40">
-    <h3>4-1. 문헌에 정립된 PPG 파형의 기준점과 특징</h3>
+    <h3 id="s4-1">4-1. 문헌에 정립된 PPG 파형의 기준점과 특징</h3>
     <p>한 박동의 PPG에는 문헌에서 이름이 붙은 지점이 16개 있다. 원파형에 5개(on, sp, dn, dp, off),
     1차 미분에 3개(u, v, w), 2차 미분에 6개(a–f), 3차 미분에 2개(p₁, p₂)다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a>. 임상적으로 검증된 특징은 대부분
     이 지점들 사이의 <strong>시간</strong>, <strong>높이의 비</strong>, <strong>면적의 비</strong>로 정의된다.
@@ -97,7 +97,7 @@ next_label: 2단계 — 파운데이션 모델
   <div id="families"></div>
 
 <section id="s4b" style="margin-top:60px;padding-top:8px">
-  <h3>4-8. 환자 요약 — 박동 분포를 세 가지로 압축</h3>
+  <h3 id="s4-8">4-8. 환자 요약 — 박동 분포를 세 가지로 압축</h3>
   <p>환자 한 명은 수백 개의 박동을 갖는다. 박동 하나하나를 그대로 회귀에 넣으면 같은 사람이 수백 번 세어져 p값이 수백 자릿수로 부풀어 오른다(의사반복 <a class="cite" href="{{ site.baseurl }}/references.html#ref-13">[13]</a>, 문서 8). 그래서 환자마다 박동 분포를 세 숫자로 압축한다.</p>
 
   <div class="bigfig">
@@ -158,7 +158,7 @@ next_label: 2단계 — 파운데이션 모델
 </section>
 
   <section id="s49" style="margin-top:56px;padding-top:8px">
-    <h3>4-9. 환자 요약 방식 — 네 가지를 실측 비교</h3>
+    <h3 id="s4-9">4-9. 환자 요약 방식 — 네 가지를 실측 비교</h3>
     <p>박동 395개(중앙값)를 환자값 하나로 줄이는 방법은 여럿이다. 어느 것이 나은지는 논증이 아니라 측정으로 갈랐다.
     세 지표로 쟀다 — <strong>재현성</strong>(홀·짝 박동으로 나눠 두 번 계산했을 때 일치도),
     <strong>검출률</strong>(특징이 계산되는 환자 비율), <strong>질환 신호</strong>(로지스틱 오즈비, Bonferroni 통과 셀).</p>
@@ -206,7 +206,7 @@ next_label: 2단계 — 파운데이션 모델
   <p>특정 질환을 고르지 않고, 환자 100명 이상인 ICD-10 3자리 코드 전부에 같은 절차를 적용한다.
   가설을 세워 검증하는 것이 아니라, 파형의 어느 부분이 어느 질환과 함께 움직이는지를 한 번에 훑는 구조다.</p>
 <section>
-    <h3>4-10. 모형 — 로지스틱 회귀, 효과 크기는 오즈비</h3>
+    <h3 id="s4-10">4-10. 모형 — 로지스틱 회귀, 효과 크기는 오즈비</h3>
     <p>선행 연구를 따라 <strong>질환을 결과로, 특징을 설명변수로</strong> 두는 로지스틱 회귀를 쓴다.
     효과 크기는 <strong>특징 1 표준편차당 오즈비</strong>다.
     <strong>공변량은 넣지 않는다</strong> — 파형 특징 자체와 질환의 연관을 보는 것이 목적이기 때문이다.</p>
@@ -297,7 +297,7 @@ next_label: 2단계 — 파운데이션 모델
   </section>
 
   <section>
-    <h3>4-11. 선행 연구는 어떻게 하는가 — 그리고 그 방식으로 산출한 Figure 2</h3>
+    <h3 id="s4-11">4-11. 선행 연구는 어떻게 하는가 — 그리고 그 방식으로 산출한 Figure 2</h3>
     <div class="scroll"><table>
       <thead><tr><th>연구</th><th>환자 요약</th><th>검정</th><th>효과 크기</th><th>다중검정</th></tr></thead>
       <tbody>

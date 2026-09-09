@@ -13,7 +13,7 @@ next_label: 정독 기록
   <p>확정된 것만 블록별로 적는다. 각 항목의 근거와 과정은 해당 페이지에 있다.</p>
 
   <div class="blk">
-    <div class="blk-h"><span class="bn">A</span><h3>데이터 현황 — 단계별로 무엇을 쓰는가</h3><span class="bs">데이터</span></div>
+    <div class="blk-h"><span class="bn">A</span><h3 id="blk-a">데이터 현황 — 단계별로 무엇을 쓰는가</h3><span class="bs"><a href="{{ site.baseurl }}/data.html">데이터 →</a></span></div>
     <p style="margin:14px 0 0;max-width:44em">1단계는 <b>질환 라벨이 붙은 PPG</b>가 필요하고, 그것은 MIMIC-III-Ext-PPG 하나뿐이다.
     2단계 사전학습에는 라벨이 필요 없으므로 <b>보유한 PPG 전부</b>를 쓴다.</p>
     <div class="scroll"><table>
@@ -30,11 +30,11 @@ next_label: 정독 기록
     </table></div>
     <p style="margin-top:12px;max-width:44em">사전학습–평가 사이에 누출이 없다.
     Ext-PPG는 원본 waveform 레코드 <span class="mono">10,623</span>개에서 추출됐고, 그중 원본 덤프에 있는 <span class="mono">8,424</span>개의 목록을 확보했다.
-    원본 <span class="mono">53,837</span>개 중 나머지 <span class="mono">45,413</span>개(84.4% · 약 193만 시간)는 라벨 코호트와 무관하다. 2단계 3.</p>
+    원본 <span class="mono">53,837</span>개 중 나머지 <span class="mono">45,413</span>개(84.4% · 약 193만 시간)는 라벨 코호트와 무관하다. <a class="xref" href="{{ site.baseurl }}/stage2.html#s5-3">2단계 5-3</a>.</p>
   </div>
 
   <div class="blk">
-    <div class="blk-h"><span class="bn">B</span><h3>1단계 — 설계</h3><span class="bs">1단계</span></div>
+    <div class="blk-h"><span class="bn">B</span><h3 id="blk-b">1단계 — 설계</h3><span class="bs"><a href="{{ site.baseurl }}/stage1.html">1단계 →</a></span></div>
     <div class="note ok" style="margin-top:16px"><strong>1단계의 성격 — 탐색적 지형 훑기.</strong>
     계산식으로 뽑은 PPG 파형 특징이 <b>어떤 질환과 함께 움직이는지 넓게 훑는 수준</b>으로 제시한다.
     특정 질환의 확증도, 예측 성능 주장도 하지 않는다. 파운데이션 모델(2단계)에 앞서 파형–질환 연관의 지형을 그려 두는 것이 목적이며,
@@ -45,10 +45,10 @@ next_label: 정독 기록
         <tr><td>대상</td><td>MIMIC-III-Ext-PPG 단독 · ICD-10 진단코드만</td></tr>
         <tr><td>코호트</td><td>고품질 SQI(<code>[1,1,1]</code>, 데이터셋 제공값)를 통과한 환자 <b>6,114명 전원.</b>
           환자마다 기록 전체에서 균등 간격으로 30초 세그먼트 <b>10개</b>씩(합 <span class="mono">59,113</span>개) 골라
-          박동 <b><span class="mono">2,361,453</span>개</b>를 추출했다. 정의 경로는 데이터 2 · 특성은 Table 1(3-3)</td></tr>
+          박동 <b><span class="mono">2,361,453</span>개</b>를 추출했다. 정의 경로는 <a class="xref" href="{{ site.baseurl }}/data.html#s3-2">데이터 3-2</a> · 특성은 Table 1(3-3)</td></tr>
         <tr><td>배제 조건</td><td><b>없다.</b> 1단계는 파형이 질환과 어떻게 움직이는지를 넓게 훑는 단계이므로 환자를 배제하지 않는다.
           초기에 있던 세 조건을 모두 풀었다 — 리듬 필터(<code>SR</code>만, 867명 배제) · 동성 리듬까지 잘라낸 문자열 조건(110명 · 세그먼트 122만) ·
-          서맥을 잘라낸 최소 박동 조건(20 → <b>10</b>). 리듬은 배제 조건이 아니라 요약 변수로 보존한다. 데이터 4</td></tr>
+          서맥을 잘라낸 최소 박동 조건(20 → <b>10</b>). 리듬은 배제 조건이 아니라 요약 변수로 보존한다. <a class="xref" href="{{ site.baseurl }}/data.html#s3-4">데이터 3-4</a></td></tr>
         <tr><td>질환 라벨</td><td>ICD-10 3자리 <span class="mono">1,092</span>개 중 <b>환자 100명 이상인 171개.</b> 대조군은 그 코드가 없는 나머지 전원</td></tr>
         <tr><td>파형 특징<br>— 박동 단위</td><td><b>23개</b> — 타이밍 11 · 정규화 진폭비 3 · 1차 미분 2 · 2차 미분(APG) 5 · 검출 플래그 2.
           문헌 기준점 16개 중 <b>스케일 불변</b>인 것만 남겼다(절대 진폭 · SI · PTT · 3차 미분 제외)</td></tr>
@@ -59,14 +59,14 @@ next_label: 정독 기록
         <tr><td>모형</td><td>로지스틱 회귀 · 특징 z-표준화 · <b>공변량 보정 없음</b> · 분석 단위는 환자.
           Firth 보정은 불필요함을 실측 확인(계수 변화 0.0~2.8%)</td></tr>
         <tr><td>효과 크기</td><td><b>특징 1 표준편차당 오즈비.</b> 단위가 제각각인 특징 43개를 한 자로 비교하기 위해 z-표준화한다.
-          붉은 셀은 그 특징이 1 SD 높은 환자에서 그 코드가 더 자주 <b>관찰된다</b>는 뜻이지 위험을 높인다는 뜻이 아니다 — 읽는 법과 한계는 1단계 10</td></tr>
+          붉은 셀은 그 특징이 1 SD 높은 환자에서 그 코드가 더 자주 <b>관찰된다</b>는 뜻이지 위험을 높인다는 뜻이 아니다 — 읽는 법과 한계는 <a class="xref" href="{{ site.baseurl }}/stage1.html#s4-10">1단계 4-10</a></td></tr>
         <tr><td>다중검정</td><td><b>Bonferroni</b> — 7,353 검정에 p &lt; 6.8×10⁻⁶. 선행 연구 세 편이 모두 쓰는 기준을 그대로 따랐다</td></tr>
       </tbody>
     </table></div>
   </div>
 
   <div class="blk">
-    <div class="blk-h"><span class="bn">C</span><h3>1단계 — 결과</h3><span class="bs">1단계 11</span></div>
+    <div class="blk-h"><span class="bn">C</span><h3 id="blk-c">1단계 — 결과</h3><span class="bs"><a class="xref" href="{{ site.baseurl }}/stage1.html#s4-11">1단계 4-11</a></span></div>
     <div class="scroll"><table>
       <thead><tr><th>항목</th><th>값 · 내용</th></tr></thead>
       <tbody>
@@ -91,7 +91,7 @@ next_label: 정독 기록
   </div>
 
   <div class="blk">
-    <div class="blk-h"><span class="bn">D</span><h3>2단계 — 파운데이션 모델</h3><span class="bs">2단계</span></div>
+    <div class="blk-h"><span class="bn">D</span><h3 id="blk-d">2단계 — 파운데이션 모델</h3><span class="bs"><a href="{{ site.baseurl }}/stage2.html">2단계 →</a></span></div>
     <div class="scroll"><table>
       <thead><tr><th>항목</th><th>확정 내용</th></tr></thead>
       <tbody>
@@ -99,12 +99,12 @@ next_label: 정독 기록
         <tr><td>1단계와의 관계</td><td><b>같은 창에서 비교하지 않는다.</b> 두 단계는 자료·방식·지표가 상이하여 직접 비교가 성립하지 않는다.
           <b>1단계에서 유의하게 나온 파형·혈역학적 특징을 2단계의 기반 또는 활용으로 쓴다</b> — 그 활용 방식은 설계와 함께 정한다</td></tr>
         <tr><td>사전학습 자원</td><td>보유 PPG 전부. 평가 코호트와 겹치지 않는 원본 waveform <b>45,413 레코드(약 193만 시간)</b>를 확보했고,
-          겹치는 8,424개 목록으로 <b>누출 없이 분리된다.</b> 2단계 2 · 5-3</td></tr>
+          겹치는 8,424개 목록으로 <b>누출 없이 분리된다.</b> <a class="xref" href="{{ site.baseurl }}/stage2.html#s5-2">2단계 5-2</a> · 5-3</td></tr>
         <tr><td>1단계가 남긴 것</td><td>유의 셀 852/7,353(11.6%) · 유의 질환 105/171 · 유의 특징 43/43 ·
           넓게 움직인 특징 <code>max_slope_norm</code> 46 · <code>b_over_a</code> 41 · <code>LVET_over_IBI</code> 38.
-          <b>2단계가 넘어야 할 값이 아니라, 2단계에서 무엇에 집중할지를 고를 때 쓰는 재료다.</b> 2단계 4</td></tr>
+          <b>2단계가 넘어야 할 값이 아니라, 2단계에서 무엇에 집중할지를 고를 때 쓰는 재료다.</b> <a class="xref" href="{{ site.baseurl }}/stage2.html#s5-4">2단계 5-4</a></td></tr>
         <tr><td>설계 조사</td><td>선행 PPG 파운데이션 모델이 <b>«무엇을 같다고 볼 것인가»</b>에 어떻게 답했는지를 세 갈래로 정리(2단계 준비 문헌 조사).
-          우리 1단계 결과(43특징 × 질환 연관 지도)가 그 자리에 놓일 수 있다. 설계 결정은 아직 하지 않았다. 2단계 5</td></tr>
+          우리 1단계 결과(43특징 × 질환 연관 지도)가 그 자리에 놓일 수 있다. 설계 결정은 아직 하지 않았다. <a class="xref" href="{{ site.baseurl }}/stage2.html#s5-5">2단계 5-5</a></td></tr>
         <tr><td>정독 기록</td><td>선행 논문을 한 편씩 원문으로 읽고 설계 논리를 남긴다. <b>PaPaGei 정독 완료 — 기준선으로 삼는다.</b>
           파형에서 계산한 양으로 «같음»을 지정할 수 있음을 보인 논문이며, 지표 선택 근거는 생리학적 보완성이었다.
           <b>1단계 질환 연관에 근거한 Index를 감독 신호로 삼는 방향</b>을 그 확장선으로 검토 중 — <b>논의 단계이며 확정이 아니다.</b>
@@ -122,7 +122,7 @@ next_label: 정독 기록
   </div>
 
   <div class="blk">
-    <div class="blk-h"><span class="bn">E</span><h3>산출물</h3><span class="bs">누적 관리</span></div>
+    <div class="blk-h"><span class="bn">E</span><h3 id="blk-e">산출물</h3><span class="bs">누적 관리</span></div>
     <p style="margin:14px 0 0;max-width:44em">노트북이 만든 파일은 그 노트북 폴더에만 쌓이고 <code>manifest.json</code>에 기록된다.</p>
     <div class="scroll"><table>
       <thead><tr><th>노트북</th><th>파일</th><th class="r">행</th><th>내용</th></tr></thead>
@@ -153,7 +153,7 @@ next_label: 정독 기록
   </div>
 
   <section style="margin-top:44px">
-    <h3>1-1. 작업 규칙</h3>
+    <h3 id="s1-1">1-1. 작업 규칙</h3>
     <ul class="plain">
       <li>분석은 <code>.py</code>가 아니라 <strong>.ipynb</strong>로</li>
       <li>README·코드 어디에도 AI 도구를 이용한 분석·코딩에 대한 언급을 남기지 않는다</li>
@@ -165,7 +165,7 @@ next_label: 정독 기록
   </section>
 
   <section>
-    <h3>1-2. 코드 구조</h3>
+    <h3 id="s1-2">1-2. 코드 구조</h3>
     <p>분석 경로를 1단계 구조에 맞춰 정리했다. 노트북이 실행 경로이고, 반복되는 처리는 모듈로 뺐다.</p>
     <div class="scroll"><table>
       <thead><tr><th>경로</th><th>내용</th></tr></thead>
@@ -192,13 +192,14 @@ next_label: 정독 기록
   </section>
 
   <section>
-    <h3>1-3. 변경 이력</h3>
+    <h3 id="s1-3">1-3. 변경 이력</h3>
     <div class="hist">
-      <div><b>v0.17_260909</b><span><b>UI 고도화 — 색·타이포·컴포넌트를 하나의 체계로 정리했다.</b>
-      팔레트를 다시 잡아 밝은 화면은 따뜻한 종이색 바탕에, 어두운 화면은 대비를 올렸고,
-      맥파 크림슨을 유일한 강조색으로 통일해 구획 라벨 · 사이드바 현재 위치 · 링크 · 강조 태그에 일관되게 썼다.
-      표는 줄무늬 대신 가는 선과 호버로, 카드는 그림자와 살짝 뜨는 반응으로,
-      단계 카드는 화살표 신호로 바꿨다. 밝게/어둡게 전환 버튼과 인쇄 스타일을 넣었다. 내용 변경은 없다.</span></div>
+      <div><b>v0.18_260909</b><span><b>페이지 사이의 연결을 정리했다.</b>
+      절 제목마다 고정 주소를 붙여(<code>#s4-11</code> 형태) 사이드바 목차와 바깥에서의 링크가 항상 같은 자리로 간다 —
+      전에는 주소가 화면이 그려진 뒤에야 만들어져 눌러도 이동하지 않는 경우가 있었다.
+      본문에 흩어져 있던 «<a class="xref" href="{{ site.baseurl }}/stage1.html#s4-11">1단계 4-11</a>» 같은 <b>절 참조를 전부 실제 링크로</b> 바꾸고,
+      진행 현황 블록 오른쪽의 페이지 이름도 링크로 만들었다.
+      홈의 최근 갱신 항목은 변경 이력으로 바로 간다. 절 번호가 «1단계 11»로 잘못 표기되던 것도 고쳤다.</span></div>
       <div><b>v0.13_260909</b><span>5-6에 <b>⑥ GPT-PPG</b> 정독을 추가.
       <b>배경·서론에서 «신호를 토큰으로 다루는 설계»의 사례로 쓴다</b> — 다만 토큰의 뜻이 두 갈래로 갈린다는 점을 함께 두었다.
       GPT-PPG는 1초 패치의 <b>연속 임베딩</b>이고 SIGMA-PPG는 <b>VQ 코드북 4,096개의 이산 토큰</b>이다.
