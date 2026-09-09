@@ -174,88 +174,144 @@
   .blk table td.c{white-space:nowrap}
 
 /* =========================================================
-   site chrome — sidebar layout
+   PPG_FM 연구 허브 — 사이트 크롬
    ========================================================= */
-:root{--sb:264px;--maxw:1080px}
-html{scroll-behavior:smooth;scroll-padding-top:24px}
+:root{--sb:260px;--content:960px}
+html{scroll-behavior:smooth;scroll-padding-top:28px}
 body{font-size:16px;word-break:keep-all;overflow-wrap:anywhere}
 .wrap{max-width:none;margin:0;padding:0}
-.site{display:grid;grid-template-columns:var(--sb) minmax(0,1fr);min-height:100vh}
-/* ---- sidebar ---- */
-.sb{position:sticky;top:0;height:100vh;overflow:auto;background:var(--paper);border-right:1px solid var(--line);
-  padding:28px 22px 32px;display:flex;flex-direction:column;gap:22px}
-.sb .brand{text-decoration:none;color:var(--ink)}
-.sb .brand .t{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;line-height:1.2}
-.sb .brand .d{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.55}
-.sb .ver{display:inline-block;margin-top:10px;font-size:11.5px;padding:4px 9px;border-radius:5px}
-.sb h6{margin:0 0 6px;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.sb nav.pages a{display:flex;align-items:center;gap:10px;padding:7px 10px;margin:0 -10px;border-radius:7px;text-decoration:none;color:var(--muted);font-size:14.5px;line-height:1.4}
-.sb nav.pages a .k{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);width:1.4em;text-align:right}
-.sb nav.pages a:hover{background:var(--panel);color:var(--ink)}
-.sb nav.pages a.on{background:var(--ink);color:var(--ground)}
-.sb nav.pages a.on .k{color:var(--ground);opacity:.7}
-.sb .ptoc{border-top:1px solid var(--line);padding-top:16px}
-.sb .ptoc a{display:block;padding:4px 0 4px 10px;border-left:2px solid var(--line);text-decoration:none;color:var(--muted);font-size:13px;line-height:1.45;margin-left:2px}
-.sb .ptoc a:hover{color:var(--ink);border-left-color:var(--ink)}
-.sb .ptoc a.h2{padding-left:8px;border-left-color:transparent;color:var(--ink);font-weight:500;margin-top:8px}
+
+/* 사이드바 — position:fixed (스티키 어긋남 방지) */
+.sb{position:fixed;inset:0 auto 0 0;width:var(--sb);overflow-y:auto;z-index:20;
+  background:var(--paper);border-right:1px solid var(--line);
+  padding:26px 20px 24px;display:flex;flex-direction:column;gap:20px}
+.sb .brand{text-decoration:none;color:var(--ink);display:block}
+.sb .brand .t{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:18px;letter-spacing:-.01em}
+.sb .brand .d{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}
+.sb .ver{display:inline-block;margin-top:9px;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  padding:3px 8px;border-radius:5px;background:var(--panel);color:var(--muted)}
+.sb h6{margin:0 0 5px;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.sb nav a{display:flex;gap:9px;align-items:baseline;padding:6px 9px;margin:0 -9px;border-radius:6px;
+  text-decoration:none;color:var(--muted);font-size:14.5px;line-height:1.4}
+.sb nav a .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint)}
+.sb nav a:hover{background:var(--panel);color:var(--ink)}
+.sb nav a.on{background:var(--ink);color:var(--ground)}
+.sb nav a.on .k{color:var(--ground);opacity:.65}
+.sb .grp+.grp{margin-top:2px}
+.sb .ptoc{border-top:1px solid var(--line);padding-top:14px}
+.sb .ptoc a{display:block;padding:3px 0 3px 9px;border-left:2px solid var(--line);
+  text-decoration:none;color:var(--muted);font-size:12.5px;line-height:1.45}
+.sb .ptoc a:hover{color:var(--ink);border-left-color:var(--trace)}
+.sb .ptoc a.h2{border-left-color:transparent;padding-left:7px;color:var(--ink);font-weight:500;margin-top:7px}
 .sb .ptoc:empty{display:none}
-.sb .foot{margin-top:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);line-height:1.7}
+.sb .foot{margin-top:auto;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint);line-height:1.7}
 .sb .foot a{color:var(--faint);text-decoration:none;border-bottom:1px solid var(--line)}
-/* ---- main ---- */
-.main{min-width:0}
-.main .in{max-width:var(--maxw);margin:0 auto;padding:44px 48px 96px}
-.crumb{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.08em;color:var(--faint);margin:0 0 18px}
+
+/* 본문 */
+.main{margin-left:var(--sb);min-width:0}
+.main .in{max-width:var(--content);margin:0 auto;padding:40px 44px 88px}
+.crumb{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;color:var(--faint);margin:0 0 20px}
 .crumb a{color:var(--faint);text-decoration:none}
-.part{margin-top:72px}
-.main .in > .part:first-of-type, .main .in > .hero + .part{margin-top:0;border-top:none;padding-top:0}
-.part > p, section > p{max-width:44em}
-h1{font-size:clamp(28px,3.4vw,38px)}
-h2{font-size:26px}
-section{margin-top:44px}
-/* ---- hero (home) ---- */
-.hero{margin:0 0 56px;padding:0 0 40px;border-bottom:1px solid var(--line)}
-.hero .eyebrow{margin-bottom:10px}
-.hero h1{margin:0 0 14px}
-.hero .lede{max-width:44em;font-size:17px}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:28px}
-.tile{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px 14px}
-.tile .v{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:26px;line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.tile .l{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.45}
-.stages{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
-.stage{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-decoration:none;color:inherit}
-.stage:hover{border-color:var(--ink)}
-.stage .st-n{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--ground);background:var(--ink);border-radius:5px;padding:3px 8px;margin-top:2px}
-.stage .st-t{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:16px;line-height:1.35}
-.stage .st-s{font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.55}
-.stage .bar{height:5px;background:var(--panel2);border-radius:3px;margin-top:10px;overflow:hidden}
-.stage .bar i{display:block;height:100%;background:var(--hold);border-radius:3px}
-.stage .bar i.wip{background:var(--flag)}
-/* ---- content polish ---- */
+.part{margin-top:0;padding-top:0;border-top:none}
+.part+.part{margin-top:76px;padding-top:34px;border-top:1px solid var(--line)}
+.part > p, section > p{max-width:42em}
+h1{font-size:clamp(28px,3.2vw,36px);letter-spacing:-.015em}
+h2{font-size:25px}
+section{margin-top:42px}
 table{font-size:14px}
 th,td{padding:10px 14px 10px 0;line-height:1.6}
 .blk{padding:20px 22px 22px}
 .blk table td:first-child{white-space:normal;min-width:7.5em}
-.count .v{font-size:26px}
-.fig2{border-radius:8px}
 .fig2 img{min-width:1100px}
-.gal{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-details.hist-wrap summary{cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);padding:6px 0}
-/* ---- prev / next ---- */
-.pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:64px;padding-top:24px;border-top:1px solid var(--line)}
-.pn a{text-decoration:none;color:inherit;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.pn a:hover{border-color:var(--ink)}
-.pn a .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-.pn a .t{display:block;margin-top:4px;font-weight:500}
+details.fold summary{cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint);padding:8px 0}
+details.fold[open] summary{color:var(--muted)}
+
+/* 히어로 */
+.hero{position:relative;margin:-40px -44px 54px;padding:56px 44px 0;overflow:hidden;
+  background:linear-gradient(180deg,var(--paper),var(--ground));border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:12px}
+.hero h1{margin:0 0 16px;max-width:19em}
+.hero .lede{font-size:17.5px;color:var(--muted);max-width:40em;margin:0}
+.hero .wave{display:block;width:100%;height:110px;margin-top:26px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.hero .cta a{text-decoration:none;font-size:14px;padding:8px 15px;border-radius:7px;
+  border:1px solid var(--line);color:var(--ink);background:var(--paper)}
+.hero .cta a.pri{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.hero .cta a:hover{border-color:var(--ink)}
+
+/* 카드 격자 */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:20px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:20px 22px}
+.card h3{font-size:16.5px;margin:0 0 8px}
+.card p{font-size:14.5px;color:var(--muted);line-height:1.7;margin:0;max-width:none}
+.card .q{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--faint);
+  text-transform:uppercase;display:block;margin-bottom:9px}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:10px;margin-top:18px}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:15px 16px}
+.tile .v{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:24px;line-height:1.05;
+  font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+.tile .l{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+
+/* 단계 카드 */
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.step{display:block;background:var(--paper);border:1px solid var(--line);border-radius:11px;
+  padding:20px 22px;text-decoration:none;color:inherit}
+.step:hover{border-color:var(--trace)}
+.step .n{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ground);
+  background:var(--ink);border-radius:5px;padding:3px 8px}
+.step .t{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:17px;margin-top:12px;line-height:1.35}
+.step .s{font-size:14px;color:var(--muted);margin-top:7px;line-height:1.65}
+.step .bar{height:5px;background:var(--panel2);border-radius:3px;margin-top:14px;overflow:hidden}
+.step .bar i{display:block;height:100%;background:var(--hold);border-radius:3px}
+.step .bar i.wip{background:var(--flag)}
+
+/* 대표 결과 */
+.showcase{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:20px}
+.showcase .pic{background:#fff;border-bottom:1px solid var(--line);max-height:330px;overflow:hidden}
+.showcase .pic img{display:block;width:100%}
+.showcase .body{padding:20px 22px}
+.showcase .body h3{margin:0 0 10px;font-size:17px}
+.showcase ul.plain{margin-top:0}
+.showcase ul.plain li{font-size:14.5px;color:var(--muted)}
+.showcase ul.plain li b{color:var(--ink);font-weight:500}
+
+/* 갱신 목록 */
+.feed{margin-top:18px;border-top:1px solid var(--line)}
+.feed a{display:grid;grid-template-columns:8.5em 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);
+  text-decoration:none;color:inherit;align-items:baseline}
+.feed a:hover{background:var(--panel)}
+.feed .v{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint)}
+.feed .t{font-size:14.5px;line-height:1.6;color:var(--muted)}
+.feed .t b{color:var(--ink);font-weight:500}
+
+/* 이전/다음 */
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:64px;padding-top:22px;border-top:1px solid var(--line)}
+.pn a{text-decoration:none;color:inherit;background:var(--paper);border:1px solid var(--line);
+  border-radius:10px;padding:13px 16px}
+.pn a:hover{border-color:var(--trace)}
+.pn a .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.pn a .t{display:block;margin-top:4px;font-weight:500;font-size:14.5px}
 .pn a.next{text-align:right}
-footer{margin-top:40px}
-/* ---- responsive ---- */
-@media(max-width:960px){
-  .site{grid-template-columns:1fr}
-  .sb{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:18px 20px;gap:12px}
-  .sb nav.pages{display:flex;flex-wrap:wrap;gap:2px 6px}
-  .sb nav.pages a{padding:6px 10px;margin:0}
-  .sb .ptoc,.sb .foot,.sb h6{display:none}
-  .main .in{padding:28px 20px 72px}
-  .stages{grid-template-columns:1fr}
-  .pn{grid-template-columns:1fr}
+footer{margin-top:36px}
+
+/* 그림 */
+img{max-width:100%}
+.fig2 img{max-width:none}
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:14px}
+.gal figure{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.gal img{display:block;width:100%;height:auto}
+.gal figcaption{font-size:12.5px;color:var(--muted);padding:9px 12px;line-height:1.55}
+
+@media(max-width:940px){
+  .sb{position:static;width:auto;inset:auto;height:auto;border-right:none;
+    border-bottom:1px solid var(--line);padding:16px 18px;gap:10px}
+  .sb nav{display:flex;flex-wrap:wrap;gap:2px 4px}
+  .sb nav a{padding:5px 9px;margin:0}
+  .sb .ptoc,.sb .foot{display:none}
+  .main{margin-left:0}
+  .main .in{padding:26px 18px 64px}
+  .hero{margin:-26px -18px 40px;padding:36px 18px 0}
+  .steps,.pn{grid-template-columns:1fr}
 }

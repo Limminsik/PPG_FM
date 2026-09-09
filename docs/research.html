@@ -1,0 +1,112 @@
+---
+layout: default
+title: 연구 개요
+section: 연구
+prev_url: /
+prev_label: 홈
+next_url: /stage1.html
+next_label: 1단계 — 파형 특징과 질환 연관
+---
+<div class="part" id="s2">
+  <p class="kicker">연구</p>
+  <h2>연구 목적과 진행</h2>
+  <p><strong>PPG 파형에서 뽑은 형태학적 특징으로 질환의 바이오마커를 발굴하는 것</strong>이 목표다.
+  파형을 어떻게 추출하고 어떤 특징으로 계산하느냐에서 시작해, 그 특징이 어떤 질환과 함께 움직이는지를 넓게 훑는다.
+  전체 연구는 두 단계로 나뉘고, 두 단계에서 <strong>특징을 얻는 방법이 다르다</strong> —
+  1단계는 사람이 정의한 계산식으로, 2단계는 모델이 학습한 표현으로 얻는다.
+  <strong>두 단계를 같은 창에서 비교하지는 않는다</strong> — 자료·방식·지표가 상이해 직접 비교가 성립하지 않는다.
+  1단계에서 유의하게 나온 파형·혈역학적 특징을 <strong>2단계의 기반 또는 활용</strong>으로 삼는다.</p>
+
+  <div class="bigfig">
+    <svg viewBox="0 0 920 400" role="img" aria-label="두 단계 연구 구조 — (a) 계산식 특징, (b) 파운데이션 모델">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--faint)"/>
+        </marker>
+        <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--trace)"/>
+        </marker>
+      </defs>
+      <style>
+        .bx{fill:var(--paper);stroke:var(--line);stroke-width:1.2;rx:7}
+        .bxa{fill:var(--trace-soft);stroke:var(--trace);stroke-width:1.2;rx:7}
+        .bxd{fill:var(--panel);stroke:var(--line);stroke-width:1.2;rx:7}
+        .t{font-family:"IBM Plex Sans KR",sans-serif;font-size:12.5px;fill:var(--ink)}
+        .s{font-family:"IBM Plex Mono",monospace;font-size:10.5px;fill:var(--muted)}
+        .lbl{font-family:"Gothic A1",sans-serif;font-size:15px;font-weight:700;fill:var(--ink)}
+        .ln{stroke:var(--faint);stroke-width:1.2;fill:none}
+      </style>
+
+      <!-- 공통 입력 -->
+      <rect class="bxd" x="20" y="24" width="880" height="46"/>
+      <text class="lbl" x="36" y="46">1단계 자료</text>
+      <text class="t" x="120" y="44">MIMIC-III-Ext-PPG · 고품질 SQI 통과 환자 6,114명 · 전 리듬 · 환자당 10세그먼트 · 박동 2,361,453개</text>
+      <text class="s" x="120" y="60">2단계 사전학습은 라벨이 필요 없어 보유 PPG 전부를 쓴다 — 두 단계의 자료 범위가 다르다</text>
+
+      <!-- (a) -->
+      <text class="lbl" x="20" y="108">(a)  1단계 — 계산식 파형 특징</text>
+      <line class="ln" x1="20" y1="118" x2="900" y2="118"/>
+      <rect class="bx" x="20" y="132" width="150" height="52"/>
+      <text class="t" x="34" y="153">PPG 파형</text>
+      <text class="s" x="34" y="170">30초 · 125 Hz</text>
+
+      <rect class="bx" x="200" y="132" width="180" height="52"/>
+      <text class="t" x="214" y="153">계산식 특징</text>
+      <text class="s" x="214" y="170">박동 23 → 환자 43</text>
+
+      <rect class="bx" x="410" y="132" width="180" height="52"/>
+      <text class="t" x="424" y="153">로지스틱 회귀</text>
+      <text class="s" x="424" y="170">171 질환 × 43 = 7,353</text>
+
+      <rect class="bxa" x="620" y="132" width="280" height="52"/>
+      <text class="t" x="634" y="153">Figure 2 — 연관 지형</text>
+      <text class="s" x="634" y="170">1 SD당 오즈비 · Bonferroni 852셀</text>
+
+      <line class="ln" x1="172" y1="158" x2="196" y2="158" marker-end="url(#ah)"/>
+      <line class="ln" x1="382" y1="158" x2="406" y2="158" marker-end="url(#ah)"/>
+      <line class="ln" x1="592" y1="158" x2="616" y2="158" marker-end="url(#ah)"/>
+
+      <!-- (b) -->
+      <text class="lbl" x="20" y="244">(b)  2단계 — 파운데이션 모델</text>
+      <line class="ln" x1="20" y1="254" x2="900" y2="254"/>
+      <rect class="bx" x="20" y="268" width="150" height="52"/>
+      <text class="t" x="34" y="289">대규모 PPG</text>
+      <text class="s" x="34" y="306">라벨 불필요 · 193만 h</text>
+
+      <rect class="bx" x="200" y="268" width="180" height="52"/>
+      <text class="t" x="214" y="289">사전학습</text>
+      <text class="s" x="214" y="306">평가 코호트와 분리</text>
+
+      <rect class="bx" x="410" y="268" width="180" height="52"/>
+      <text class="t" x="424" y="289">학습된 표현</text>
+      <text class="s" x="424" y="306">미세조정 · 같은 분할</text>
+
+      <rect class="bx" x="620" y="268" width="280" height="52"/>
+      <text class="t" x="634" y="289">질환 예측 평가</text>
+      <text class="s" x="634" y="306">평가 방식은 2단계 설계와 함께 정한다</text>
+
+      <line class="ln" x1="172" y1="294" x2="196" y2="294" marker-end="url(#ah)"/>
+      <line class="ln" x1="382" y1="294" x2="406" y2="294" marker-end="url(#ah)"/>
+      <line class="ln" x1="592" y1="294" x2="616" y2="294" marker-end="url(#ah)"/>
+
+      <!-- 비교 화살표 -->
+      <path d="M760,188 L760,214 L760,264" stroke="var(--trace)" stroke-width="1.4" fill="none"
+            stroke-dasharray="4 3" marker-end="url(#ah2)"/>
+      <text x="748" y="222" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--trace)">1단계에서 유의했던 특징을 2단계의 기반으로 쓴다</text>
+
+      <text class="s" x="20" y="356">특징을 얻는 방법이 다르다 — (a)는 시간·비율·미분으로 계산하고, (b)는 모델이 학습한다.</text>
+      <text class="s" x="20" y="374">두 단계를 같은 창에서 비교하지 않는다. (a)에서 유의했던 특징을 (b)의 기반 또는 활용으로 삼는다.</text>
+    </svg>
+  </div>
+
+  <div class="pipe" style="margin-top:22px">
+    <div><b>1단계 — 계산식 기반 특징</b>시간·비율·미분으로 정의한 PPG 형태학 특징을 뽑아 질환과의 연관을 본다.
+      <strong>지금 여기 — 탐색적 지형 훑기 수준으로 정리를 마쳤다.</strong> 1단계</div>
+    <div><b>2단계 — 파운데이션 모델</b>모델이 학습한 특징으로 질환을 본다.
+      1단계에서 유의했던 파형·혈역학적 특징을 기반 또는 활용으로 삼는다. 구조와 설계는 선행 문헌을 정독하며 잡아가는 중이다. 2단계</div>
+  </div>
+
+  <p style="margin-top:18px"><strong>1단계의 범위는 MIMIC-III-Ext-PPG 단독 · ICD 진단코드로 확정했다.</strong>
+  파운데이션 모델에 앞서 임상 특징과 파형 사이의 연관을 살펴보는 수준으로 진행한다.
+  다른 데이터셋으로 넓히는 안은 검토했으나 그쪽 라벨이 질환 라벨로 적절하지 않아 채택하지 않았다(데이터 4).</p>
+</div>

@@ -1,9 +1,14 @@
 ---
 layout: default
 title: 2단계 — 파운데이션 모델
+section: 연구
+prev_url: /stage1.html
+prev_label: 1단계 — 파형 특징과 질환 연관
+next_url: /data.html
+next_label: 데이터
 ---
 <div class="part" id="s5">
-  <p class="kicker">PART 5</p>
+  <p class="kicker">연구 · 2단계</p>
   <h2>2단계 — 파운데이션 모델</h2>
   <p>1단계는 특징을 <strong>사람이 정의한 계산식</strong>으로 얻었다. 2단계는 그 자리를
   <strong>모델이 학습한 표현</strong>으로 채운다.</p>
@@ -20,8 +25,8 @@ title: 2단계 — 파운데이션 모델
       <div><b>③ 1단계와의 관계</b>같은 창에서 비교하지 않는다. 1단계에서 유의했던 파형·혈역학적 특징을 <b>기반 또는 활용</b>으로 쓴다</div>
     </div>
     <p style="margin-top:16px">선행 PPG 파운데이션 모델은 형태학 목표를 혈관·저항 축에 두었고
-    <a class="cite" href="references.html#ref-9">[9]</a>, 판막질환 스크리닝은 자기지도 사전학습으로 UK Biobank 일반인구에서 수행됐다
-    <a class="cite" href="references.html#ref-10">[10]</a>. 우리 자리는 <strong>ICU 비선별 코호트에서 phenome-wide</strong>라는 점에서 다르다.</p>
+    <a class="cite" href="{{ site.baseurl }}/references.html#ref-9">[9]</a>, 판막질환 스크리닝은 자기지도 사전학습으로 UK Biobank 일반인구에서 수행됐다
+    <a class="cite" href="{{ site.baseurl }}/references.html#ref-10">[10]</a>. 우리 자리는 <strong>ICU 비선별 코호트에서 phenome-wide</strong>라는 점에서 다르다.</p>
   </section>
 
   <section>
@@ -82,47 +87,47 @@ title: 2단계 — 파운데이션 모델
     이미지에서는 답이 쉬웠다 — 같은 사진을 자르고 색을 바꾼 두 장은 같은 것이다. PPG에서는 그렇지 않다.
     진폭을 1.2배 하면 같은 신호인가, 접촉압이 달라진 다른 신호인가. 앞 5초와 뒤 5초는 같은 상태인가.
     <strong>PPG에서 «같음»은 자명하지 않고, 그것을 정의하는 방식이 곧 그 모델의 정체가 된다.</strong>
-    선행 연구를 이 질문으로 읽으면 세 갈래로 갈린다. 자세한 것은 문서 16.</p>
+    선행 연구를 이 질문으로 읽으면 세 갈래로 갈린다. 자세한 것은 2단계 준비 문헌 조사.</p>
 
     <div class="scroll"><table>
       <thead><tr><th>갈래</th><th>모델</th><th>무엇을 왜 했는가</th></tr></thead>
       <tbody>
         <tr><td rowspan="2"><b>① 파형 안에서<br>«같음»을 만든다</b></td>
-          <td><b>PaPaGei</b><br><span class="cap">ICLR 2025</span> <a class="cite" href="references.html#ref-9">[9]</a></td>
+          <td><b>PaPaGei</b><br><span class="cap">ICLR 2025</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-9">[9]</a></td>
           <td>기존 자기지도학습이 «증강 불변성»이나 «같은 사람»에 기대는데, 그것은 파형이 담은 생리를 쓰지 않는다고 봤다.
             그래서 파형에서 <b>sVRI</b>(수축기 전후 평균비, 말초저항)를 계산해 <b>이것이 비슷하면 같다</b>고 정의하고,
             <b>IPA</b>(절흔 기준 면적비, 컴플라이언스)와 <b>SQI</b>를 회귀로 붙였다.
             셋을 고른 이유는 서로 보완하기 때문 — 진폭·폭·«형태학을 못 뽑는 경우».
             절제 실험에서 형태학판이 참가자 대조판을 이겼다. <b>파형에서 만든 감독 신호가 «같은 사람»보다 나은 정답이었다</b></td></tr>
-        <tr><td><b>Robust-FM</b><br><span class="cap">arXiv 2606</span> <a class="cite" href="references.html#ref-18">[18]</a></td>
+        <tr><td><b>Robust-FM</b><br><span class="cap">arXiv 2606</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-18">[18]</a></td>
           <td>«sVRI 하나로 충분한가»에 답한 논문. 동시 기록 ECG에서 HR·RMSSD, 호흡에서 RR·RA·RVT —
             <b>다섯 차원 생리 벡터의 거리에 비례해</b> 임베딩 거리를 맞춘다(rank-n-contrast).
             15개 중 14개 우세, 그런데 <b>피험자를 3배 적게(4,998명) 쓰고도 이겼다</b> — 감독 신호의 질이 데이터 양을 대체했다</td></tr>
         <tr><td rowspan="2"><b>② 다른 신호에게<br>묻는다</b></td>
-          <td><b>AnyPPG</b><br><span class="cap">arXiv 2511</span> <a class="cite" href="references.html#ref-17">[17]</a></td>
+          <td><b>AnyPPG</b><br><span class="cap">arXiv 2511</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-17">[17]</a></td>
           <td>PPG는 정보가 빈약하고 ECG는 임상적으로 잘 해석된다. 그렇다면 <b>같은 순간 ECG의 표현을 PPG가 따라가게</b> 하자.
             CLIP 구조로 대칭 InfoNCE. 교사는 기성 모델 <b>ECGFounder</b>이고 <b>학습 내내 동결</b>된다 — 투영 헤드만 함께 갱신.
             평가 축이 우리와 같다 — <b>양성 100명 초과 표현형 1,468개</b>, AUC ≥ 0.70이 <b>307개</b>(순환계 77 · 비순환계 230). <span class="cap">v3 기준</span></td></tr>
-        <tr><td><b>M2AE</b><br><span class="cap">arXiv 2605</span> <a class="cite" href="references.html#ref-24">[24]</a></td>
+        <tr><td><b>M2AE</b><br><span class="cap">arXiv 2605</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-24">[24]</a></td>
           <td>PPG와 ECG가 같은 심장을 다르게 본다면 서로를 복원하게 할 수 있다. 341만 쌍.
             다만 이 논문의 목표는 표현이 아니라 <b>개인 식별</b>이다 — 우리에게는 반대 방향의 경고로 읽힌다</td></tr>
         <tr><td rowspan="3"><b>③ «같음»을<br>정의하지 않는다</b></td>
-          <td><b>MMR</b><br><span class="cap">arXiv 2601</span> <a class="cite" href="references.html#ref-19">[19]</a></td>
+          <td><b>MMR</b><br><span class="cap">arXiv 2601</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-19">[19]</a></td>
           <td>PPG 원신호를 복원 목표로 삼으면 <b>잡음까지 외운다.</b> 그래서 목표를 <b>웨이블릿 계수</b>로 바꿨다 —
             Haar DWT 3레벨로 저주파(맥파 윤곽)와 고주파(절흔 같은 미세 변곡)를 분리해 스케일별로 복원시킨다.
             19개 중 17개에서 단순 시간영역 복원 우세</td></tr>
-        <tr><td><b>SIGMA-PPG</b><br><span class="cap">arXiv 2601</span> <a class="cite" href="references.html#ref-21">[21]</a></td>
+        <tr><td><b>SIGMA-PPG</b><br><span class="cap">arXiv 2601</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-21">[21]</a></td>
           <td>무작위 마스킹은 <b>쉬운 곳을 가릴 때가 많다.</b> 평탄한 이완기를 가리면 배울 게 없다.
             그래서 작은 교사 모델이 <b>어디를 가릴지 학습</b>하게 했다(학생의 복원 손실이 보상).
             미세조정은 크게 앞서나 <b>선형 프로브에서는 대조 계열에 밀린다</b> — 저자들이 원인을 명시: 복원 표현은 «분리»에 좋지 않다</td></tr>
-        <tr><td><b>GPT-PPG</b><br><span class="cap">Physiol Meas 2025</span> <a class="cite" href="references.html#ref-20">[20]</a></td>
+        <tr><td><b>GPT-PPG</b><br><span class="cap">Physiol Meas 2025</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-20">[20]</a></td>
           <td>30초를 1초 패치로 잘라 다음 패치를 예측한다. 배울 점 하나 —
             <b>MSE를 쓰면 붕괴한다.</b> [0,1] 신호에서 MSE 최적해가 평균값이라 모든 패치가 평탄선이 된다. logit-Laplace로 해결</td></tr>
         <tr><td><b>④ «같음»을<br>사람으로 정의</b></td>
-          <td><b>Pulse-PPG</b><br><span class="cap">UbiComp 2025</span> <a class="cite" href="references.html#ref-22">[22]</a></td>
+          <td><b>Pulse-PPG</b><br><span class="cap">UbiComp 2025</span> <a class="cite" href="{{ site.baseurl }}/references.html#ref-22">[22]</a></td>
           <td>122명 100일 <b>필드</b> 데이터로 학습. 결과가 반직관적이다 — 웨어러블 태스크 11개 중 10개에서
             임상 데이터로 학습한 PaPaGei를 앞섰다. <b>깨끗한 데이터로 배운 표현이 지저분한 현실에서 무너진다.</b>
-            같은 벤치마크 <a class="cite" href="references.html#ref-25">[25]</a>의 다른 숫자 — HR/HRV만 쓰면 MAE 11.49인데 세 모델 임베딩은 8.2–9.8.
+            같은 벤치마크 <a class="cite" href="{{ site.baseurl }}/references.html#ref-25">[25]</a>의 다른 숫자 — HR/HRV만 쓰면 MAE 11.49인데 세 모델 임베딩은 8.2–9.8.
             <b>파형 형태에 정보가 있다</b>는 것은 여러 논문이 독립적으로 확인했다</td></tr>
       </tbody>
     </table></div>
@@ -130,7 +135,7 @@ title: 2단계 — 파운데이션 모델
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:30px 0 0">백본 — 여기서는 규모가 답이 아니었다</h4>
     <p>PPG 공개 모델은 대부분 <strong>ResNet1D 5–6M</strong>이다(PaPaGei 5.0M · AnyPPG 5.8M).
     PaPaGei는 이 크기로 범용 시계열 모델 Moment(385M)·Chronos(200M)를 이겼다(분류 AUROC 0.67 vs 0.63/0.62).</p>
-    <p>ECG 쪽에서 이 문제를 정면으로 통제한 연구가 있다 <a class="cite" href="references.html#ref-23">[23]</a> —
+    <p>ECG 쪽에서 이 문제를 정면으로 통제한 연구가 있다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-23">[23]</a> —
     <strong>파라미터를 3M으로 고정</strong>하고 백본 3종 × 목적함수 5종을 전부 교차해 26개 태스크 1,622개 타깃에서 평가했다.</p>
     <div class="pipe">
       <div><b>백본</b><b style="display:inline">S4가 다섯 목적함수 전부에서 우세.</b> 저자 결론 — 「구조화 상태공간의 귀납 편향이 사전학습 규모보다 주된 동인」.

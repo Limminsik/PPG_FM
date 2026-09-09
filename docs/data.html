@@ -1,9 +1,14 @@
 ---
 layout: default
-title: 데이터 현황
+title: 데이터
+section: 연구
+prev_url: /stage2.html
+prev_label: 2단계 — 파운데이션 모델
+next_url: /references.html
+next_label: 참고문헌
 ---
 <div class="part" id="s3">
-  <p class="kicker">PART 3</p>
+  <p class="kicker">연구 · 자료</p>
   <h2>데이터 현황</h2>
   <p>보유 데이터를 전수 확인한 결과, <strong>질환 라벨이 붙은 PPG는 MIMIC-III-Ext-PPG 하나다.</strong>
   나머지는 질환 연관 분석에 들어올 수 없고, 다른 용도를 갖는다.</p>
@@ -22,7 +27,7 @@ title: 데이터 현황
   </table></div>
 
   <section>
-    <h3>3-1. MIMIC-III-Ext-PPG의 규모 <a class="cite" href="references.html#ref-11">[11]</a></h3>
+    <h3>3-1. MIMIC-III-Ext-PPG의 규모 <a class="cite" href="{{ site.baseurl }}/references.html#ref-11">[11]</a></h3>
     <div class="spec">
       <div><b>세그먼트</b><span>6,399,754개 (30초, 125 Hz) — 고품질(SQI 3/3) 통과 5,401,385개</span></div>
       <div><b>환자</b><span>6,189명 — 고품질 세그먼트 보유 <span class="mono">6,114</span>명</span></div>
@@ -51,7 +56,7 @@ title: 데이터 현황
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">SQI는 데이터셋이 제공하는 값이다</h4>
     <p>품질 지표를 우리가 계산하지 않았다. 데이터셋이 30초 세그먼트를 <strong>10초씩 세 구간</strong>(0–10 · 10–20 · 20–30초)으로 나눠
     각 구간에 SQI를 매기고, 3원소 벡터 <code>vector_10s_pleth_sqi</code>로 메타데이터에 넣어 배포한다.
-    판정 알고리즘은 <strong>Orphanidou 등(2015)</strong>이며 세 가지를 본다 <a class="cite" href="references.html#ref-16">[16]</a> —
+    판정 알고리즘은 <strong>Orphanidou 등(2015)</strong>이며 세 가지를 본다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-16">[16]</a> —
     심박수가 생리적 범위 안인가, 박동 간격이 일관되는가, 평균 박동 <strong>템플릿과의 상관</strong>으로 형태가 일관되는가.</p>
     <div class="formula">vector_10s_pleth_sqi = [q<sub>1</sub>, q<sub>2</sub>, q<sub>3</sub>] &nbsp;·&nbsp; q<sub>j</sub> ∈ {+1, 0} &nbsp;·&nbsp; 고품질 ⇔ [1, 1, 1]
       <span class="ex">+1 = 세 검사를 모두 통과 · 0 = 하나 이상 실패(사용은 가능) · 음수(−14 RR 간격 없음 · −17 피크 부족 등)는 배포 전 이미 제외됨.

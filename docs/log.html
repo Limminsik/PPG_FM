@@ -1,0 +1,285 @@
+---
+layout: default
+title: 진행 현황
+section: 작업실
+prev_url: /references.html
+prev_label: 참고문헌
+next_url: /reading.html
+next_label: 정독 기록
+---
+<div class="part" id="s1">
+  <p class="kicker">작업실</p>
+  <h2>진행 현황</h2>
+  <p>확정된 것만 블록별로 적는다. 각 항목의 근거와 과정은 해당 Part에 있다.</p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="bn">A</span><h3>데이터 현황 — 단계별로 무엇을 쓰는가</h3><span class="bs">데이터</span></div>
+    <p style="margin:14px 0 0;max-width:44em">1단계는 <b>질환 라벨이 붙은 PPG</b>가 필요하고, 그것은 MIMIC-III-Ext-PPG 하나뿐이다.
+    2단계 사전학습에는 라벨이 필요 없으므로 <b>보유한 PPG 전부</b>를 쓴다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>데이터셋</th><th class="r">표본화율</th><th class="r">규모</th><th>라벨</th><th class="c">1단계</th><th class="c">2단계</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">MIMIC-III-Ext-PPG</td><td class="num r">125 Hz</td><td class="num r">6,189명 · 5.3만 시간</td><td>ICD-10 1,092코드 · 리듬 16종</td><td class="c"><span class="tag hold">사용</span></td><td class="c"><span class="tag hold">사용</span></td></tr>
+        <tr><td class="mono">MIMIC-III Waveform 원본</td><td class="num r">125 Hz</td><td class="num r">39,320 레코드 · 228만 시간</td><td>—</td><td class="c">—</td><td class="c"><span class="tag hold">사용</span></td></tr>
+        <tr><td class="mono">VitalDB</td><td class="num r">500 Hz</td><td class="num r">6,388 케이스 · 126 GB</td><td>동맥압 동시기록</td><td class="c">—</td><td class="c"><span class="tag hold">사용</span></td></tr>
+        <tr><td class="mono">MIMIC-IV Waveform</td><td class="num r">125 Hz</td><td class="num r">198명 · 8,969시간</td><td>—</td><td class="c">—</td><td class="c"><span class="tag hold">사용</span></td></tr>
+        <tr><td class="mono">NFS</td><td class="num r">256 Hz</td><td class="num r">398파일 · 3,607시간</td><td>연령·성별·BMI·수면설문</td><td class="c">—</td><td class="c"><span class="tag hold">사용</span></td></tr>
+        <tr><td class="mono">PPGArrhythmiaDetection</td><td class="num r">100 Hz</td><td class="num r">46,827 세그먼트 · 130시간</td><td>부정맥 6클래스</td><td class="c">—</td><td class="c"><span class="tag hold">사용</span></td></tr>
+        <tr><td class="mono">WildPPG · WF-PPG · GalaxyPPG · Samsung</td><td class="num r">25–128 Hz</td><td class="num r">102명</td><td>부위 4종 · 접촉압 6단계</td><td class="c">—</td><td class="c"><span class="tag hold">사용</span></td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px;max-width:44em">사전학습–평가 사이에 누출이 없다.
+    Ext-PPG는 원본 waveform 레코드 <span class="mono">10,623</span>개에서 추출됐고, 그중 원본 덤프에 있는 <span class="mono">8,424</span>개의 목록을 확보했다.
+    원본 <span class="mono">53,837</span>개 중 나머지 <span class="mono">45,413</span>개(84.4% · 약 193만 시간)는 라벨 코호트와 무관하다. 2단계 3.</p>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="bn">B</span><h3>1단계 — 설계</h3><span class="bs">1단계</span></div>
+    <div class="note ok" style="margin-top:16px"><strong>1단계의 성격 — 탐색적 지형 훑기.</strong>
+    계산식으로 뽑은 PPG 파형 특징이 <b>어떤 질환과 함께 움직이는지 넓게 훑는 수준</b>으로 제시한다.
+    특정 질환의 확증도, 예측 성능 주장도 하지 않는다. 파운데이션 모델(2단계)에 앞서 파형–질환 연관의 지형을 그려 두는 것이 목적이며,
+    <b>1단계 실험은 여기서 정리한다.</b></div>
+    <div class="scroll"><table>
+      <thead><tr><th>항목</th><th>확정 내용</th></tr></thead>
+      <tbody>
+        <tr><td>대상</td><td>MIMIC-III-Ext-PPG 단독 · ICD-10 진단코드만</td></tr>
+        <tr><td>코호트</td><td>고품질 SQI(<code>[1,1,1]</code>, 데이터셋 제공값)를 통과한 환자 <b>6,114명 전원.</b>
+          환자마다 기록 전체에서 균등 간격으로 30초 세그먼트 <b>10개</b>씩(합 <span class="mono">59,113</span>개) 골라
+          박동 <b><span class="mono">2,361,453</span>개</b>를 추출했다. 정의 경로는 데이터 2 · 특성은 Table 1(3-3)</td></tr>
+        <tr><td>배제 조건</td><td><b>없다.</b> 1단계는 파형이 질환과 어떻게 움직이는지를 넓게 훑는 단계이므로 환자를 배제하지 않는다.
+          초기에 있던 세 조건을 모두 풀었다 — 리듬 필터(<code>SR</code>만, 867명 배제) · 동성 리듬까지 잘라낸 문자열 조건(110명 · 세그먼트 122만) ·
+          서맥을 잘라낸 최소 박동 조건(20 → <b>10</b>). 리듬은 배제 조건이 아니라 요약 변수로 보존한다. 데이터 4</td></tr>
+        <tr><td>질환 라벨</td><td>ICD-10 3자리 <span class="mono">1,092</span>개 중 <b>환자 100명 이상인 171개.</b> 대조군은 그 코드가 없는 나머지 전원</td></tr>
+        <tr><td>파형 특징<br>— 박동 단위</td><td><b>23개</b> — 타이밍 11 · 정규화 진폭비 3 · 1차 미분 2 · 2차 미분(APG) 5 · 검출 플래그 2.
+          문헌 기준점 16개 중 <b>스케일 불변</b>인 것만 남겼다(절대 진폭 · SI · PTT · 3차 미분 제외)</td></tr>
+        <tr><td>파형 특징<br>— 환자 단위</td><td><b>43개</b> — 중앙값 20 + 박동간 IQR 20 + 검출률 3(<code>cd_rate</code> · <code>ri_rate</code> · <code>lvet_rate</code>)</td></tr>
+        <tr><td>환자 요약</td><td><b>박동별 특징의 중앙값.</b> 네 방식(중앙값 · 분위수 · 앙상블 · 대표 박동)을 재현성·검출률·질환 신호로 실측 비교해 확정.
+          분위수(p25·p50·p75)는 보충 분석으로 둔다</td></tr>
+        <tr><td>변동성</td><td>IQR <b>원단위.</b> <code>IQR/|중앙값|</code>은 부호가 바뀌는 특징에서 발산한다</td></tr>
+        <tr><td>모형</td><td>로지스틱 회귀 · 특징 z-표준화 · <b>공변량 보정 없음</b> · 분석 단위는 환자.
+          Firth 보정은 불필요함을 실측 확인(계수 변화 0.0~2.8%)</td></tr>
+        <tr><td>효과 크기</td><td><b>특징 1 표준편차당 오즈비.</b> 단위가 제각각인 특징 43개를 한 자로 비교하기 위해 z-표준화한다.
+          붉은 셀은 그 특징이 1 SD 높은 환자에서 그 코드가 더 자주 <b>관찰된다</b>는 뜻이지 위험을 높인다는 뜻이 아니다 — 읽는 법과 한계는 1단계 10</td></tr>
+        <tr><td>다중검정</td><td><b>Bonferroni</b> — 7,353 검정에 p &lt; 6.8×10⁻⁶. 선행 연구 세 편이 모두 쓰는 기준을 그대로 따랐다</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="bn">C</span><h3>1단계 — 결과</h3><span class="bs">1단계 11</span></div>
+    <div class="scroll"><table>
+      <thead><tr><th>항목</th><th>값 · 내용</th></tr></thead>
+      <tbody>
+        <tr><td>검정 규모</td><td>질환 171 × 특징 43 = <b>7,353</b>. Bonferroni 통과 <b>852셀(11.6%)</b> · 유의 셀을 가진 질환 105개 · 특징은 43개 전부</td></tr>
+        <tr><td>넓게 퍼진 질환</td><td><span class="mono">I50</span> 심부전 31 · <span class="mono">I48</span> 심방세동 30 · <span class="mono">R57</span> 쇼크 27 ·
+          <span class="mono">N18</span> 만성신질환 26 · <span class="mono">I25</span> 만성허혈성심질환 26 (43개 특징 중 유의 개수)</td></tr>
+        <tr><td>넓게 움직인 특징</td><td><code>max_slope_norm</code> 46 · <code>b_over_a</code> 41 · <code>LVET_over_IBI</code> 38 ·
+          <code>W50_over_IBI</code> 35 · <code>ri_rate</code> 34 (171개 코드 중 유의 개수)</td></tr>
+        <tr><td>방향의 일관성</td><td><code>max_slope_norm</code>은 37개 질환에서 거의 일방향으로 OR&lt;1,
+          <code>LVET_over_IBI</code>는 35개에서 OR&gt;1. 박동간 IQR 계열은 대부분 OR&gt;1 — 변동이 클수록 코드가 더 자주 관찰된다</td></tr>
+        <tr><td>Figure 2 구조</td><td>열은 ICD 장별 묶음 + 장 안에서 유의 특징 수 내림차순, 행은 특징 계열별 묶음,
+          상단·우측 막대로 폭을 함께 표시. 색은 <b>log₂ 오즈비 ±1.0(오즈비 0.50~2.00)</b>으로 <b>모든 판에 고정</b>(범위를 넘는 9셀은 양 끝 색)</td></tr>
+        <tr><td>Figure 2 변형</td><td>같은 자료를 다르게 자른 <b>여섯 판</b> — 전체 / compact(유의 특징 ≥5인 54코드, 질환명 표기) /
+          순환계 27코드 / ICD 장별 소패널 / 효과 상위 40셀 / 특징별 폭.</td></tr>
+        <tr><td class="flagcell">함께 읽어야 할 것</td><td>효과가 가장 큰 셀 상위권에 외상(<span class="mono">S27</span>·<span class="mono">S22</span>·<span class="mono">S01</span>)과
+          출혈(<span class="mono">I60</span>·<span class="mono">I61</span>)이 올라온다. 이 환자군은 대조군보다 젊고 심박수가 빠르다 —
+          <span class="mono">S27</span>은 평균 14세 젊고 HR이 7 bpm 빠르며, <span class="mono">S27 × W75</span>의 계수는
+          무보정 −0.665에서 전체 보정 −0.087로 유의성을 잃는다. 반면 넓게 퍼진 질환들은 보정 전후로 크게 흔들리지 않는다.
+          <b>무보정 결과를 읽을 때 두 층위를 구분한다</b></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="bn">D</span><h3>2단계 — 파운데이션 모델</h3><span class="bs">2단계</span></div>
+    <div class="scroll"><table>
+      <thead><tr><th>항목</th><th>확정 내용</th></tr></thead>
+      <tbody>
+        <tr><td>구조</td><td>사전학습(라벨 불필요, A블록 전체) → 미세조정·평가(같은 코호트·같은 분할) → 1단계와 비교</td></tr>
+        <tr><td>1단계와의 관계</td><td><b>같은 창에서 비교하지 않는다.</b> 두 단계는 자료·방식·지표가 상이하여 직접 비교가 성립하지 않는다.
+          <b>1단계에서 유의하게 나온 파형·혈역학적 특징을 2단계의 기반 또는 활용으로 쓴다</b> — 그 활용 방식은 설계와 함께 정한다</td></tr>
+        <tr><td>사전학습 자원</td><td>보유 PPG 전부. 평가 코호트와 겹치지 않는 원본 waveform <b>45,413 레코드(약 193만 시간)</b>를 확보했고,
+          겹치는 8,424개 목록으로 <b>누출 없이 분리된다.</b> 2단계 2 · 5-3</td></tr>
+        <tr><td>1단계가 남긴 것</td><td>유의 셀 852/7,353(11.6%) · 유의 질환 105/171 · 유의 특징 43/43 ·
+          넓게 움직인 특징 <code>max_slope_norm</code> 46 · <code>b_over_a</code> 41 · <code>LVET_over_IBI</code> 38.
+          <b>2단계가 넘어야 할 값이 아니라, 2단계에서 무엇에 집중할지를 고를 때 쓰는 재료다.</b> 2단계 4</td></tr>
+        <tr><td>설계 조사</td><td>선행 PPG 파운데이션 모델이 <b>«무엇을 같다고 볼 것인가»</b>에 어떻게 답했는지를 세 갈래로 정리(2단계 준비 문헌 조사).
+          우리 1단계 결과(43특징 × 질환 연관 지도)가 그 자리에 놓일 수 있다. 설계 결정은 아직 하지 않았다. 2단계 5</td></tr>
+        <tr><td>정독 기록</td><td>선행 논문을 한 편씩 원문으로 읽고 설계 논리를 남긴다. <b>PaPaGei 정독 완료 — 기준선으로 삼는다.</b>
+          파형에서 계산한 양으로 «같음»을 지정할 수 있음을 보인 논문이며, 지표 선택 근거는 생리학적 보완성이었다.
+          <b>1단계 질환 연관에 근거한 Index를 감독 신호로 삼는 방향</b>을 그 확장선으로 검토 중 — <b>논의 단계이며 확정이 아니다.</b>
+          <b>Robust PPG FM 정독 완료 — 참고 문헌.</b> PaPaGei의 한계를 «형태학 지표는 깨끗한 파형을 전제한다»로 짚은 논문이며,
+          우리는 그 지적을 받아들이되 PPG 안에서 답하는 흐름으로 놓는다.
+          <b>AnyPPG 정독 완료 — 참고 문헌</b>(학습 방식 설계 참고, 우리와 직접 연관은 낮다).
+          사전학습 자료였던 <b>MC-MED</b>(Stanford 응급실 · 내원 118,385건 · ECG·PPG·호흡 파형 + ICD 진단코드)는
+          <b>우리도 쓸 수 있는지 파악한다.</b>
+          <b>MMR 정독 완료 — 고찰 참고.</b> 다중 스케일 관점을 우리 특징 정의의 한계로,
+          웨어러블 25–100 Hz 학습 사례를 도메인 시프트 논의의 근거로 쓴다.
+          <b>SIGMA-PPG 정독 완료</b> — 통계량을 학습 목표가 아니라 마스킹의 «안내»로 쓰는 제3의 용법을 확인했다.
+          <b>GPT-PPG 정독 완료 — 배경·서론 참고</b>(신호를 토큰으로 다루는 설계의 사례). 정독 기록</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="bn">E</span><h3>산출물</h3><span class="bs">누적 관리</span></div>
+    <p style="margin:14px 0 0;max-width:44em">노트북이 만든 파일은 그 노트북 폴더에만 쌓이고 <code>manifest.json</code>에 기록된다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>노트북</th><th>파일</th><th class="r">행</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">01/01_data_inventory</td><td class="mono">dataset_plan.csv</td><td class="num r">9</td><td>단계별 사용 계획</td></tr>
+        <tr><td class="mono">01/02_cohort_definition</td><td class="mono">sqi_distribution.csv</td><td class="num r">8</td><td>SQI 벡터별 세그먼트 수</td></tr>
+        <tr><td class="mono"></td><td class="mono">cohort_flow.csv</td><td class="num r">4</td><td>코호트 확정 경로</td></tr>
+        <tr><td class="mono">01/03_labels_icd</td><td class="mono">icd_code_counts.csv</td><td class="num r">1,092</td><td>코드별 환자 수 전수</td></tr>
+        <tr><td class="mono"></td><td class="mono">analysis_codes.csv</td><td class="num r">171</td><td>환자 100명 이상 코드</td></tr>
+        <tr><td class="mono"></td><td class="mono">icd_case_count_hist.png</td><td class="num r">—</td><td>코드별 환자 수 분포</td></tr>
+        <tr><td class="mono">01/04_waveform_features</td><td class="mono">patient_feature_summary.csv</td><td class="num r">45</td><td>환자 요약 특징 43개 분포</td></tr>
+        <tr><td class="mono"></td><td class="mono">beat_detection_rate.csv</td><td class="num r">20</td><td>박동 단위 검출률</td></tr>
+        <tr><td class="mono"></td><td class="mono">reliability_projection.csv</td><td class="num r">43</td><td>세그먼트 수별 신뢰도 투영</td></tr>
+        <tr><td class="mono">02/01_summary_method</td><td class="mono">summary_method_compare.csv</td><td class="num r">3</td><td>요약 방식 네 가지 비교</td></tr>
+        <tr><td class="mono"></td><td class="mono">split_half_reliability.csv</td><td class="num r">20</td><td>홀·짝 박동 분할 재현성</td></tr>
+        <tr><td class="mono">02/02_association_figure2</td><td class="mono">figure2_or.png</td><td class="num r">—</td><td><b>Figure 2</b> — 진단코드 171 × 파형 특징 43 전체</td></tr>
+        <tr><td class="mono"></td><td class="mono">figure2_compact.png</td><td class="num r">—</td><td>유의 특징 5개 이상인 질환 54개, 질환명 표기</td></tr>
+        <tr><td class="mono"></td><td class="mono">figure2_circulatory.png</td><td class="num r">—</td><td>순환계 27코드 확대</td></tr>
+        <tr><td class="mono"></td><td class="mono">figure2_panels.png</td><td class="num r">—</td><td>ICD 장별 소패널 6개</td></tr>
+        <tr><td class="mono"></td><td class="mono">figure2_top_cells.png</td><td class="num r">—</td><td>효과 상위 40셀을 오즈비 축에</td></tr>
+        <tr><td class="mono"></td><td class="mono">figure2_feature_breadth.png</td><td class="num r">—</td><td>특징별 유의 질환 수, 방향 구분</td></tr>
+        <tr><td class="mono"></td><td class="mono">figure2_or.csv</td><td class="num r">7,353</td><td>질환 × 특징 오즈비 전수</td></tr>
+        <tr><td class="mono"></td><td class="mono">figure2_summary.csv</td><td class="num r">6</td><td>검정 수 · 유의 셀 요약</td></tr>
+        <tr><td class="mono"></td><td class="mono">significant_cells.csv</td><td class="num r">852</td><td>Bonferroni 통과 셀 전수</td></tr>
+        <tr><td class="mono"></td><td class="mono">significant_breadth.csv</td><td class="num r">105</td><td>질환별 유의 특징 수</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <section style="margin-top:44px">
+    <h3>1-1. 작업 규칙</h3>
+    <ul class="plain">
+      <li>분석은 <code>.py</code>가 아니라 <strong>.ipynb</strong>로</li>
+      <li>README·코드 어디에도 AI 도구를 이용한 분석·코딩에 대한 언급을 남기지 않는다</li>
+      <li>해석을 앞세우지 않는다. 결과를 객관적으로 검토하는 것이 우선</li>
+      <li>논문의 축·구조·다음 단계를 앞질러 정하지 않는다</li>
+      <li>진행현황은 이 문서로 관리한다. 파일명 <code>PPG_FM_v0.0X_YYMMDD</code>, 갱신 수준에 따라 증가</li>
+      <li>검토하거나 언급하지 않은 내용은 이 문서에 올리지 않는다</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>1-2. 코드 구조</h3>
+    <p>분석 경로를 1단계 구조에 맞춰 정리했다. 노트북이 실행 경로이고, 반복되는 처리는 모듈로 뺐다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>경로</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">01_dataset/</td><td><b>데이터·코호트·라벨 정의</b><br>
+          <code>01_data_inventory</code> 보유 PPG 현황과 단계별 사용 계획 ·
+          <code>02_cohort_definition</code> 데이터 구조·SQI·코호트 확정 경로 ·
+          <code>03_labels_icd</code> ICD 라벨 지형과 분석 대상 코드 ·
+          <code>04_waveform_features</code> 박동 23개 추출 → 환자 요약 43개</td></tr>
+        <tr><td class="mono">02_logistic/</td><td><b>질환 연관 분석</b><br>
+          <code>01_summary_method</code> 환자 요약 방식 네 가지 실측 비교 ·
+          <code>02_association_figure2</code> 로지스틱·오즈비·Figure 2와 변형 5종</td></tr>
+        <tr><td class="mono">src/ppg_fm/</td><td><code>paths</code> 경로 해석 · <code>features</code> 특징 이름과 계열 정의 ·
+          <code>morph/features</code> 박동 특징 추출기 ·
+          <code>data/</code> cohort·extract·summary·labels ·
+          <code>analysis/</code> logistic·figures · <code>report</code> 산출물 관리</td></tr>
+        <tr><td class="mono">reports/</td><td><b>노트북별 산출물</b> — <code>reports/&lt;단계&gt;/&lt;노트북&gt;/</code> 아래에만 쌓인다.
+          각 폴더의 <code>manifest.json</code>이 파일명·메모·행 수·저장 시각·패키지 버전을 기록한다.
+          git은 manifest만 추적하고 데이터 파일은 무시한다</td></tr>
+        <tr><td class="mono">setup.ps1</td><td>환경 설정. <code>uv venv --python 3.9.21</code> → <code>uv pip install -e ".[dev]"</code> → Jupyter 커널 <code>ppg_fm</code> 등록</td></tr>
+        <tr><td class="mono">_archive/</td><td>이전 구조. 참고용이며 실행 경로가 아니다</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h3>1-3. 변경 이력</h3>
+    <div class="hist">
+      <div><b>v0.16_260909</b><span><b>사이트를 연구 허브로 다시 만들었다.</b>
+      앞면은 연구 자체를 보여주는 자리(홈 · 연구 개요 · 1단계 · 2단계 · 데이터 · 참고문헌),
+      뒷면은 작업 공간(진행 현황 · 정독 기록)으로 나눴다. 진행현황 문서를 그대로 옮겨 놓은 이전 구성을 걷어내고,
+      홈에 연구 요약 · 핵심 수치 · 대표 결과 · 최근 갱신을 배치했다.
+      스크롤에서 사이드바가 본문과 어긋나던 레이아웃 문제도 고정 사이드바로 바꿔 해결했다.</span></div>
+      <div><b>v0.13_260909</b><span>5-6에 <b>⑥ GPT-PPG</b> 정독을 추가.
+      <b>배경·서론에서 «신호를 토큰으로 다루는 설계»의 사례로 쓴다</b> — 다만 토큰의 뜻이 두 갈래로 갈린다는 점을 함께 두었다.
+      GPT-PPG는 1초 패치의 <b>연속 임베딩</b>이고 SIGMA-PPG는 <b>VQ 코드북 4,096개의 이산 토큰</b>이다.
+      가장 값진 기록은 <b>손실함수가 학습을 무너뜨린 사례</b> — Min-Max [0,1] 정규화 + MSE의 조합에서
+      최적해가 상수 0.5가 되어 모델이 붕괴했고, 지지집합이 (0,1)인 logit-Laplace 손실로 해결했다.
+      여기서 <b>목표값의 지지집합과 손실의 지지집합을 맞춰야 한다</b>는 점을 우리 43개 특징(비율·시간·부호가 바뀌는 미분비·검출률)에 비추어 기록.
+      단방향성의 취약점, 2.6백만 시간을 쓰고도 결과가 압도적이지 않다는 점(규모가 답이 아닌 세 번째 사례),
+      동결 평가를 하지 않은 논문이라는 점도 남겼다.</span></div>
+      <div><b>v0.12_260909</b><span><b>오류 정정 — 1·2단계를 같은 창에서 비교한다는 서술을 전부 삭제했다.</b>
+      두 단계는 자료 범위·학습 방식·평가 지표가 상이하여 직접 비교가 성립하지 않는다.
+      <b>1단계에서 유의하게 나온 파형·혈역학적 특징을 2단계의 기반 또는 활용으로 삼는 것</b>이 두 단계의 관계다.
+      해당 서술이 있던 곳을 모두 고쳤다 — D블록 「1단계와의 관계」·「비교 기준」행, 연구 개요 본문과 Figure (a)(b),
+      2단계 도입과 5-1 구조, 그리고 5-4를 「1단계가 남긴 것 — 2단계에 무엇을 넘기는가」로 다시 썼다.
+      2단계의 구조와 설계는 아직 구성하지 않았고 선행 문헌 정독으로 잡아가는 중임을 명시.
+      5-6에 <b>⑤ SIGMA-PPG</b> 정독을 추가 — 준주기성 때문에 무작위 마스킹이 보간으로 풀린다는 지적,
+      <b>통계량을 학습 목표가 아니라 «어디를 볼지»의 안내로 쓰는 용법</b>, 사전 없는 적대적 교사의 퇴화,
+      의미 일관성 손실이 동결 표현을 지탱한다는 절제, 동결·미세조정 순위 역전, 350M에서의 규모 포화,
+      4분 창이 최적이고 30초가 최악이었다는 관찰을 기록.</span></div>
+
+    </div>
+    <details class="fold"><summary>이전 이력 10건</summary><div class="hist">      <div><b>v0.11_260909</b><span>5-6에 <b>④ MMR</b> 정독을 추가.
+      «같음»을 묻지 않는 복원 계열로, 문제를 <b>«무엇을 복원 목표로 삼을 것인가»</b>에 두고 Haar DWT 3레벨 계수 맵을 목표로 삼았다.
+      <b>같은 백본·같은 데이터로 목표만 시간영역으로 바꾼 판과 겨룬 통제된 비교</b>가 이 논문의 강점이며,
+      우리 Index 질문도 같은 모양(백본·데이터·평가 고정, 감독 신호만 변경)의 실험으로만 답할 수 있음을 기록.
+      <b>고찰에서 두 곳에 쓴다</b> — ㉠ 우리 특징이 박동 안에 갇혀 있다는 <b>다중 스케일 한계</b>,
+      ㉡ 25–100 Hz 웨어러블로 학습한 사례를 근거로 한 <b>도메인 시프트</b> 논의.
+      복원 계열이 형태학 검출을 요구하지 않는다는 점은 우리 방향에 대한 반론으로 함께 남겼다.
+      동결 평가에 랜덤 포레스트를 쓴 점(논문 간 수치 비교 주의)도 기록.</span></div>
+      <div><b>v0.10_260909</b><span>5-6에 <b>③ AnyPPG</b> 정독을 추가.
+      감독 신호를 계산식이나 동반 신호의 지표가 아니라 <b>다른 모델의 학습된 지식</b>에서 가져온 설계다 —
+      교사 ECG 인코더(ECGFounder)는 <b>학습 내내 동결</b>되고 PPG가 그 표현을 향해 끌려간다.
+      <b>ECG 교사를 뺀 절제가 없고</b> PaPaGei 대비 감독 신호와 데이터 규모를 동시에 바꿨으므로 교사의 기여분은 분리되지 않는다는 점을 기록.
+      <b>참고 문헌으로 두되 우리와 직접 연관은 낮다</b> — 자(미세조정 AUC 대 1 SD당 오즈비)가 다르고, 계산식과의 비교가 없다.
+      사전학습 자료 <b>MC-MED</b>를 우리도 파악해 사용 가능성을 확인할 대상으로 올렸다.
+      5-5의 AnyPPG 수치를 v3 기준(표현형 1,468 · AUC ≥ 0.70이 307개)으로 정정하고,
+      «ECG 인코더를 버린다»는 서술을 «동결한다»로 바로잡았다.</span></div>
+      <div><b>v0.09_260909</b><span>5-6에 <b>② Robust PPG FM</b> 정독을 추가.
+      PaPaGei를 정면 비판한 논문으로, 지적은 <b>«형태학 지표는 깨끗한 파형을 전제한다»</b>이고
+      해법은 감독 신호를 PPG 바깥(ECG의 HR·RMSSD, 호흡의 RR·RA·RVT)에서 가져오는 것이었다.
+      지표를 구간으로 자르지 않고 <b>거리 순위</b>로 학습하는 rank-n-contrast, 값의 타당 범위로 잡음을 거르는 설계,
+      그리고 <b>지표를 늘린 것 자체의 이득은 저자들 절제표에 나타나지 않는다</b>는 점을 기록.
+      <b>이 논문은 참고 문헌으로 두고, 그 지적을 우리 흐름의 근거로 삼는다</b> —
+      ①의 한계를 ②가 지적했고 우리는 ①의 자리에서 그 지적에 답한다는 구도.
+      1단계가 실측한 검출률(<code>cd_rate</code> 0.452 · <code>ri_rate</code> 0.307)이 그 지적이 우리에게 어떤 형태로 존재하는지를 보여준다.</span></div>
+      <div><b>v0.08_260909</b><span>5-6 <b>정독 기록</b>을 신설. 선행 논문을 한 편씩 원문으로 읽고 설계 논리를 남기는 자리다.
+      <b>PaPaGei 정독</b> — sVRI를 8구간으로 이산화해 같은 구간의 서로 다른 세그먼트를 양성쌍으로 삼는 방식, 상보성 논리로 고른 보조 목표 둘,
+      손실 구성(α=0.6), 형태학 목표와 일관된 증강 선택, 동결 임베딩 선형 프로브만으로 한 평가, 그리고
+      <b>둘씩 붙이면 나아지지 않고 셋이 다 있을 때만 오르는 절제 결과</b>를 기록.
+      이를 기준선으로 두고 <b>1단계 질환 연관에 근거한 Index를 감독 신호로 삼는 방향</b>을 검토 대상으로 올렸다 — 논의 단계이며 확정이 아니다.
+      정독 순서표를 함께 두었다.</span></div>
+      <div><b>v0.07_260909</b><span>가독성 정리 — 내용 변경 없음. 다크 테마 배경을 밝히고 본문·라벨 대비를 올렸다.
+      표의 행 간격·글자 크기를 키우고 줄무늬를 넣었다. 진행 현황 블록 A–E를 각각 카드로 분리하고 Part 구분을 강화했다.</span></div>
+      <div><b>v0.06_260908</b><span>5-5를 다시 씀 — 스펙 나열이 아니라 <b>각 모델이 어떤 질문에 부딪혀 어떤 답을 냈는지</b>로.
+      PPG 파운데이션 모델의 실제 문제는 «라벨이 없다»가 아니라 <b>«무엇을 같다고 볼 것인가»</b>이며,
+      선행 연구는 ① 파형 안에서 만든다(PaPaGei sVRI → Robust-FM 5지표) ② 다른 신호에게 묻는다(AnyPPG ECG 교사)
+      ③ 정의하지 않는다(MMR 웨이블릿 · SIGMA 적대적 마스킹 · GPT-PPG) 세 갈래로 갈린다.
+      우리 1단계 결과(43특징 + 질환 연관 지도)가 ①의 자리에 놓이며, 질환 연관을 근거로 감독 신호를 고른 선행 사례는 보이지 않는다.
+      정해야 할 선택지 셋을 서사·위험과 함께 정리.</span></div>
+      <div><b>v0.04_260908</b><span>논문 제시에 필요한 것만 남기는 정리. <b>Table 1 코호트 특성</b>과 유병률 상위 코드표를 3-3에 신설.
+      <b>임상 실체가 아닌 토큰 <code>NoD</code></b>(ICD-9→ICD-10 매핑 실패, 환자 1,144명에게 실제 코드와 섞여 있음)를 분석에서 제외 —
+      172 → <b>171 코드</b> · 검정 7,353 · 유의 <b>852셀(11.6%)</b> · 유의 질환 105.
+      «다른 데이터셋으로 넓히는 안»(기각된 선택지) 절을 삭제하고, 계획성 문장(그림 번호·배치, 표본화율 통일, 도메인 시프트 논의)을 제거했다.</span></div>
+      <div><b>v0.03_260908</b><span>초기 파이프라인의 배제 조건을 전수 점검하고 <b>모두 해제</b>했다(3-3).
+      리듬 필터가 부정맥 환자 867명을 배제했을 뿐 아니라, <b>«SR»이라는 문자열 조건이 동성 리듬(STACH·SBRAD·SARRH)까지 잘라내
+      환자 110명 · 세그먼트 1,221,651개(동성의 25.6%)를 함께 지우고 있었다.</b>
+      최소 박동 조건(20개)은 30초 고정 창에서 <b>HR 40 bpm 미만을 체계적으로 배제</b>하고 있었다 —
+      HR 43 bpm 서맥 환자 1명이 실제로 탈락했다. 기준을 10으로 낮춰 리듬·심박수에 중립이 되게 했다.
+      1단계 분석을 다시 돌려 결과를 갱신 — 코호트 6,113 → <b>6,114명</b> · 박동 2,361,453 · 유의 852/7,353(11.6%).
+      상위 결과와 넓게 퍼진 질환 순서는 바뀌지 않았다.</span></div>
+      <div><b>v0.02_260908</b><span>목차 재구성 — 연구 개요를 «연구 목적과 진행»으로 바꾸고 두 단계 구조를
+      <b>Figure (a)·(b)</b> 한 장으로 그렸다. «파형에서 무엇을 재는가»와 «질환 연관을 보는 방법»을
+      <b>1단계 「1단계」</b> 하나로 합치고 4-1~4-9 / 4-10~4-11로 재번호.
+      <b>2단계 「2단계 — 파운데이션 모델」</b>을 신설해 구조·사전학습 자원 실측·누출 분리·비교 기준을 정리하고,
+      데이터에 있던 사전학습 자원 절(3-6)을 그쪽으로 옮겼다.
+      참고문헌을 본문 인용과 교차 확인해 미인용 항목(BH-FDR)을 정리하고 Ext-PPG·Savitzky–Golay·PaPaGei·판막 SSL 인용을 연결했다 — 16편.</span></div>
+      <div><b>v0.01_260908</b><span>문서 재정리. 진행 현황을 맨 앞으로 옮기고 A 데이터 현황 · B 1단계 설계 · C 1단계 결과 · D 2단계 · E 산출물로 묶었다.
+      1단계의 성격을 <b>탐색적 지형 훑기</b>로 확정하고 실험을 여기서 정리한다.
+      공변량 보정을 하지 않는 것으로 반영하고 오즈비 개념·읽는 법·한계를 5-1에 정리.
+      코호트 정의(데이터 구조·SQI)를 3-2에 신설. Figure 2를 ICD 장 묶음·계열 구분·상단/우측 막대 구조로 산출하고
+      색 스케일을 OR 0.50~2.00으로 모든 판에 고정, 캡션을 명시. 변형 5종 추가.
+      코드 디렉터리를 1단계 구조(<code>01_dataset</code> · <code>02_logistic</code>)로 재편하고 노트북별 산출물 관리를 붙였다.</span></div>
+    </div></details>
+  </section>
+</div>

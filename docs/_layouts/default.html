@@ -11,19 +11,18 @@
 <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
 </head>
 <body>
-<div class="site">
 <aside class="sb">
   <a class="brand" href="{{ '/' | relative_url }}">
     <div class="t">{{ site.title }}</div>
     <div class="d">{{ site.tagline }}</div>
     <span class="ver">{{ site.version }}</span>
   </a>
-  <div>
-    <h6>페이지</h6>
-    <nav class="pages">
-    {% for n in site.data.nav %}<a class="{% if page.url == n.url %}on{% endif %}" href="{{ n.url | relative_url }}"><span class="k">{{ forloop.index }}</span>{{ n.label }}</a>
+  {% for g in site.data.nav %}<div class="grp">
+    <h6>{{ g.group }}</h6>
+    <nav>{% for n in g.items %}<a class="{% if page.url == n.url %}on{% endif %}" href="{{ n.url | relative_url }}"><span class="k">{{ n.k }}</span>{{ n.label }}</a>
     {% endfor %}</nav>
   </div>
+  {% endfor %}
   <div class="ptoc" id="toc"></div>
   <div class="foot">
     {% if site.repo_url %}<a href="{{ site.repo_url }}">GitHub 저장소</a><br>{% endif %}
@@ -32,21 +31,17 @@
   </div>
 </aside>
 <main class="main"><div class="in">
-{% if page.url != "/" %}<p class="crumb"><a href="{{ '/' | relative_url }}">PPG_FM</a> / {{ page.title }}</p>{% endif %}
+{% if page.url != "/" %}<p class="crumb"><a href="{{ '/' | relative_url }}">PPG_FM</a> / {{ page.section }} / {{ page.title }}</p>{% endif %}
 {{ content }}
-{% assign navs = site.data.nav %}{% assign cur = -1 %}
-{% for n in navs %}{% if n.url == page.url %}{% assign cur = forloop.index0 %}{% endif %}{% endfor %}
-{% if cur > -1 %}{% assign pi = cur | minus: 1 %}{% assign ni = cur | plus: 1 %}
-<div class="pn">
-  <div>{% if pi > -1 %}{% assign pp = navs[pi] %}<a class="prev" href="{{ pp.url | relative_url }}"><span class="k">← 이전</span><span class="t">{{ pp.label }}</span></a>{% endif %}</div>
-  <div>{% if ni < navs.size %}{% assign nn = navs[ni] %}<a class="next" href="{{ nn.url | relative_url }}"><span class="k">다음 →</span><span class="t">{{ nn.label }}</span></a>{% endif %}</div>
+{% if page.prev_url %}<div class="pn">
+  <div><a class="prev" href="{{ page.prev_url | relative_url }}"><span class="k">← 이전</span><span class="t">{{ page.prev_label }}</span></a></div>
+  <div>{% if page.next_url %}<a class="next" href="{{ page.next_url | relative_url }}"><span class="k">다음 →</span><span class="t">{{ page.next_label }}</span></a>{% endif %}</div>
 </div>{% endif %}
 <footer>
-  문서 <span class="mono">{{ site.version }}</span> · 이 페이지는 저장소의 <code>docs/</code>에서 GitHub Pages가 만든다<br>
+  <span class="mono">{{ site.version }}</span> · 저장소의 <code>docs/</code>에서 GitHub Pages가 만든다<br>
   예시 박동: MIMIC-III-Ext-PPG, 125 Hz, N=120 · 검출률·분포 통계는 코호트 전체 박동 기준
 </footer>
 </div></main>
-</div>
 {% if page.scripts %}{% for sc in page.scripts %}<script src="{{ sc | relative_url }}"></script>{% endfor %}{% endif %}
 <script>
 (function(){
@@ -55,11 +50,10 @@
   if(hs.length<2) return;
   var html='<h6>이 페이지</h6>', n=0;
   hs.forEach(function(h){
-    if(!h.id){h.id='sec-'+(++n);}
-    var lvl=h.tagName==='H2'?'h2':'h3';
+    if(!h.id) h.id='sec-'+(++n);
     var t=h.textContent.replace(/\s+/g,' ').trim();
-    if(t.length>42) t=t.slice(0,40)+'…';
-    html+='<a class="'+lvl+'" href="#'+h.id+'">'+t+'</a>';
+    if(t.length>34) t=t.slice(0,32)+'…';
+    html+='<a class="'+(h.tagName==='H2'?'h2':'h3')+'" href="#'+h.id+'">'+t+'</a>';
   });
   toc.innerHTML=html;
 })();
