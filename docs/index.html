@@ -2,16 +2,28 @@
 layout: default
 title: 진행 현황
 ---
-<div class="hd">
-  <div>
-    <p class="eyebrow">PPG_FM · 진행 현황</p>
-    <h1>PPG 파형 특징과 질환 연관</h1>
+<div class="hero">
+  <p class="eyebrow">PPG_FM · 연구 진행 현황 · PPG_FM_v0.15_260909</p>
+  <h1>PPG 파형 특징과 질환 연관 — 계산식에서 파운데이션 모델로</h1>
+  <p class="lede">계산식으로 뽑은 PPG 파형 특징이 어떤 질환과 함께 움직이는지를 넓게 훑고(1단계),
+  그 위에서 파운데이션 모델을 설계한다(2단계). 확정된 것만 싣고, 검토하지 않은 것은 올리지 않는다.</p>
+  <div class="tiles">
+    <div class="tile"><div class="v">6,114</div><div class="l">환자 · MIMIC-III-Ext-PPG, 고품질 SQI 통과 전원</div></div>
+    <div class="tile"><div class="v">2.36M</div><div class="l">박동 · 세그먼트 59,113개에서 추출</div></div>
+    <div class="tile"><div class="v">23 → 43</div><div class="l">파형 특징 · 박동 단위 → 환자 요약</div></div>
+    <div class="tile"><div class="v">171</div><div class="l">ICD-10 코드 · 환자 100명 이상</div></div>
+    <div class="tile"><div class="v">852</div><div class="l">유의 셀 / 7,353 검정 (11.6%) · Bonferroni</div></div>
+    <div class="tile"><div class="v">193만 h</div><div class="l">2단계 사전학습에 쓸 수 있는 PPG</div></div>
   </div>
-  <div class="ver">PPG_FM_v0.14_260909</div>
+  <div class="stages">
+    <a class="stage" href="stage1.html"><span class="st-n">1단계</span><div><div class="st-t">계산식 파형 특징과 질환 연관</div>
+      <div class="st-s">탐색적 지형 훑기로 정리를 마쳤다 — 특징 정의 · 코호트 · Figure 2 여섯 판</div>
+      <div class="bar"><i style="width:100%"></i></div></div></a>
+    <a class="stage" href="reading.html"><span class="st-n">2단계</span><div><div class="st-t">파운데이션 모델 — 준비 중</div>
+      <div class="st-s">선행 논문 8편 정독 중(6/8 완료) · 설계는 정독을 마친 뒤 잡는다</div>
+      <div class="bar"><i class="wip" style="width:75%"></i></div></div></a>
+  </div>
 </div>
-<p class="lede">계산식으로 뽑은 PPG 파형 특징으로 질환과의 연관을 보는 단계다.
-이 문서 하나로 진행 상태와 분석 내용을 함께 관리한다.
-확정된 것만 싣는다 — 검토하지 않은 것은 올리지 않는다.</p>
 <div class="part" id="s1">
   <p class="kicker">PART 1</p>
   <h2>진행 현황</h2>
@@ -199,11 +211,13 @@ title: 진행 현황
   <section>
     <h3>1-3. 변경 이력</h3>
     <div class="hist">
+      <div><b>v0.15_260909</b><span><b>홈페이지 구성과 UI를 다시 잡았다.</b> 왼쪽 고정 사이드바(페이지 메뉴 + 현재 페이지 목차 자동 생성),
+      본문 폭 1080px, 홈에 핵심 수치 타일과 단계 진행 카드, 페이지 하단 이전/다음 이동, 모바일 반응형.
+      프로젝트 페이지 경로(<code>baseurl: /PPG_FM</code>)가 빠져 있어 스타일시트와 스크립트가 로드되지 않던 문제를 고쳤다. 내용은 v0.13과 같다.</span></div>
       <div><b>v0.14_260909</b><span><b>진행현황을 GitHub Pages 홈페이지로 옮겼다.</b> 단일 HTML 한 장을
-      진행 현황 · 데이터 현황 · 1단계 · 2단계 · 정독 기록 · 참고문헌 여섯 페이지로 나누고 공통 상단 메뉴를 붙였다.
+      진행 현황 · 데이터 현황 · 1단계 · 2단계 · 정독 기록 · 참고문헌 여섯 페이지로 나누었다.
       소스는 저장소의 <code>docs/</code>에 있고 코드·노트북·산출물 manifest와 같은 저장소에서 버전 관리된다.
-      Figure 2는 base64 대신 <code>docs/assets/figures/</code>의 파일을 읽고, 변형 다섯 판을 갤러리로 함께 두었다.
-      내용은 v0.13과 같다.</span></div>
+      Figure 2는 base64 대신 <code>docs/assets/figures/</code>의 파일을 읽고, 변형 다섯 판을 갤러리로 함께 두었다.</span></div>
       <div><b>v0.13_260909</b><span>5-6에 <b>⑥ GPT-PPG</b> 정독을 추가.
       <b>배경·서론에서 «신호를 토큰으로 다루는 설계»의 사례로 쓴다</b> — 다만 토큰의 뜻이 두 갈래로 갈린다는 점을 함께 두었다.
       GPT-PPG는 1초 패치의 <b>연속 임베딩</b>이고 SIGMA-PPG는 <b>VQ 코드북 4,096개의 이산 토큰</b>이다.
@@ -222,7 +236,9 @@ title: 진행 현황
       <b>통계량을 학습 목표가 아니라 «어디를 볼지»의 안내로 쓰는 용법</b>, 사전 없는 적대적 교사의 퇴화,
       의미 일관성 손실이 동결 표현을 지탱한다는 절제, 동결·미세조정 순위 역전, 350M에서의 규모 포화,
       4분 창이 최적이고 30초가 최악이었다는 관찰을 기록.</span></div>
-      <div><b>v0.11_260909</b><span>5-6에 <b>④ MMR</b> 정독을 추가.
+
+    </div>
+    <details class="hist-wrap"><summary>이전 이력 10건 펼치기</summary><div class="hist">      <div><b>v0.11_260909</b><span>5-6에 <b>④ MMR</b> 정독을 추가.
       «같음»을 묻지 않는 복원 계열로, 문제를 <b>«무엇을 복원 목표로 삼을 것인가»</b>에 두고 Haar DWT 3레벨 계수 맵을 목표로 삼았다.
       <b>같은 백본·같은 데이터로 목표만 시간영역으로 바꾼 판과 겨룬 통제된 비교</b>가 이 논문의 강점이며,
       우리 Index 질문도 같은 모양(백본·데이터·평가 고정, 감독 신호만 변경)의 실험으로만 답할 수 있음을 기록.
@@ -283,7 +299,7 @@ title: 진행 현황
       코호트 정의(데이터 구조·SQI)를 3-2에 신설. Figure 2를 ICD 장 묶음·계열 구분·상단/우측 막대 구조로 산출하고
       색 스케일을 OR 0.50~2.00으로 모든 판에 고정, 캡션을 명시. 변형 5종 추가.
       코드 디렉터리를 1단계 구조(<code>01_dataset</code> · <code>02_logistic</code>)로 재편하고 노트북별 산출물 관리를 붙였다.</span></div>
-    </div>
+    </div></details>
   </section>
 </div>
 <div class="part" id="s2">

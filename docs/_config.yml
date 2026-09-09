@@ -1,9 +1,10 @@
 title: PPG_FM
+tagline: PPG 파형 특징과 질환 연관 · 파운데이션 모델
 description: PPG 파형 특징과 질환 연관 — 대규모 생체신호 기반 파운데이션 모델 연구 진행 현황
-version: PPG_FM_v0.14_260909
-repo_url: "https://github.com/Limminsik/PPG_FM"
+baseurl: "/PPG_FM"     # 프로젝트 페이지 경로. 사용자 페이지(<계정>.github.io)로 옮기면 ""
 url: "https://limminsik.github.io"
-baseurl: "/PPG_FM"
+version: PPG_FM_v0.15_260909
+repo_url: "https://github.com/Limminsik/PPG_FM"
 lang: ko
 markdown: kramdown
 exclude: [README.md]
