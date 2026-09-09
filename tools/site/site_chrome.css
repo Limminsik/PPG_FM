@@ -1,0 +1,345 @@
+/* =========================================================
+   PPG_FM 연구 허브 — 디자인 시스템
+   (원본 문서 CSS 뒤에 붙어 팔레트·타이포·컴포넌트를 재정의한다)
+   ========================================================= */
+
+/* ── 팔레트 ─────────────────────────────────────────── */
+:root{
+  --ground:#F7F7F5; --paper:#FFFFFF; --panel:#F1F1EE; --panel2:#E4E4E0;
+  --ink:#15171B; --muted:#54585E; --faint:#8B9098; --line:#E4E4E0; --line2:#D2D2CD;
+  --trace:#A0364A; --trace-soft:rgba(160,54,74,.10); --trace-tint:rgba(160,54,74,.055);
+  --d1:#34618E; --d2:#6A4E8C; --d3:#3E7A62;
+  --d1-soft:rgba(52,97,142,.12); --d2-soft:rgba(106,78,140,.12);
+  --flag:#8A6414; --hold:#20705F;
+  --shadow-1:0 1px 2px rgba(21,23,27,.04), 0 1px 3px rgba(21,23,27,.05);
+  --shadow-2:0 2px 4px rgba(21,23,27,.05), 0 8px 24px rgba(21,23,27,.07);
+  --r:12px; --r-sm:8px;
+  --sb:268px; --content:1040px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#131519; --paper:#1A1D23; --panel:#22262D; --panel2:#2D323A;
+    --ink:#ECEEF2; --muted:#AFB5BE; --faint:#828892; --line:#2A2F37; --line2:#39404A;
+    --trace:#E28494; --trace-soft:rgba(226,132,148,.14); --trace-tint:rgba(226,132,148,.07);
+    --d1:#92B4E0; --d2:#B49BD8; --d3:#84C2A4;
+    --d1-soft:rgba(146,180,224,.16); --d2-soft:rgba(180,155,216,.16);
+    --flag:#D8B061; --hold:#63BFAB;
+    --shadow-1:0 1px 2px rgba(0,0,0,.28); --shadow-2:0 2px 6px rgba(0,0,0,.30), 0 12px 32px rgba(0,0,0,.36);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131519; --paper:#1A1D23; --panel:#22262D; --panel2:#2D323A;
+  --ink:#ECEEF2; --muted:#AFB5BE; --faint:#828892; --line:#2A2F37; --line2:#39404A;
+  --trace:#E28494; --trace-soft:rgba(226,132,148,.14); --trace-tint:rgba(226,132,148,.07);
+  --d1:#92B4E0; --d2:#B49BD8; --d3:#84C2A4;
+  --d1-soft:rgba(146,180,224,.16); --d2-soft:rgba(180,155,216,.16);
+  --flag:#D8B061; --hold:#63BFAB;
+  --shadow-1:0 1px 2px rgba(0,0,0,.28); --shadow-2:0 2px 6px rgba(0,0,0,.30), 0 12px 32px rgba(0,0,0,.36);
+}
+
+/* ── 기본 ───────────────────────────────────────────── */
+html{scroll-behavior:smooth;scroll-padding-top:32px;-webkit-text-size-adjust:100%}
+body{font-size:16px;line-height:1.8;word-break:keep-all;overflow-wrap:break-word;
+  font-feature-settings:"tnum" 0;letter-spacing:-.003em}
+::selection{background:var(--trace-soft);color:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--trace);outline-offset:3px;border-radius:3px}
+img{max-width:100%}
+.wrap{max-width:none;margin:0;padding:0}
+.mono,code,td.num,.tile .v{font-variant-numeric:tabular-nums}
+.mono,code,td.num,.formula,th{overflow-wrap:normal;word-break:normal}
+code{background:var(--panel);border:1px solid var(--line);padding:.05em .38em;border-radius:5px;
+  font-size:.88em;color:var(--ink)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+h1,h2,h3,h4{letter-spacing:-.018em}
+h1{font-size:clamp(30px,3.3vw,38px);line-height:1.24}
+h2{font-size:25px;line-height:1.32}
+h3{font-size:18.5px;line-height:1.4}
+.part > p, section > p{max-width:40em;color:var(--muted)}
+.part > p strong, section > p strong{color:var(--ink);font-weight:500}
+
+/* ── 사이드바 ───────────────────────────────────────── */
+.sb{position:fixed;inset:0 auto 0 0;width:var(--sb);overflow-y:auto;z-index:20;
+  background:var(--paper);border-right:1px solid var(--line);
+  padding:26px 18px 22px;display:flex;flex-direction:column;gap:20px;
+  scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.sb::-webkit-scrollbar{width:8px}
+.sb::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px;border:2px solid var(--paper)}
+.sb::-webkit-scrollbar-track{background:transparent}
+.sb .brand{text-decoration:none;color:var(--ink);display:block;padding:0 8px}
+.sb .brand .t{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em;
+  display:flex;align-items:center;gap:8px}
+.sb .brand .t::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--trace);flex:none}
+.sb .brand .d{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.55;letter-spacing:0}
+.sb .ver{display:inline-block;margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  padding:3px 8px;border-radius:5px;background:var(--panel);color:var(--muted);letter-spacing:.02em}
+.sb h6{margin:0 0 6px;padding:0 8px;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:9.5px;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.sb nav a{position:relative;display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:var(--r-sm);
+  text-decoration:none;color:var(--muted);font-size:14.5px;line-height:1.45;letter-spacing:-.01em;
+  transition:background .13s ease,color .13s ease}
+.sb nav a .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint);flex:none;width:1em}
+.sb nav a:hover{background:var(--panel);color:var(--ink)}
+.sb nav a.on{background:var(--trace-tint);color:var(--ink);font-weight:500}
+.sb nav a.on .k{color:var(--trace)}
+.sb nav a.on::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:2.5px;
+  background:var(--trace);border-radius:2px}
+.sb .grp+.grp{margin-top:14px}
+.sb .ptoc{border-top:1px solid var(--line);padding-top:16px}
+.sb .ptoc a{display:block;padding:4px 0 4px 11px;margin-left:8px;border-left:1.5px solid var(--line2);
+  text-decoration:none;color:var(--muted);font-size:12.5px;line-height:1.5;transition:color .13s,border-color .13s}
+.sb .ptoc a:hover{color:var(--ink);border-left-color:var(--trace)}
+.sb .ptoc a.h2{border-left-color:transparent;padding-left:0;margin-left:8px;color:var(--ink);
+  font-weight:500;font-size:13px;margin-top:9px}
+.sb .ptoc:empty{display:none}
+.sb .foot{margin-top:auto;padding:0 8px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  color:var(--faint);line-height:1.75}
+.sb .foot a{color:var(--faint);text-decoration:none;border-bottom:1px solid var(--line2)}
+.sb .foot a:hover{color:var(--ink)}
+.theme{display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;padding:5px 10px;cursor:pointer;
+  background:var(--panel);border:1px solid var(--line);border-radius:99px;color:var(--muted);
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.04em}
+.theme:hover{color:var(--ink);border-color:var(--line2)}
+
+/* ── 본문 ───────────────────────────────────────────── */
+.main{margin-left:var(--sb);min-width:0}
+.main .in{max-width:var(--content);margin:0 auto;padding:44px 44px 96px}
+.crumb{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;color:var(--faint);margin:0 0 24px}
+.crumb a{color:var(--faint);text-decoration:none}
+.crumb a:hover{color:var(--ink)}
+.part{margin-top:0;padding-top:0;border-top:none}
+.part+.part{margin-top:80px;padding-top:38px;border-top:1px solid var(--line)}
+.part > .kicker{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--trace);background:var(--trace-tint);
+  padding:4px 10px;border-radius:99px;margin:0 0 14px}
+section{margin-top:46px}
+h4{font-family:"Gothic A1",sans-serif;font-weight:600}
+
+/* 표 */
+table{font-size:14px;border-collapse:separate;border-spacing:0}
+th{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:10.5px;letter-spacing:.09em;
+  color:var(--faint);text-transform:uppercase;padding:0 14px 9px 0;border-bottom:1px solid var(--line2)}
+td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line);line-height:1.65;color:var(--muted)}
+td b,td strong{color:var(--ink);font-weight:500}
+tbody tr:nth-child(even){background:transparent}
+tbody tr:hover{background:var(--trace-tint)}
+tbody tr:last-child td{border-bottom:none}
+td:first-child,th:first-child{padding-left:14px}
+td:last-child,th:last-child{padding-right:14px}
+td.num,td.r{color:var(--ink)}
+.scroll{overflow-x:auto;scrollbar-width:thin}
+
+/* 블록 카드 */
+.blk{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 24px 24px;margin-top:26px;box-shadow:var(--shadow-1)}
+.blk-h{display:flex;align-items:center;gap:11px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:4px}
+.blk-h .bn{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;
+  color:var(--trace);background:var(--trace-tint);border-radius:5px;padding:3px 8px;line-height:1.5}
+.blk-h h3{margin:0;font-size:17.5px}
+.blk-h .bs{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint)}
+.blk table td:first-child{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint);
+  white-space:nowrap;padding-top:12px;letter-spacing:-.01em}
+.blk table th:first-child{width:9em}
+.scroll table{min-width:min(100%,780px)}
+
+/* 태그 */
+.tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.04em;padding:3px 8px;
+  border-radius:99px;white-space:nowrap;font-weight:500}
+.tag.hold{color:var(--hold);background:color-mix(in srgb,var(--hold) 12%,transparent)}
+.tag.flag,.tag.wait{color:var(--flag);background:color-mix(in srgb,var(--flag) 15%,transparent)}
+.tag.dim{color:var(--faint);background:var(--panel)}
+
+/* 노트 */
+.note{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--flag);
+  border-radius:var(--r-sm);padding:16px 20px;margin-top:20px;font-size:15px;max-width:44em;
+  color:var(--muted);box-shadow:var(--shadow-1)}
+.note strong,.note b{color:var(--ink);font-weight:500}
+.note.ok{border-left-color:var(--hold)}
+
+/* 수식·파이프 */
+.formula{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:14px 18px;font-size:14px}
+.formula .ex{color:var(--faint)}
+.pipe{border-left:2px solid var(--line2);padding-left:20px;margin-top:18px}
+.pipe div{padding:10px 0;color:var(--muted)}
+.pipe div b{display:inline;font-family:inherit;font-size:inherit;font-weight:500;
+  color:var(--ink);letter-spacing:normal}
+.pipe div > b:first-child{display:block;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  font-weight:500;color:var(--faint);letter-spacing:.07em;margin-bottom:4px}
+ul.plain li{color:var(--muted)}
+ul.plain li::before{color:var(--trace);opacity:.55}
+ul.plain li b,ul.plain li strong{color:var(--ink);font-weight:500}
+
+/* 수치 스트립 */
+.counts{gap:12px}
+.count{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;
+  box-shadow:var(--shadow-1)}
+.count .v{font-size:27px;letter-spacing:-.02em}
+.count .l{color:var(--muted)}
+.count .s{color:var(--faint)}
+
+/* ── 히어로 ─────────────────────────────────────────── */
+.hero{position:relative;margin:-44px -40px 60px;padding:64px 40px 0;overflow:hidden;
+  background:
+    radial-gradient(120% 80% at 12% -10%, var(--trace-tint), transparent 60%),
+    linear-gradient(180deg, var(--paper) 0%, var(--ground) 100%);
+  border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:14px;color:var(--trace);letter-spacing:.14em}
+.hero h1{margin:0 0 18px;max-width:17em}
+.hero .lede{font-size:17.5px;line-height:1.82;color:var(--muted);max-width:38em;margin:0}
+.hero .wave{display:block;width:100%;height:112px;margin-top:30px;opacity:.9}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.hero .cta a{text-decoration:none;font-size:14px;font-weight:500;padding:9px 17px;border-radius:99px;
+  border:1px solid var(--line2);color:var(--ink);background:var(--paper);
+  transition:border-color .15s,transform .15s,box-shadow .15s}
+.hero .cta a.pri{background:var(--trace);color:#fff;border-color:var(--trace)}
+:root[data-theme="dark"] .hero .cta a.pri,
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hero .cta a.pri{color:#1A1D23}}
+.hero .cta a:hover{transform:translateY(-1px);box-shadow:var(--shadow-1);border-color:var(--trace)}
+
+/* ── 카드 격자 ──────────────────────────────────────── */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px;margin-top:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 24px;
+  box-shadow:var(--shadow-1);transition:box-shadow .16s ease,transform .16s ease,border-color .16s ease}
+.card:hover{box-shadow:var(--shadow-2);transform:translateY(-2px);border-color:var(--line2)}
+.card h3{font-size:16.5px;margin:0 0 10px;line-height:1.42}
+.card p{font-size:14.5px;color:var(--muted);line-height:1.75;margin:0;max-width:none}
+.card .q{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;color:var(--trace);
+  text-transform:uppercase;display:block;margin-bottom:11px}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(146px,1fr));gap:11px;margin-top:22px}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:17px 18px;
+  box-shadow:var(--shadow-1);transition:border-color .15s}
+.tile:hover{border-color:var(--line2)}
+.tile .v{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:25px;line-height:1.08;
+  letter-spacing:-.025em;color:var(--ink)}
+.tile .l{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.55;letter-spacing:0}
+
+/* 단계 카드 */
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.step{position:relative;display:block;background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--r);padding:22px 24px 24px;text-decoration:none;color:inherit;
+  box-shadow:var(--shadow-1);transition:box-shadow .16s,transform .16s,border-color .16s}
+.step:hover{box-shadow:var(--shadow-2);transform:translateY(-2px);border-color:var(--trace)}
+.step::after{content:"→";position:absolute;top:20px;right:22px;color:var(--faint);font-size:15px;
+  transition:transform .16s,color .16s}
+.step:hover::after{transform:translateX(3px);color:var(--trace)}
+.step .n{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+  color:var(--trace);background:var(--trace-tint);border-radius:99px;padding:4px 10px}
+.step .t{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:17px;margin-top:13px;line-height:1.38}
+.step .s{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.7}
+.step .bar{height:4px;background:var(--panel2);border-radius:99px;margin-top:16px;overflow:hidden}
+.step .bar i{display:block;height:100%;background:var(--hold);border-radius:99px}
+.step .bar i.wip{background:var(--flag)}
+
+/* 대표 결과 */
+.showcase{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  margin-top:22px;box-shadow:var(--shadow-1)}
+.showcase .pic{background:#fff;border-bottom:1px solid var(--line);max-height:340px;overflow:hidden;
+  display:flex;align-items:flex-start}
+.showcase .pic img{display:block;width:100%}
+.showcase .body{padding:22px 24px 24px}
+.showcase .body h3{margin:0 0 12px;font-size:17px}
+.showcase ul.plain{margin-top:0}
+.showcase ul.plain li{font-size:14.5px;line-height:1.75}
+
+/* 갱신 피드 */
+.feed{margin-top:20px;border-top:1px solid var(--line)}
+.feed a{display:grid;grid-template-columns:9em 1fr;gap:16px;padding:14px 12px 14px 0;
+  border-bottom:1px solid var(--line);text-decoration:none;color:inherit;align-items:baseline;
+  border-radius:var(--r-sm);transition:background .13s}
+.feed a:hover{background:var(--trace-tint)}
+.feed .v{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--trace);padding-left:12px}
+.feed .t{font-size:14.5px;line-height:1.7;color:var(--muted)}
+.feed .t b{color:var(--ink);font-weight:500}
+
+/* 그림 */
+.fig2{border:1px solid var(--line);border-radius:var(--r);overflow:auto;background:#fff;
+  box-shadow:var(--shadow-1);margin:26px 0 12px}
+.fig2 img{min-width:1100px;max-width:none}
+.cap2{font-size:13px;color:var(--faint);line-height:1.7}
+.cap2 b{color:var(--muted)}
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:16px}
+.gal figure{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;box-shadow:var(--shadow-1);transition:border-color .15s,box-shadow .15s}
+.gal figure:hover{border-color:var(--line2);box-shadow:var(--shadow-2)}
+.gal img{display:block;width:100%;height:auto;background:#fff}
+.gal figcaption{font-size:12.5px;color:var(--muted);padding:10px 13px;line-height:1.55;
+  border-top:1px solid var(--line)}
+.bigfig{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px 14px;
+  box-shadow:var(--shadow-1)}
+.feat{border-radius:var(--r);box-shadow:var(--shadow-1);border-color:var(--line)}
+.feat .fig{background:var(--panel)}
+.feat .id h4{font-size:16.5px}
+.feat p{color:var(--muted)}
+
+/* 접기 */
+details.fold{margin-top:6px}
+details.fold summary{cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  color:var(--faint);padding:10px 0;letter-spacing:.04em;list-style:none}
+details.fold summary::-webkit-details-marker{display:none}
+details.fold summary::before{content:"▸ ";color:var(--trace)}
+details.fold[open] summary::before{content:"▾ "}
+details.fold summary:hover{color:var(--ink)}
+
+/* 변경 이력 */
+.hist div{grid-template-columns:9em 1fr;padding:13px 0;font-size:14px;color:var(--muted)}
+.hist b{color:var(--trace);font-size:12px}
+.hist span b{color:var(--ink)}
+
+/* 이전·다음 */
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:72px;padding-top:26px;
+  border-top:1px solid var(--line)}
+.pn a{text-decoration:none;color:inherit;background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--r);padding:15px 18px;box-shadow:var(--shadow-1);
+  transition:border-color .15s,transform .15s,box-shadow .15s}
+.pn a:hover{border-color:var(--trace);transform:translateY(-1px);box-shadow:var(--shadow-2)}
+.pn a .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint)}
+.pn a .t{display:block;margin-top:5px;font-weight:500;font-size:14.5px;color:var(--ink)}
+.pn a.next{text-align:right}
+footer{margin-top:40px;padding-top:20px;color:var(--faint);font-size:11.5px;line-height:1.85}
+
+/* 절 참조 링크 */
+a.xref{color:var(--d1);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--d1) 32%,transparent);
+  padding-bottom:.5px;transition:border-color .13s,color .13s}
+a.xref:hover{color:var(--trace);border-bottom-color:var(--trace)}
+.bs a{color:var(--faint);text-decoration:none;border-bottom:1px solid var(--line2)}
+.bs a:hover{color:var(--trace);border-bottom-color:var(--trace)}
+h3[id],h2[id]{scroll-margin-top:28px}
+
+/* 참고문헌 */
+ol.refs li{color:var(--muted)}
+ol.refs li::before{color:var(--trace);opacity:.65}
+a.cite{color:var(--d1)}
+
+/* ── 반응형 ─────────────────────────────────────────── */
+@media(max-width:960px){
+  .sb{position:static;width:auto;inset:auto;height:auto;border-right:none;
+    border-bottom:1px solid var(--line);padding:16px 16px 14px;gap:12px}
+  .sb .brand{padding:0}
+  .sb h6{padding:0}
+  .sb nav{display:flex;flex-wrap:wrap;gap:3px}
+  .sb nav a{padding:6px 11px}
+  .sb nav a.on::before{display:none}
+  .sb .grp+.grp{margin-top:6px}
+  .sb .ptoc,.sb .foot{display:none}
+  .main{margin-left:0}
+  .main .in{padding:26px 18px 68px}
+  .hero{margin:-26px -18px 42px;padding:38px 18px 0}
+  .hero .wave{height:80px}
+  .steps,.pn{grid-template-columns:1fr}
+  .blk{padding:18px 16px 20px}
+  td:first-child,th:first-child{padding-left:0}
+}
+
+/* ── 인쇄 ───────────────────────────────────────────── */
+@media print{
+  .sb,.pn,.theme{display:none}
+  .main{margin-left:0}
+  .main .in{max-width:none;padding:0}
+  .hero{margin:0;padding:0;background:none;border:none}
+  .card,.blk,.tile,.step,.showcase{box-shadow:none}
+}

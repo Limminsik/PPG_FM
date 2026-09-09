@@ -1,14 +1,51 @@
----
-layout: default
-title: 1단계 — 파형 특징과 질환 연관
-section: 연구
-scripts:
-  - /assets/feature_cards.js
-prev_url: /research.html
-prev_label: 연구 개요
-next_url: /stage2.html
-next_label: 2단계 — 파운데이션 모델
----
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>1단계 — 파형 특징과 질환 연관 · PPG_FM</title>
+<meta name="description" content="손끝 맥파(PPG)의 파형 특징으로 질환 연관을 훑고, 그 위에서 파운데이션 모델을 설계하는 연구">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;700&family=IBM+Plex+Sans+KR:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<aside class="sb">
+  <a class="brand" href="index.html">
+    <div class="t">PPG_FM</div>
+    <div class="d">PPG 파형 특징과 질환 연관 · 파운데이션 모델</div>
+    <span class="ver">PPG_FM_v0.19_260909</span>
+  </a>
+  <div class="grp">
+    <h6>연구</h6>
+    <nav>
+      <a href="index.html"><span class="k">1</span>홈</a>
+      <a href="research.html"><span class="k">2</span>연구 개요</a>
+      <a class="on" href="stage1.html"><span class="k">3</span>1단계 — 파형 특징과 질환 연관</a>
+      <a href="stage2.html"><span class="k">4</span>2단계 — 파운데이션 모델</a>
+      <a href="data.html"><span class="k">5</span>데이터</a>
+      <a href="references.html"><span class="k">6</span>참고문헌</a>
+    </nav>
+  </div>
+  <div class="grp">
+    <h6>작업실</h6>
+    <nav>
+      <a href="log.html"><span class="k">7</span>진행 현황</a>
+      <a href="reading.html"><span class="k">8</span>정독 기록</a>
+    </nav>
+  </div>
+  <div class="ptoc" id="toc"></div>
+  <div class="foot">
+    <button class="theme" id="themeBtn" type="button" aria-label="밝게/어둡게 전환">◐ 화면</button><br>
+    <a href="https://github.com/Limminsik/PPG_FM">GitHub 저장소</a><br>
+    src/ppg_fm · 01_dataset · 02_logistic<br>
+    reports/&lt;단계&gt;/&lt;노트북&gt;/manifest.json
+  </div>
+</aside>
+<main class="main"><div class="in">
+<p class="crumb"><a href="index.html">PPG_FM</a> / 연구 / 1단계 — 파형 특징과 질환 연관</p>
 <div class="part" id="s4">
   <p class="kicker">연구 · 1단계</p>
   <h2>1단계 — 계산식 파형 특징과 질환 연관</h2>
@@ -23,7 +60,7 @@ next_label: 2단계 — 파운데이션 모델
   <section id="s40">
     <h3 id="s4-1">4-1. 문헌에 정립된 PPG 파형의 기준점과 특징</h3>
     <p>한 박동의 PPG에는 문헌에서 이름이 붙은 지점이 16개 있다. 원파형에 5개(on, sp, dn, dp, off),
-    1차 미분에 3개(u, v, w), 2차 미분에 6개(a–f), 3차 미분에 2개(p₁, p₂)다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a>. 임상적으로 검증된 특징은 대부분
+    1차 미분에 3개(u, v, w), 2차 미분에 6개(a–f), 3차 미분에 2개(p₁, p₂)다 <a class="cite" href="references.html#ref-3">[3]</a>. 임상적으로 검증된 특징은 대부분
     이 지점들 사이의 <strong>시간</strong>, <strong>높이의 비</strong>, <strong>면적의 비</strong>로 정의된다.
     아래는 같은 실제 박동 위에 그 고전적 특징을 표시한 것이다.</p>
 
@@ -31,25 +68,25 @@ next_label: 2단계 — 파운데이션 모델
     <div class="scroll"><table>
       <thead><tr><th>특징</th><th>정의</th><th>무엇을 반영하는가</th><th>근거</th><th>우리 세트</th></tr></thead>
       <tbody>
-        <tr><td class="mono">x = Asp</td><td>수축기 진폭. on→sp 높이</td><td>박동량·혈관 팽창성. 접촉압·피부·기기 이득에 좌우</td><td>Elgendi 2012 <a class="cite" href="{{ site.baseurl }}/references.html#ref-1">[1]</a></td><td><span class="tag dim">제외 — 절대 스케일</span></td></tr>
-        <tr><td class="mono">y = Adp</td><td>이완기(반사파) 진폭. on→dp 높이</td><td>말초 반사파 크기</td><td>Millasseau 2002 <a class="cite" href="{{ site.baseurl }}/references.html#ref-4">[4]</a></td><td><span class="tag dim">비율로만 (RI)</span></td></tr>
-        <tr><td class="mono">RI = y/x</td><td>반사지수. Adp/Asp</td><td>혈관 긴장도·소동맥 반사. 혈관확장제로 감소</td><td>Millasseau 2002 <a class="cite" href="{{ site.baseurl }}/references.html#ref-4">[4]</a> · Elgendi(AI) <a class="cite" href="{{ site.baseurl }}/references.html#ref-1">[1]</a></td><td><span class="tag hold">RI</span></td></tr>
-        <tr><td class="mono">ΔT</td><td>sp→dp 시간</td><td>대동맥→말초 왕복 전파시간. 대동맥–대퇴 전파시간과 r=0.70</td><td>Millasseau 2002 <a class="cite" href="{{ site.baseurl }}/references.html#ref-4">[4]</a></td><td><span class="tag hold">dT</span></td></tr>
-        <tr><td class="mono">SI = h/ΔT</td><td>경직도지수. 신장 / ΔT</td><td>대혈관 경직도. 연령 r=0.67, 경동맥–대퇴 PWV r=0.65 (n=87)</td><td>Millasseau 2002 <a class="cite" href="{{ site.baseurl }}/references.html#ref-4">[4]</a></td><td><span class="tag dim">제외 — 신장 필요</span></td></tr>
-        <tr><td class="mono">CT = Tsp</td><td>상승시간. on→sp</td><td>박출 속도·전파 특성. 판막협착에서 지연</td><td>Elgendi 2012 <a class="cite" href="{{ site.baseurl }}/references.html#ref-1">[1]</a> · pyPPG <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a> · AS 지연 <a class="cite" href="{{ site.baseurl }}/references.html#ref-7">[7]</a></td><td><span class="tag hold">CT</span></td></tr>
-        <tr><td class="mono">Tsys / Tdia</td><td>on→dn / dn→off</td><td>수축기·이완기 길이</td><td>pyPPG <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a> · PPG-LVET vs Doppler <a class="cite" href="{{ site.baseurl }}/references.html#ref-8">[8]</a></td><td><span class="tag hold">LVET, LVET/IBI</span></td></tr>
-        <tr><td class="mono">Tpw<sub>x</sub></td><td>피크 높이 x%에서의 폭 (10·25·33·50·66·75%)</td><td>전신혈관저항 (W50이 진폭보다 상관 높음)</td><td>Elgendi 2012 <a class="cite" href="{{ site.baseurl }}/references.html#ref-1">[1]</a> · pyPPG <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a></td><td><span class="tag hold">W25 W50 W75</span></td></tr>
-        <tr><td class="mono">IPA = A₂/A₁</td><td>절흔 이후 면적 / 이전 면적</td><td>총말초저항</td><td>Wang 2009 <a class="cite" href="{{ site.baseurl }}/references.html#ref-6">[6]</a> · Elgendi 2012 <a class="cite" href="{{ site.baseurl }}/references.html#ref-1">[1]</a></td><td><span class="tag hold">IPA</span></td></tr>
-        <tr><td class="mono">AI = (p₂−p₁)/x</td><td>증강지수. 후기 수축기 피크 − 초기 피크</td><td>파 반사·중심동맥 경직도. 압력파형 AIx의 PPG 판</td><td>Takazawa 1998 <a class="cite" href="{{ site.baseurl }}/references.html#ref-2">[2]</a> · pyPPG <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a></td><td><span class="tag dim">미채택 — 3차 미분</span></td></tr>
-        <tr><td class="mono">b/a, d/a, e/a</td><td>APG 파 진폭비</td><td>b/a↑·d/a↓ 연령·경직도. d/a는 좌심실 후부하</td><td>Takazawa 1998 <a class="cite" href="{{ site.baseurl }}/references.html#ref-2">[2]</a> · Elgendi 2012 <a class="cite" href="{{ site.baseurl }}/references.html#ref-1">[1]</a></td><td><span class="tag hold">b/a c/a d/a e/a</span></td></tr>
-        <tr><td class="mono">AGI = (b−c−d−e)/a</td><td>노화지수</td><td>혈관연령. 심혈관 위험·사망의 독립 예측인자로 보고</td><td>Takazawa 1998 <a class="cite" href="{{ site.baseurl }}/references.html#ref-2">[2]</a> · Charlton 2022 <a class="cite" href="{{ site.baseurl }}/references.html#ref-5">[5]</a></td><td><span class="tag hold">aging_index</span></td></tr>
-        <tr><td class="mono">PTT / PAT</td><td>ECG R파→PPG 도달 시간</td><td>혈압·PWV. PEP 오염</td><td>Charlton 2022 <a class="cite" href="{{ site.baseurl }}/references.html#ref-5">[5]</a> · 문서 7</td><td><span class="tag dim">제외 — ECG 필요</span></td></tr>
+        <tr><td class="mono">x = Asp</td><td>수축기 진폭. on→sp 높이</td><td>박동량·혈관 팽창성. 접촉압·피부·기기 이득에 좌우</td><td>Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag dim">제외 — 절대 스케일</span></td></tr>
+        <tr><td class="mono">y = Adp</td><td>이완기(반사파) 진폭. on→dp 높이</td><td>말초 반사파 크기</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a></td><td><span class="tag dim">비율로만 (RI)</span></td></tr>
+        <tr><td class="mono">RI = y/x</td><td>반사지수. Adp/Asp</td><td>혈관 긴장도·소동맥 반사. 혈관확장제로 감소</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a> · Elgendi(AI) <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag hold">RI</span></td></tr>
+        <tr><td class="mono">ΔT</td><td>sp→dp 시간</td><td>대동맥→말초 왕복 전파시간. 대동맥–대퇴 전파시간과 r=0.70</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a></td><td><span class="tag hold">dT</span></td></tr>
+        <tr><td class="mono">SI = h/ΔT</td><td>경직도지수. 신장 / ΔT</td><td>대혈관 경직도. 연령 r=0.67, 경동맥–대퇴 PWV r=0.65 (n=87)</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a></td><td><span class="tag dim">제외 — 신장 필요</span></td></tr>
+        <tr><td class="mono">CT = Tsp</td><td>상승시간. on→sp</td><td>박출 속도·전파 특성. 판막협착에서 지연</td><td>Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a> · pyPPG <a class="cite" href="references.html#ref-3">[3]</a> · AS 지연 <a class="cite" href="references.html#ref-7">[7]</a></td><td><span class="tag hold">CT</span></td></tr>
+        <tr><td class="mono">Tsys / Tdia</td><td>on→dn / dn→off</td><td>수축기·이완기 길이</td><td>pyPPG <a class="cite" href="references.html#ref-3">[3]</a> · PPG-LVET vs Doppler <a class="cite" href="references.html#ref-8">[8]</a></td><td><span class="tag hold">LVET, LVET/IBI</span></td></tr>
+        <tr><td class="mono">Tpw<sub>x</sub></td><td>피크 높이 x%에서의 폭 (10·25·33·50·66·75%)</td><td>전신혈관저항 (W50이 진폭보다 상관 높음)</td><td>Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a> · pyPPG <a class="cite" href="references.html#ref-3">[3]</a></td><td><span class="tag hold">W25 W50 W75</span></td></tr>
+        <tr><td class="mono">IPA = A₂/A₁</td><td>절흔 이후 면적 / 이전 면적</td><td>총말초저항</td><td>Wang 2009 <a class="cite" href="references.html#ref-6">[6]</a> · Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag hold">IPA</span></td></tr>
+        <tr><td class="mono">AI = (p₂−p₁)/x</td><td>증강지수. 후기 수축기 피크 − 초기 피크</td><td>파 반사·중심동맥 경직도. 압력파형 AIx의 PPG 판</td><td>Takazawa 1998 <a class="cite" href="references.html#ref-2">[2]</a> · pyPPG <a class="cite" href="references.html#ref-3">[3]</a></td><td><span class="tag dim">미채택 — 3차 미분</span></td></tr>
+        <tr><td class="mono">b/a, d/a, e/a</td><td>APG 파 진폭비</td><td>b/a↑·d/a↓ 연령·경직도. d/a는 좌심실 후부하</td><td>Takazawa 1998 <a class="cite" href="references.html#ref-2">[2]</a> · Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag hold">b/a c/a d/a e/a</span></td></tr>
+        <tr><td class="mono">AGI = (b−c−d−e)/a</td><td>노화지수</td><td>혈관연령. 심혈관 위험·사망의 독립 예측인자로 보고</td><td>Takazawa 1998 <a class="cite" href="references.html#ref-2">[2]</a> · Charlton 2022 <a class="cite" href="references.html#ref-5">[5]</a></td><td><span class="tag hold">aging_index</span></td></tr>
+        <tr><td class="mono">PTT / PAT</td><td>ECG R파→PPG 도달 시간</td><td>혈압·PWV. PEP 오염</td><td>Charlton 2022 <a class="cite" href="references.html#ref-5">[5]</a> · 문서 7</td><td><span class="tag dim">제외 — ECG 필요</span></td></tr>
       </tbody>
     </table></div>
 
     <div class="bigfig" id="litfigB" style="margin-top:28px"></div>
     <div class="scroll"><table>
-      <thead><tr><th>지점</th><th>어디</th><th>정의 (pyPPG, Goda 2024 <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a>)</th><th class="r">검출 MAE</th><th>우리 사용</th></tr></thead>
+      <thead><tr><th>지점</th><th>어디</th><th>정의 (pyPPG, Goda 2024 <a class="cite" href="references.html#ref-3">[3]</a>)</th><th class="r">검출 MAE</th><th>우리 사용</th></tr></thead>
       <tbody>
         <tr><td class="mono">on</td><td>PPG</td><td>수축기 상승의 시작. 보통 최소점</td><td class="num r">7 ms</td><td><span class="tag hold">on</span></td></tr>
         <tr><td class="mono">sp</td><td>PPG</td><td>두 onset 사이의 최대 진폭</td><td class="num r">5 ms</td><td><span class="tag hold">sp</span></td></tr>
@@ -69,7 +106,7 @@ next_label: 2단계 — 파운데이션 모델
         <tr><td class="mono">p₂</td><td>PPG‴</td><td>b 이후, d 이전의 마지막 국소최소 = 후기 수축기 피크</td><td class="num r">2 ms</td><td><span class="tag dim">미사용</span></td></tr>
       </tbody>
     </table></div>
-    <p style="margin-top:12px">MAE는 pyPPG가 PPG-BP 데이터베이스의 수기 주석 219박동에 대해 보고한 값이다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-3">[3]</a>. 모든 지점이 10 ms 이내이며,
+    <p style="margin-top:12px">MAE는 pyPPG가 PPG-BP 데이터베이스의 수기 주석 219박동에 대해 보고한 값이다 <a class="cite" href="references.html#ref-3">[3]</a>. 모든 지점이 10 ms 이내이며,
     미분 지점(u, a, p₁)이 원파형 지점(on, dn)보다 정확하다 — 미분이 변곡을 극값으로 바꾸기 때문이다.
     우리 파이프라인은 같은 이유로 dn을 원파형이 아니라 s″의 e파에서 잡는다.</p>
 
@@ -79,7 +116,7 @@ next_label: 2단계 — 파운데이션 모델
   </section>
 
   <h3 style="margin-top:44px">4-2. 우리 파이프라인의 기준점 검출 규칙</h3>
-  <p>미분은 Savitzky–Golay 필터로 구한다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-12">[12]</a> — 이동창 안에서 다항식을 맞추고 그 도함수를 취하므로 잡음을 키우지 않는다. 기준점은 아래 규칙으로만 잡고, 조건을 만족하지 못하면 값을 만들지 않고 NaN으로 남긴다.</p>
+  <p>미분은 Savitzky–Golay 필터로 구한다 <a class="cite" href="references.html#ref-12">[12]</a> — 이동창 안에서 다항식을 맞추고 그 도함수를 취하므로 잡음을 키우지 않는다. 기준점은 아래 규칙으로만 잡고, 조건을 만족하지 못하면 값을 만들지 않고 NaN으로 남긴다.</p>
   <div class="bigfig" id="bigfig"></div>
   <div class="scroll"><table>
     <thead><tr><th>기호</th><th>이름</th><th>어디서</th><th>검출 규칙</th><th class="r">이 박동</th></tr></thead>
@@ -98,7 +135,7 @@ next_label: 2단계 — 파운데이션 모델
 
 <section id="s4b" style="margin-top:60px;padding-top:8px">
   <h3 id="s4-8">4-8. 환자 요약 — 박동 분포를 세 가지로 압축</h3>
-  <p>환자 한 명은 수백 개의 박동을 갖는다. 박동 하나하나를 그대로 회귀에 넣으면 같은 사람이 수백 번 세어져 p값이 수백 자릿수로 부풀어 오른다(의사반복 <a class="cite" href="{{ site.baseurl }}/references.html#ref-13">[13]</a>, 문서 8). 그래서 환자마다 박동 분포를 세 숫자로 압축한다.</p>
+  <p>환자 한 명은 수백 개의 박동을 갖는다. 박동 하나하나를 그대로 회귀에 넣으면 같은 사람이 수백 번 세어져 p값이 수백 자릿수로 부풀어 오른다(의사반복 <a class="cite" href="references.html#ref-13">[13]</a>, 문서 8). 그래서 환자마다 박동 분포를 세 숫자로 압축한다.</p>
 
   <div class="bigfig">
     <svg viewBox="0 0 800 210" role="img" aria-label="한 환자의 CT 박동 분포를 중앙값, IQR, 검출률로 요약하는 개념도">
@@ -144,7 +181,7 @@ next_label: 2단계 — 파운데이션 모델
   <section>
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:24px 0 0">검출률 — 3개</h4>
     <p>계산에 실패한 박동의 비율을 버리지 않고 특징으로 승격한다. 중복절흔 소실과 c·d파 융합은
-    잡음에서도, 동맥 경직에서도 나타난다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-2">[2]</a><a class="cite" href="{{ site.baseurl }}/references.html#ref-5">[5]</a>. 결측으로 처리하면 병든 환자를 체계적으로 배제하게 된다(문서 7 §4-2).</p>
+    잡음에서도, 동맥 경직에서도 나타난다 <a class="cite" href="references.html#ref-2">[2]</a><a class="cite" href="references.html#ref-5">[5]</a>. 결측으로 처리하면 병든 환자를 체계적으로 배제하게 된다(문서 7 §4-2).</p>
     <div class="formula">cd_rate<sub>p</sub> = P(d_over_a ≠ NaN) &nbsp;·&nbsp; ri_rate<sub>p</sub> = P(RI ≠ NaN) &nbsp;·&nbsp; lvet_rate<sub>p</sub> = P(LVET ≠ NaN)
       <span class="ex">각각 환자 p의 박동 중 해당 특징이 계산된 비율. 코호트 평균: cd 0.485 · ri 0.371 · lvet 0.994.</span></div>
     <div class="bigfig" id="cdfig" style="margin-top:18px"></div>
@@ -313,7 +350,7 @@ next_label: 2단계 — 파운데이션 모델
     다중검정 기준은 선행 세 편이 모두 쓰는 <strong>Bonferroni</strong>를 그대로 따랐다 — 7,353 검정에 p &lt; 6.8×10⁻⁶.</p>
 
     <div class="fig2">
-      <img src="{{ site.baseurl }}/assets/figures/figure2_or.png" alt="Figure 2 — 진단코드 × 파형 특징 오즈비">
+      <img src="assets/figures/figure2_or.png" alt="Figure 2 — 진단코드 × 파형 특징 오즈비">
     </div>
     <p class="cap2"><b>Figure 2.</b> 셀 하나는 <b>로지스틱 회귀 하나</b>다 —
     그 파형 특징이 1 SD 높을 때 그 ICD-10 코드를 갖고 있을 <b>오즈비</b>. 공변량 보정 없음.
@@ -376,11 +413,51 @@ next_label: 2단계 — 파운데이션 모델
     <h3>Figure 2 변형 — 같은 자료를 다르게 자른 판</h3>
     <p>여섯 판 모두 색 스케일을 오즈비 0.50~2.00으로 고정했다. 파일은 <code>reports/02_logistic/02_association_figure2/</code>에서 생성된다.</p>
     <div class="gal">
-      <figure><a href="{{ site.baseurl }}/assets/figures/figure2_compact.png"><img src="{{ site.baseurl }}/assets/figures/figure2_compact.png" alt="compact"></a><figcaption>compact — 유의 특징 ≥5인 54코드, 질환명 표기</figcaption></figure>
-      <figure><a href="{{ site.baseurl }}/assets/figures/figure2_circulatory.png"><img src="{{ site.baseurl }}/assets/figures/figure2_circulatory.png" alt="circulatory"></a><figcaption>순환계 27코드 확대</figcaption></figure>
-      <figure><a href="{{ site.baseurl }}/assets/figures/figure2_panels.png"><img src="{{ site.baseurl }}/assets/figures/figure2_panels.png" alt="panels"></a><figcaption>ICD 장별 소패널 6개</figcaption></figure>
-      <figure><a href="{{ site.baseurl }}/assets/figures/figure2_top_cells.png"><img src="{{ site.baseurl }}/assets/figures/figure2_top_cells.png" alt="top cells"></a><figcaption>효과 상위 40셀을 오즈비 축에</figcaption></figure>
-      <figure><a href="{{ site.baseurl }}/assets/figures/figure2_feature_breadth.png"><img src="{{ site.baseurl }}/assets/figures/figure2_feature_breadth.png" alt="feature breadth"></a><figcaption>특징별 유의 질환 수, 방향 구분</figcaption></figure>
+      <figure><a href="assets/figures/figure2_compact.png"><img src="assets/figures/figure2_compact.png" alt="compact"></a><figcaption>compact — 유의 특징 ≥5인 54코드, 질환명 표기</figcaption></figure>
+      <figure><a href="assets/figures/figure2_circulatory.png"><img src="assets/figures/figure2_circulatory.png" alt="circulatory"></a><figcaption>순환계 27코드 확대</figcaption></figure>
+      <figure><a href="assets/figures/figure2_panels.png"><img src="assets/figures/figure2_panels.png" alt="panels"></a><figcaption>ICD 장별 소패널 6개</figcaption></figure>
+      <figure><a href="assets/figures/figure2_top_cells.png"><img src="assets/figures/figure2_top_cells.png" alt="top cells"></a><figcaption>효과 상위 40셀을 오즈비 축에</figcaption></figure>
+      <figure><a href="assets/figures/figure2_feature_breadth.png"><img src="assets/figures/figure2_feature_breadth.png" alt="feature breadth"></a><figcaption>특징별 유의 질환 수, 방향 구분</figcaption></figure>
     </div>
   </section>
 </div>
+
+<div class="pn">
+  <div><a class="prev" href="research.html"><span class="k">← 이전</span><span class="t">연구 개요</span></a></div>
+  <div><a class="next" href="stage2.html"><span class="k">다음 →</span><span class="t">2단계 — 파운데이션 모델</span></a></div>
+</div>
+<footer>
+  <span class="mono">PPG_FM_v0.19_260909</span> · 이 문서는 <code>docs/</code>의 정적 HTML이다 — 파일을 열면 그대로 보인다<br>
+  예시 박동: MIMIC-III-Ext-PPG, 125 Hz, N=120 · 검출률·분포 통계는 코호트 전체 박동 기준
+</footer>
+</div></main>
+<script src="assets/feature_cards.js"></script>
+<script>
+(function(){
+  var toc=document.getElementById('toc'); if(!toc) return;
+  var hs=document.querySelectorAll('.main h2, .main .part > h3, .main section > h3, .main .blk-h h3, .main .fam-head h3');
+  if(hs.length<2) return;
+  var html='<h6>이 페이지</h6>', n=0;
+  hs.forEach(function(h){
+    if(!h.id) h.id='sec-'+(++n);
+    var t=h.textContent.replace(/\s+/g,' ').trim();
+    if(t.length>34) t=t.slice(0,32)+'…';
+    html+='<a class="'+(h.tagName==='H2'?'h2':'h3')+'" href="#'+h.id+'">'+t+'</a>';
+  });
+  toc.innerHTML=html;
+})();
+(function(){
+  var K='ppgfm-theme', r=document.documentElement, b=document.getElementById('themeBtn');
+  try{ var v=localStorage.getItem(K); if(v) r.setAttribute('data-theme', v); }catch(e){}
+  if(!b) return;
+  b.addEventListener('click', function(){
+    var cur=r.getAttribute('data-theme');
+    if(!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var nx = cur==='dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme', nx);
+    try{ localStorage.setItem(K, nx); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

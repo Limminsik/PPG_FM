@@ -1,10 +1,51 @@
----
-layout: default
-title: 정독 기록
-section: 작업실
-prev_url: /log.html
-prev_label: 진행 현황
----
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>정독 기록 · PPG_FM</title>
+<meta name="description" content="손끝 맥파(PPG)의 파형 특징으로 질환 연관을 훑고, 그 위에서 파운데이션 모델을 설계하는 연구">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;700&family=IBM+Plex+Sans+KR:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<aside class="sb">
+  <a class="brand" href="index.html">
+    <div class="t">PPG_FM</div>
+    <div class="d">PPG 파형 특징과 질환 연관 · 파운데이션 모델</div>
+    <span class="ver">PPG_FM_v0.19_260909</span>
+  </a>
+  <div class="grp">
+    <h6>연구</h6>
+    <nav>
+      <a href="index.html"><span class="k">1</span>홈</a>
+      <a href="research.html"><span class="k">2</span>연구 개요</a>
+      <a href="stage1.html"><span class="k">3</span>1단계 — 파형 특징과 질환 연관</a>
+      <a href="stage2.html"><span class="k">4</span>2단계 — 파운데이션 모델</a>
+      <a href="data.html"><span class="k">5</span>데이터</a>
+      <a href="references.html"><span class="k">6</span>참고문헌</a>
+    </nav>
+  </div>
+  <div class="grp">
+    <h6>작업실</h6>
+    <nav>
+      <a href="log.html"><span class="k">7</span>진행 현황</a>
+      <a class="on" href="reading.html"><span class="k">8</span>정독 기록</a>
+    </nav>
+  </div>
+  <div class="ptoc" id="toc"></div>
+  <div class="foot">
+    <button class="theme" id="themeBtn" type="button" aria-label="밝게/어둡게 전환">◐ 화면</button><br>
+    <a href="https://github.com/Limminsik/PPG_FM">GitHub 저장소</a><br>
+    src/ppg_fm · 01_dataset · 02_logistic<br>
+    reports/&lt;단계&gt;/&lt;노트북&gt;/manifest.json
+  </div>
+</aside>
+<main class="main"><div class="in">
+<p class="crumb"><a href="index.html">PPG_FM</a> / 작업실 / 정독 기록</p>
 <div class="part" id="s56">
   <p class="kicker">작업실</p>
   <h2>정독 기록</h2>
@@ -16,7 +57,7 @@ prev_label: 진행 현황
     결과가 그 주장을 실제로 뒷받침하는가.</p>
 
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">
-      ① PaPaGei — 계산식으로 «같음»을 만든 첫 사례 <a class="cite" href="{{ site.baseurl }}/references.html#ref-9">[9]</a></h4>
+      ① PaPaGei — 계산식으로 «같음»을 만든 첫 사례 <a class="cite" href="references.html#ref-9">[9]</a></h4>
     <p><span class="cap">ICLR 2025 · Nokia Bell Labs · arXiv:2410.20542 · 가중치 공개 · 정독 260909</span></p>
 
     <div class="pipe">
@@ -92,7 +133,7 @@ prev_label: 진행 현황
 
 
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
-      ② Robust PPG FM — 감독 신호를 PPG 밖에서 가져오다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-18">[18]</a></h4>
+      ② Robust PPG FM — 감독 신호를 PPG 밖에서 가져오다 <a class="cite" href="references.html#ref-18">[18]</a></h4>
     <p><span class="cap">arXiv:2606.07365 · 정독 260909 · <b>참고 문헌 — 우리 경로는 아니다</b></span></p>
 
     <div class="pipe">
@@ -155,7 +196,7 @@ prev_label: 진행 현황
 
 
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
-      ③ AnyPPG — 이미 똑똑한 모델을 교사로 세우다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-17">[17]</a></h4>
+      ③ AnyPPG — 이미 똑똑한 모델을 교사로 세우다 <a class="cite" href="references.html#ref-17">[17]</a></h4>
     <p><span class="cap">arXiv:2511.01747 v3 · 정독 260909 · <b>참고 문헌 — 학습 방식 설계 참고, 우리와 연관은 낮다</b></span></p>
 
     <div class="pipe">
@@ -206,7 +247,7 @@ prev_label: 진행 현황
 
 
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
-      ④ MMR — 복원 목표를 바꾼다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-19">[19]</a></h4>
+      ④ MMR — 복원 목표를 바꾼다 <a class="cite" href="references.html#ref-19">[19]</a></h4>
     <p><span class="cap">arXiv:2601.12215 · 정독 260909 · <b>고찰 참고 — 다중 스케일 한계 · 도메인 시프트</b></span></p>
 
     <div class="pipe">
@@ -259,7 +300,7 @@ prev_label: 진행 현황
 
 
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
-      ⑤ SIGMA-PPG — 어디를 가릴지를 학습한다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-21">[21]</a></h4>
+      ⑤ SIGMA-PPG — 어디를 가릴지를 학습한다 <a class="cite" href="references.html#ref-21">[21]</a></h4>
     <p><span class="cap">arXiv:2601.21031 · 정독 260909</span></p>
 
     <div class="pipe">
@@ -314,7 +355,7 @@ prev_label: 진행 현황
 
 
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
-      ⑥ GPT-PPG — 언어모델처럼 <a class="cite" href="{{ site.baseurl }}/references.html#ref-20">[20]</a></h4>
+      ⑥ GPT-PPG — 언어모델처럼 <a class="cite" href="references.html#ref-20">[20]</a></h4>
     <p><span class="cap">arXiv:2503.08015 · Physiol Meas 2025 · 정독 260909 ·
       <b>배경·서론 참고 — 신호를 토큰으로 다루는 설계의 사례</b></span></p>
 
@@ -397,3 +438,42 @@ prev_label: 진행 현황
     </table></div>
   </section>
 </div>
+
+<div class="pn">
+  <div><a class="prev" href="log.html"><span class="k">← 이전</span><span class="t">진행 현황</span></a></div>
+  <div></div>
+</div>
+<footer>
+  <span class="mono">PPG_FM_v0.19_260909</span> · 이 문서는 <code>docs/</code>의 정적 HTML이다 — 파일을 열면 그대로 보인다<br>
+  예시 박동: MIMIC-III-Ext-PPG, 125 Hz, N=120 · 검출률·분포 통계는 코호트 전체 박동 기준
+</footer>
+</div></main>
+<script>
+(function(){
+  var toc=document.getElementById('toc'); if(!toc) return;
+  var hs=document.querySelectorAll('.main h2, .main .part > h3, .main section > h3, .main .blk-h h3, .main .fam-head h3');
+  if(hs.length<2) return;
+  var html='<h6>이 페이지</h6>', n=0;
+  hs.forEach(function(h){
+    if(!h.id) h.id='sec-'+(++n);
+    var t=h.textContent.replace(/\s+/g,' ').trim();
+    if(t.length>34) t=t.slice(0,32)+'…';
+    html+='<a class="'+(h.tagName==='H2'?'h2':'h3')+'" href="#'+h.id+'">'+t+'</a>';
+  });
+  toc.innerHTML=html;
+})();
+(function(){
+  var K='ppgfm-theme', r=document.documentElement, b=document.getElementById('themeBtn');
+  try{ var v=localStorage.getItem(K); if(v) r.setAttribute('data-theme', v); }catch(e){}
+  if(!b) return;
+  b.addEventListener('click', function(){
+    var cur=r.getAttribute('data-theme');
+    if(!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var nx = cur==='dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme', nx);
+    try{ localStorage.setItem(K, nx); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

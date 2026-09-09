@@ -1,12 +1,51 @@
----
-layout: default
-title: 데이터
-section: 연구
-prev_url: /stage2.html
-prev_label: 2단계 — 파운데이션 모델
-next_url: /references.html
-next_label: 참고문헌
----
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>데이터 · PPG_FM</title>
+<meta name="description" content="손끝 맥파(PPG)의 파형 특징으로 질환 연관을 훑고, 그 위에서 파운데이션 모델을 설계하는 연구">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;700&family=IBM+Plex+Sans+KR:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<aside class="sb">
+  <a class="brand" href="index.html">
+    <div class="t">PPG_FM</div>
+    <div class="d">PPG 파형 특징과 질환 연관 · 파운데이션 모델</div>
+    <span class="ver">PPG_FM_v0.19_260909</span>
+  </a>
+  <div class="grp">
+    <h6>연구</h6>
+    <nav>
+      <a href="index.html"><span class="k">1</span>홈</a>
+      <a href="research.html"><span class="k">2</span>연구 개요</a>
+      <a href="stage1.html"><span class="k">3</span>1단계 — 파형 특징과 질환 연관</a>
+      <a href="stage2.html"><span class="k">4</span>2단계 — 파운데이션 모델</a>
+      <a class="on" href="data.html"><span class="k">5</span>데이터</a>
+      <a href="references.html"><span class="k">6</span>참고문헌</a>
+    </nav>
+  </div>
+  <div class="grp">
+    <h6>작업실</h6>
+    <nav>
+      <a href="log.html"><span class="k">7</span>진행 현황</a>
+      <a href="reading.html"><span class="k">8</span>정독 기록</a>
+    </nav>
+  </div>
+  <div class="ptoc" id="toc"></div>
+  <div class="foot">
+    <button class="theme" id="themeBtn" type="button" aria-label="밝게/어둡게 전환">◐ 화면</button><br>
+    <a href="https://github.com/Limminsik/PPG_FM">GitHub 저장소</a><br>
+    src/ppg_fm · 01_dataset · 02_logistic<br>
+    reports/&lt;단계&gt;/&lt;노트북&gt;/manifest.json
+  </div>
+</aside>
+<main class="main"><div class="in">
+<p class="crumb"><a href="index.html">PPG_FM</a> / 연구 / 데이터</p>
 <div class="part" id="s3">
   <p class="kicker">연구 · 자료</p>
   <h2>데이터 현황</h2>
@@ -27,7 +66,7 @@ next_label: 참고문헌
   </table></div>
 
   <section>
-    <h3 id="s3-1">3-1. MIMIC-III-Ext-PPG의 규모 <a class="cite" href="{{ site.baseurl }}/references.html#ref-11">[11]</a></h3>
+    <h3 id="s3-1">3-1. MIMIC-III-Ext-PPG의 규모 <a class="cite" href="references.html#ref-11">[11]</a></h3>
     <div class="spec">
       <div><b>세그먼트</b><span>6,399,754개 (30초, 125 Hz) — 고품질(SQI 3/3) 통과 5,401,385개</span></div>
       <div><b>환자</b><span>6,189명 — 고품질 세그먼트 보유 <span class="mono">6,114</span>명</span></div>
@@ -56,7 +95,7 @@ next_label: 참고문헌
     <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">SQI는 데이터셋이 제공하는 값이다</h4>
     <p>품질 지표를 우리가 계산하지 않았다. 데이터셋이 30초 세그먼트를 <strong>10초씩 세 구간</strong>(0–10 · 10–20 · 20–30초)으로 나눠
     각 구간에 SQI를 매기고, 3원소 벡터 <code>vector_10s_pleth_sqi</code>로 메타데이터에 넣어 배포한다.
-    판정 알고리즘은 <strong>Orphanidou 등(2015)</strong>이며 세 가지를 본다 <a class="cite" href="{{ site.baseurl }}/references.html#ref-16">[16]</a> —
+    판정 알고리즘은 <strong>Orphanidou 등(2015)</strong>이며 세 가지를 본다 <a class="cite" href="references.html#ref-16">[16]</a> —
     심박수가 생리적 범위 안인가, 박동 간격이 일관되는가, 평균 박동 <strong>템플릿과의 상관</strong>으로 형태가 일관되는가.</p>
     <div class="formula">vector_10s_pleth_sqi = [q<sub>1</sub>, q<sub>2</sub>, q<sub>3</sub>] &nbsp;·&nbsp; q<sub>j</sub> ∈ {+1, 0} &nbsp;·&nbsp; 고품질 ⇔ [1, 1, 1]
       <span class="ex">+1 = 세 검사를 모두 통과 · 0 = 하나 이상 실패(사용은 가능) · 음수(−14 RR 간격 없음 · −17 피크 부족 등)는 배포 전 이미 제외됨.
@@ -213,3 +252,42 @@ next_label: 참고문헌
 
 
 </div>
+
+<div class="pn">
+  <div><a class="prev" href="stage2.html"><span class="k">← 이전</span><span class="t">2단계 — 파운데이션 모델</span></a></div>
+  <div><a class="next" href="references.html"><span class="k">다음 →</span><span class="t">참고문헌</span></a></div>
+</div>
+<footer>
+  <span class="mono">PPG_FM_v0.19_260909</span> · 이 문서는 <code>docs/</code>의 정적 HTML이다 — 파일을 열면 그대로 보인다<br>
+  예시 박동: MIMIC-III-Ext-PPG, 125 Hz, N=120 · 검출률·분포 통계는 코호트 전체 박동 기준
+</footer>
+</div></main>
+<script>
+(function(){
+  var toc=document.getElementById('toc'); if(!toc) return;
+  var hs=document.querySelectorAll('.main h2, .main .part > h3, .main section > h3, .main .blk-h h3, .main .fam-head h3');
+  if(hs.length<2) return;
+  var html='<h6>이 페이지</h6>', n=0;
+  hs.forEach(function(h){
+    if(!h.id) h.id='sec-'+(++n);
+    var t=h.textContent.replace(/\s+/g,' ').trim();
+    if(t.length>34) t=t.slice(0,32)+'…';
+    html+='<a class="'+(h.tagName==='H2'?'h2':'h3')+'" href="#'+h.id+'">'+t+'</a>';
+  });
+  toc.innerHTML=html;
+})();
+(function(){
+  var K='ppgfm-theme', r=document.documentElement, b=document.getElementById('themeBtn');
+  try{ var v=localStorage.getItem(K); if(v) r.setAttribute('data-theme', v); }catch(e){}
+  if(!b) return;
+  b.addEventListener('click', function(){
+    var cur=r.getAttribute('data-theme');
+    if(!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var nx = cur==='dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme', nx);
+    try{ localStorage.setItem(K, nx); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
