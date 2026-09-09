@@ -1,0 +1,39 @@
+# 데이터 루트 (Windows)
+data_root: "D:/data"
+
+datasets:
+  mimic_ext_ppg:
+    root: "D:/data/mimic_iii_ext_ppg/DESTINATION"
+    metadata: "D:/data/mimic_iii_ext_ppg/DESTINATION/metadata.csv"
+    fs: 125
+    seg_sec: 30
+  vitaldb:
+    root: "D:/data/VitalDB/vitaldb_dataset"
+    fs_pleth: 500
+  echonext:
+    root: "D:/data/echonext-a-dataset-for-detecting-echocardiogram-confirmed-structural-heart-disease-from-ecgs-1.1.0/echonext-a-dataset-for-detecting-echocardiogram-confirmed-structural-heart-disease-from-ecgs-1.1.0"
+    metadata: "echonext_metadata_100k.csv"
+  wf_ppg:
+    root: "D:/data/wf_ppg/WF-PPG (3rd)/WF-PPG (3rd)"
+  galaxy_ppg:
+    root: "D:/data/GalaxyPPG/GalaxyPPG/Dataset"
+  wildppg:
+    root: "D:/data/WildPPG"
+  mimic_iii_waveform:
+    root: "D:/data/mimic_iii_waveform/DESTINATION"
+  mimic_iv_waveform:
+    root: "D:/data/mimic_iv_waveform/DESTINATION"
+  shhs:
+    root: "D:/data/shhs"
+    has_ppg: false      # 실측 확인: SaO2 1Hz만
+  wsc:
+    root: "D:/data/wsc"
+    has_ppg: false      # 실측 확인
+  nfs:
+    root: "D:/data/nfs"
+    has_ppg: true       # 실측 확인: Pleth 256 Hz
+
+out:
+  reports: "reports"
+  interim: "data/interim"
+  processed: "data/processed"

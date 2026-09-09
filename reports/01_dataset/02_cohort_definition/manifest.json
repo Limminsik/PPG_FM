@@ -1,0 +1,51 @@
+{
+  "notebook": "01_dataset/02_cohort_definition",
+  "note": "데이터 구조 · SQI 필터 · 코호트 확정 경로 · 코호트 특성표",
+  "last_run": "2026-09-08T16:16:39",
+  "elapsed_sec": 0.0,
+  "environment": {
+    "python": "3.11.15",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "scipy": "1.17.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.1",
+    "wfdb": "4.3.1",
+    "pyarrow": "25.0.1"
+  },
+  "files": [
+    {
+      "file": "cohort_flow.csv",
+      "note": "코호트 확정 경로",
+      "bytes": 158,
+      "saved_at": "2026-09-08T15:58:56",
+      "rows": 4,
+      "cols": 3
+    },
+    {
+      "file": "sqi_distribution.csv",
+      "note": "SQI 벡터별 세그먼트 수",
+      "bytes": 245,
+      "saved_at": "2026-09-08T08:15:35",
+      "rows": 8,
+      "cols": 4
+    },
+    {
+      "file": "table1_cohort.csv",
+      "note": "Table 1 — 코호트 특성",
+      "bytes": 789,
+      "saved_at": "2026-09-08T16:16:39",
+      "rows": 15,
+      "cols": 3
+    },
+    {
+      "file": "table1_top_codes.csv",
+      "note": "유병률 상위 ICD-10 코드",
+      "bytes": 380,
+      "saved_at": "2026-09-08T16:16:39",
+      "rows": 12,
+      "cols": 4
+    }
+  ]
+}

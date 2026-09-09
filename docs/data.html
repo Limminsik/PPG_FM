@@ -1,0 +1,210 @@
+---
+layout: default
+title: 데이터 현황
+---
+<div class="part" id="s3">
+  <p class="kicker">PART 3</p>
+  <h2>데이터 현황</h2>
+  <p>보유 데이터를 전수 확인한 결과, <strong>질환 라벨이 붙은 PPG는 MIMIC-III-Ext-PPG 하나다.</strong>
+  나머지는 질환 연관 분석에 들어올 수 없고, 다른 용도를 갖는다.</p>
+
+  <div class="scroll"><table>
+    <thead><tr><th>데이터셋</th><th>PPG</th><th>질환 라벨</th><th>질환 연관에 사용</th><th>확인 내용</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">MIMIC-III-Ext-PPG</td><td>125 Hz · 640만 세그먼트</td><td>ICD-10 1,092코드</td><td><span class="tag hold">사용</span></td><td>파형과 진단코드가 같은 파일에 있다 <a class='cite' href='#ref-11'>[11]</a></td></tr>
+      <tr><td class="mono">VitalDB</td><td>500 Hz PLETH + 동맥압</td><td>—</td><td><span class="tag dim">불가</span></td><td><code>.vital</code> 6,388개는 파형만 보유. 임상 변수는 <code>api.vitaldb.net</code> 필요 — 로컬·클라우드 양쪽 차단</td></tr>
+      <tr><td class="mono">MIMIC-IV waveform</td><td>Pleth ~125 Hz</td><td>외부 연결 필요</td><td><span class="tag dim">불가</span></td><td>RECORDS 198명. MIMIC-IV echo(4,579명)와 교집합 17명</td></tr>
+      <tr><td class="mono">EchoNext</td><td>❌ ECG</td><td>심초음파 확진 10만</td><td><span class="tag dim">불가</span></td><td>입력이 ECG</td></tr>
+      <tr><td class="mono">WF-PPG</td><td>손목 + 손가락</td><td>—</td><td><span class="tag dim">불가</span></td><td>건강인 · 접촉압 통제실험</td></tr>
+      <tr><td class="mono">GalaxyPPG · WildPPG · Samsung</td><td>손목</td><td>—</td><td><span class="tag dim">불가</span></td><td>건강인</td></tr>
+      <tr><td class="mono">SHHS · WSC · NFS</td><td>❌ 없음</td><td>—</td><td><span class="tag dim">불가</span></td><td>EDF 헤더 실측 — Pleth 채널 없음</td></tr>
+    </tbody>
+  </table></div>
+
+  <section>
+    <h3>3-1. MIMIC-III-Ext-PPG의 규모 <a class="cite" href="references.html#ref-11">[11]</a></h3>
+    <div class="spec">
+      <div><b>세그먼트</b><span>6,399,754개 (30초, 125 Hz) — 고품질(SQI 3/3) 통과 5,401,385개</span></div>
+      <div><b>환자</b><span>6,189명 — 고품질 세그먼트 보유 <span class="mono">6,114</span>명</span></div>
+      <div><b>진단코드</b><span>ICD-10 3자리 1,092개 — 환자 100명 이상인 코드 <span class="mono">172</span>개 — 그중 임상 코드 <span class="mono">171</span>개가 분석 대상(3-3). 50명 이상 264개</span></div>
+      <div><b>리듬</b><span>16종 — SR · STACH · AF · SBRAD · VPACE · 1AVB · AVPACE · APACE · AFLT · LBBB · RBBB 등</span></div>
+      <div><b>동맥압 동시기록</b><span>고품질 세그먼트의 47.3% (2,552,418개 · 2,492명)</span></div>
+      <div><b>세그먼트/환자</b><span>중앙값 372개 (Q1 110 · Q3 904 · 최대 25,127)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h3>3-2. 코호트 정의 — 데이터 구조와 품질 필터</h3>
+    <p>Ext-PPG는 세그먼트 단위로 배포된다. 파형 파일 하나가 30초·125 Hz(3,750 샘플)이고,
+    그 파일에 대응하는 한 행이 <code>metadata.csv</code>에 있다. 그 행에 품질 지표·리듬·인구통계·진단코드가 함께 들어 있어,
+    <strong>파형과 라벨이 같은 자리에 있다</strong> — 이것이 이 데이터셋을 1단계에 쓰는 이유다.</p>
+
+    <div class="scroll"><table>
+      <thead><tr><th>층</th><th>단위</th><th class="r">개수</th><th>담긴 것</th></tr></thead>
+      <tbody>
+        <tr><td>환자</td><td class="mono">subject_id</td><td class="num r">6,189</td><td>age · gender · height · weight · ethnicity · <code>icd9</code> · <code>icd10_truncated</code> · <code>strat_fold</code>(0–9)</td></tr>
+        <tr><td>레코드</td><td class="mono">record_id</td><td class="num r">92,077</td><td>한 번의 입원 중 연속 기록. 원본 MIMIC-III Waveform과 같은 번호 체계</td></tr>
+        <tr><td>세그먼트</td><td class="mono">.hea + .dat</td><td class="num r">6,399,754</td><td>30초 · 125 Hz PLETH(동반 시 ECG·ABP·RESP) · <code>event_rhythm</code> · SQI 4종 · SBP/DBP · HR · RR</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">SQI는 데이터셋이 제공하는 값이다</h4>
+    <p>품질 지표를 우리가 계산하지 않았다. 데이터셋이 30초 세그먼트를 <strong>10초씩 세 구간</strong>(0–10 · 10–20 · 20–30초)으로 나눠
+    각 구간에 SQI를 매기고, 3원소 벡터 <code>vector_10s_pleth_sqi</code>로 메타데이터에 넣어 배포한다.
+    판정 알고리즘은 <strong>Orphanidou 등(2015)</strong>이며 세 가지를 본다 <a class="cite" href="references.html#ref-16">[16]</a> —
+    심박수가 생리적 범위 안인가, 박동 간격이 일관되는가, 평균 박동 <strong>템플릿과의 상관</strong>으로 형태가 일관되는가.</p>
+    <div class="formula">vector_10s_pleth_sqi = [q<sub>1</sub>, q<sub>2</sub>, q<sub>3</sub>] &nbsp;·&nbsp; q<sub>j</sub> ∈ {+1, 0} &nbsp;·&nbsp; 고품질 ⇔ [1, 1, 1]
+      <span class="ex">+1 = 세 검사를 모두 통과 · 0 = 하나 이상 실패(사용은 가능) · 음수(−14 RR 간격 없음 · −17 피크 부족 등)는 배포 전 이미 제외됨.
+      우리 필터는 세 구간이 <b>모두</b> +1인 세그먼트만 통과시킨다.</span></div>
+
+    <div class="scroll"><table>
+      <thead><tr><th>SQI 벡터</th><th class="r">세그먼트</th><th class="r">비율</th><th>처리</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">[1,1,1]</td><td class="num r">5,401,385</td><td class="num r">84.4%</td><td><span class="tag hold">사용</span></td></tr>
+        <tr><td class="mono">[0,0,0]</td><td class="num r">225,362</td><td class="num r">3.5%</td><td><span class="tag dim">제외</span></td></tr>
+        <tr><td class="mono">부분 통과 7종</td><td class="num r">772,995</td><td class="num r">12.1%</td><td><span class="tag dim">제외</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">코호트가 확정되는 경로</h4>
+    <div class="pipe">
+      <div><b>① 전체</b>환자 <span class="mono">6,189</span>명 · 세그먼트 <span class="mono">6,399,754</span>개</div>
+      <div><b>② SQI 필터</b><code>[1,1,1]</code>만 → 세그먼트 <span class="mono">5,401,385</span>개 · 환자 <span class="mono">6,114</span>명 (75명은 고품질 세그먼트가 하나도 없다)</div>
+      <div><b>③ 세그먼트 표집</b>환자마다 기록 전체에서 균등 간격으로 10개 → <span class="mono">59,113</span>개. 리듬 제한 없음</div>
+      <div><b>④ 박동 추출</b>박동 <span class="mono">2,361,453</span>개. 박동이 하나도 잡히지 않은 1명 탈락</div>
+      <div><b>⑤ 1단계 코호트</b>환자 <span class="mono">6,114</span>명 · 환자당 박동 중앙값 <span class="mono">394</span>개(최소 18)</div>
+    </div>
+
+    <div class="note"><strong>SQI가 보증하지 않는 것.</strong> Orphanidou 지표는 원래 ECG용으로 만들어져 PPG에 적용된 것이고,
+    보는 대상이 <strong>박동 검출 가능성과 박동 간 일관성</strong>이다. 우리가 재는 c·d파나 반사파 봉우리 같은
+    <strong>미세 형태의 신뢰도는 이 필터가 보증하지 않는다.</strong>
+    <code>cd_rate</code> 0.485 · <code>ri_rate</code> 0.371은 이 필터를 통과한 세그먼트 안에서 나온 값이며, 두 층위는 별개다.</div>
+  </section>
+
+  <section>
+    <h3>3-3. Table 1 — 코호트 특성</h3>
+    <p>1단계 분석에 들어가는 환자 <strong>6,114명</strong>의 구성이다. 배제 조건은 없다(3-4).</p>
+    <div class="scroll"><table>
+      <thead><tr><th>항목</th><th>단위</th><th class="r">값</th></tr></thead>
+      <tbody>
+        <tr><td>환자 수</td><td>n</td><td class="num r">6,114</td></tr>
+        <tr><td>연령</td><td>중앙값 (IQR), 세</td><td class="num r">65 (53–78)</td></tr>
+        <tr><td>성별</td><td>남성, n (%)</td><td class="num r">3,435 (56.2)</td></tr>
+        <tr><td>심박수</td><td>중앙값 (IQR), bpm</td><td class="num r">83 (74–93)</td></tr>
+        <tr><td>세그먼트 / 환자</td><td>중앙값 (IQR)</td><td class="num r">10 (10–10)</td></tr>
+        <tr><td>박동 / 환자</td><td>중앙값 (IQR)</td><td class="num r">394 (345–442)</td></tr>
+        <tr><td>동맥압 동시기록</td><td>세그먼트 비율, 중앙값 (IQR)</td><td class="num r">0.00 (0.00–0.60)</td></tr>
+        <tr><td>주 리듬이 SR</td><td>n (%)</td><td class="num r">4,135 (67.6)</td></tr>
+        <tr><td>SR 세그먼트가 없음</td><td>n (%)</td><td class="num r">989 (16.2)</td></tr>
+        <tr><td>AF · AFLT 보유</td><td>n (%)</td><td class="num r">885 (14.5)</td></tr>
+        <tr><td>페이싱 리듬 보유</td><td>n (%)</td><td class="num r">402 (6.6)</td></tr>
+        <tr><td>검출률 <code>cd_rate</code></td><td>중앙값 (IQR)</td><td class="num r">0.452 (0.212–0.706)</td></tr>
+        <tr><td>검출률 <code>ri_rate</code></td><td>중앙값 (IQR)</td><td class="num r">0.307 (0.126–0.566)</td></tr>
+        <tr><td>검출률 <code>lvet_rate</code></td><td>중앙값 (IQR)</td><td class="num r">1.000 (1.000–1.000)</td></tr>
+        <tr><td>분석 대상 ICD-10 3자리 코드</td><td>환자 ≥100명</td><td class="num r">171</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">유병률 상위 진단코드</h4>
+    <div class="scroll"><table>
+      <thead><tr><th>ICD-10</th><th>질환</th><th class="r">환자</th><th class="r">%</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">I10</td><td>본태성 고혈압</td><td class="num r">2,810</td><td class="num r">46.0</td></tr>
+        <tr><td class="mono">E78</td><td>지질대사 장애</td><td class="num r">2,269</td><td class="num r">37.1</td></tr>
+        <tr><td class="mono">E87</td><td>수분·전해질 장애</td><td class="num r">1,902</td><td class="num r">31.1</td></tr>
+        <tr><td class="mono">I25</td><td>만성 허혈성 심질환</td><td class="num r">1,859</td><td class="num r">30.4</td></tr>
+        <tr><td class="mono">I48</td><td>심방세동·조동</td><td class="num r">1,699</td><td class="num r">27.8</td></tr>
+        <tr><td class="mono">N17</td><td>급성 신손상</td><td class="num r">1,687</td><td class="num r">27.6</td></tr>
+        <tr><td class="mono">E11</td><td>2형 당뇨</td><td class="num r">1,678</td><td class="num r">27.4</td></tr>
+        <tr><td class="mono">I50</td><td>심부전</td><td class="num r">1,604</td><td class="num r">26.2</td></tr>
+        <tr><td class="mono">J96</td><td>호흡부전</td><td class="num r">1,211</td><td class="num r">19.8</td></tr>
+        <tr><td class="mono">N18</td><td>만성 신질환</td><td class="num r">1,118</td><td class="num r">18.3</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><strong>임상 실체가 아닌 토큰은 뺐다.</strong> <code>icd10_truncated</code> 목록에
+    <span class="mono">NoD</span>가 환자 1,144명(18.7%)에게 실제 진단코드와 섞여 들어 있다.
+    ICD-9 → ICD-10 매핑이 되지 않은 항목이며 질환이 아니므로 분석에서 제외했다.
+    <strong>분석 대상은 172 → 171 코드</strong>, 검정 수는 7,353이 된다.</div>
+  </section>
+
+  <section>
+    <h3>3-4. 배제되고 있던 것 — 세 갈래로 확인</h3>
+    <p>초기 파이프라인에는 세 가지 조건이 들어 있었고, 셋 다 <strong>걸러내려던 것과 실제로 걸러낸 것이 달랐다.</strong>
+    1단계는 파형이 질환과 어떻게 움직이는지를 넓게 훑는 단계이므로 <strong>환자를 배제할 이유가 없다.</strong>
+    세 조건을 모두 풀었고, 그 근거를 아래에 남긴다.</p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">① 리듬 필터 — 부정맥 환자 867명이 통째로 빠졌다</h4>
+    <p>조건이 <code>rhythm == 'SR'</code>이었다. <strong>SR 세그먼트를 하나도 갖지 않는 환자 867명이
+    분석에 들어오지 못했다.</strong> 심장 질환을 보는 분석에서 부정맥 환자를 빼고 있었던 셈이다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>빠진 867명의 주 리듬</th><th class="r">환자 수</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">AF 심방세동</td><td class="num r">452</td></tr>
+        <tr><td class="mono">VPACE 심실 페이싱</td><td class="num r">166</td></tr>
+        <tr><td class="mono">STACH 동빈맥</td><td class="num r">112</td></tr>
+        <tr><td class="mono">AVPACE</td><td class="num r">100</td></tr>
+        <tr><td class="mono">1AVB</td><td class="num r">93</td></tr>
+        <tr><td class="mono">AFLT 심방조동</td><td class="num r">62</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">② 같은 필터가 동성 리듬까지 잘라냈다</h4>
+    <p>더 근본적인 문제는 <strong>«SR»이 문자열이지 생리가 아니라는 점</strong>이다.
+    <span class="mono">STACH</span>(동빈맥) · <span class="mono">SBRAD</span>(동서맥) · <span class="mono">SARRH</span>(동성부정맥)도
+    모두 <strong>동방결절에서 시작하는 리듬</strong>이다. 박동이 빠르거나 느릴 뿐 파형의 발생 기전은 SR과 같다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>동성 기원 세그먼트</th><th class="r">고품질 세그먼트</th><th>SR 필터 통과</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">SR</td><td class="num r">3,543,889</td><td><span class="tag hold">통과</span></td></tr>
+        <tr><td class="mono">STACH 동빈맥</td><td class="num r">1,043,013</td><td><span class="tag dim">탈락</span></td></tr>
+        <tr><td class="mono">SBRAD 동서맥</td><td class="num r">174,086</td><td><span class="tag dim">탈락</span></td></tr>
+        <tr><td class="mono">SARRH 동성부정맥</td><td class="num r">4,552</td><td><span class="tag dim">탈락</span></td></tr>
+        <tr><td><strong>동성 합계</strong></td><td class="num r"><strong>4,765,540</strong></td><td><strong>탈락 1,221,651 (25.6%)</strong></td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">환자 단위로 보면 배제된 867명 중 <strong>110명은 동성 리듬만 갖고 있었다.</strong>
+    부정맥 환자가 아니라 심박수가 빠르거나 느렸을 뿐인데 빠진 것이다.
+    걸러내려던 것은 <em>박동 간격의 불규칙성</em>이었는데 실제로 걸러낸 것은 <em>«SR»이라는 라벨의 부재</em>였다.
+    심부전·패혈증·쇼크 환자가 정상 심박수일 리 없으므로, 이 필터는 보려는 질환을 함께 지우고 있었다.</p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">③ 최소 박동 조건이 서맥을 잘라냈다</h4>
+    <p>추출 단계에 «박동 20개 미만이면 버린다»는 조건이 있었다. 세그먼트가 <strong>30초 고정</strong>이므로
+    이 조건은 곧 <strong>심박수 하한</strong>이다 — 세그먼트가 하나뿐인 환자에게 20박동을 요구하면 <strong>HR 40 bpm 미만이 전부 탈락</strong>한다.
+    실제로 환자 <span class="mono">79929</span>가 여기 걸렸다. 고품질 세그먼트가 1개였고 그 안에 18박동,
+    <strong>HR 43 bpm의 동서맥</strong>이었다. 서맥이라서 배제된 것이다.</p>
+    <p>기준을 <strong>10박동</strong>으로 낮췄다(세그먼트 1개 기준 HR 20 bpm). 박동 수는 <code>n_beats</code>로 남으므로
+    필요하면 사후 민감도 분석에서 다룬다.</p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">④ 세그먼트 표집도 바꿨다</h4>
+    <p>초기에는 환자당 SR 세그먼트를 <strong>무작위 4개</strong>(<code>sample(4, random_state=1)</code>) 뽑았다.
+    보유한 SR 세그먼트가 3,543,889개인데 실제로 쓴 것은 <strong>20,620개(0.6%)</strong>였고,
+    무작위라 기록 시간축의 대표성이 없었다. 지금은 기록 전체에서 <strong>균등 간격 10개</strong>를 고른다.</p>
+
+    <div class="note ok"><strong>지금 코호트에는 리듬 조건이 없다.</strong> 추출 계획 59,113 세그먼트에
+    리듬 <strong>26종</strong>이 그대로 들어 있고(SR 64.2% · STACH 13.7% · AF 8.8% · SBRAD 4.5% · VPACE 2.5% …),
+    <strong>SR 세그먼트가 하나도 없는 환자 989명이 코호트 안에 있다.</strong>
+    AF를 가진 환자 885명, 페이싱 402명이 포함된다. 리듬은 배제 조건이 아니라
+    환자 요약 변수(<code>sr_frac</code> · <code>af_frac</code> · <code>pace_frac</code> · <code>rhythm_mode</code>)로 보존되므로,
+    리듬이 결과를 흔드는지는 배제 대신 사후 확인으로 다룬다.</div>
+  </section>
+
+  <section>
+    <h3>3-5. 세그먼트를 몇 개 쓰면 되는가</h3>
+    <p>세그먼트를 늘려 얻는 것은 측정 신뢰도다. 같은 환자의 박동을 홀수·짝수로 나눠 두 번 잰 뒤
+    Spearman-Brown으로 세그먼트 수별 신뢰도를 투영했다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>계열</th><th class="r">4세그먼트</th><th class="r">10</th><th class="r">20</th><th class="r">40</th></tr></thead>
+      <tbody>
+        <tr><td>파형 중앙값</td><td class="num r">0.990</td><td class="num r">0.996</td><td class="num r">0.998</td><td class="num r">0.999</td></tr>
+        <tr><td>검출률</td><td class="num r">0.988</td><td class="num r">0.995</td><td class="num r">0.998</td><td class="num r">0.999</td></tr>
+        <tr><td>박동간 변동성 (IQR)</td><td class="num r">0.952</td><td class="num r">0.980</td><td class="num r">0.990</td><td class="num r">0.995</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">신뢰도는 이미 포화되어 있다. 약한 특징들만 4 → 10에서 이득의 대부분을 얻는다 —
+    <span class="mono">lvet_rate 0.725→0.868 · RI_iqr 0.791→0.905 · RI 중앙값 0.911→0.962</span>.
+    통계 분석의 병목은 박동 수가 아니라 환자 수다. 박동을 크게 늘리는 것은 2단계 학습의 요구다.</p>
+  </section>
+
+
+
+</div>

@@ -1,0 +1,381 @@
+---
+layout: default
+title: 1단계 — 계산식 파형 특징과 질환 연관
+scripts:
+  - /assets/feature_cards.js
+---
+<div class="part" id="s4">
+  <p class="kicker">PART 4</p>
+  <h2>1단계 — 계산식 파형 특징과 질환 연관</h2>
+  <p>1단계는 두 부분이다. 먼저 <strong>파형에서 무엇을 재는가</strong>(4-1 ~ 4-9) — 문헌에 정립된 기준점에서 출발해
+  박동 단위 23개를 정의하고 환자 단위 43개로 요약한다. 그다음 <strong>질환 연관을 어떻게 보는가</strong>(4-10 ~ 4-11) —
+  그 43개를 171개 진단코드 전부에 같은 절차로 대어 연관의 지형을 그린다.</p>
+  <h3 style="margin-top:38px;padding-top:18px;border-top:1px solid var(--line)">파형에서 무엇을 재는가</h3>
+  <p>박동 하나에서 23개를 재고, 그것을 환자 단위로 요약해 43개를 만든다.
+  아래 모든 그림은 코호트에서 뽑은 <strong>실제 박동</strong>(125 Hz, 120샘플 = 960 ms)이며,
+  각 카드는 특징이 어디를 재는지 표시하고 같은 박동의 실제 계산값을 수식 아래에 적는다.</p>
+
+  <section id="s40">
+    <h3>4-1. 문헌에 정립된 PPG 파형의 기준점과 특징</h3>
+    <p>한 박동의 PPG에는 문헌에서 이름이 붙은 지점이 16개 있다. 원파형에 5개(on, sp, dn, dp, off),
+    1차 미분에 3개(u, v, w), 2차 미분에 6개(a–f), 3차 미분에 2개(p₁, p₂)다 <a class="cite" href="references.html#ref-3">[3]</a>. 임상적으로 검증된 특징은 대부분
+    이 지점들 사이의 <strong>시간</strong>, <strong>높이의 비</strong>, <strong>면적의 비</strong>로 정의된다.
+    아래는 같은 실제 박동 위에 그 고전적 특징을 표시한 것이다.</p>
+
+    <div class="bigfig" id="litfigA"></div>
+    <div class="scroll"><table>
+      <thead><tr><th>특징</th><th>정의</th><th>무엇을 반영하는가</th><th>근거</th><th>우리 세트</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">x = Asp</td><td>수축기 진폭. on→sp 높이</td><td>박동량·혈관 팽창성. 접촉압·피부·기기 이득에 좌우</td><td>Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag dim">제외 — 절대 스케일</span></td></tr>
+        <tr><td class="mono">y = Adp</td><td>이완기(반사파) 진폭. on→dp 높이</td><td>말초 반사파 크기</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a></td><td><span class="tag dim">비율로만 (RI)</span></td></tr>
+        <tr><td class="mono">RI = y/x</td><td>반사지수. Adp/Asp</td><td>혈관 긴장도·소동맥 반사. 혈관확장제로 감소</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a> · Elgendi(AI) <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag hold">RI</span></td></tr>
+        <tr><td class="mono">ΔT</td><td>sp→dp 시간</td><td>대동맥→말초 왕복 전파시간. 대동맥–대퇴 전파시간과 r=0.70</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a></td><td><span class="tag hold">dT</span></td></tr>
+        <tr><td class="mono">SI = h/ΔT</td><td>경직도지수. 신장 / ΔT</td><td>대혈관 경직도. 연령 r=0.67, 경동맥–대퇴 PWV r=0.65 (n=87)</td><td>Millasseau 2002 <a class="cite" href="references.html#ref-4">[4]</a></td><td><span class="tag dim">제외 — 신장 필요</span></td></tr>
+        <tr><td class="mono">CT = Tsp</td><td>상승시간. on→sp</td><td>박출 속도·전파 특성. 판막협착에서 지연</td><td>Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a> · pyPPG <a class="cite" href="references.html#ref-3">[3]</a> · AS 지연 <a class="cite" href="references.html#ref-7">[7]</a></td><td><span class="tag hold">CT</span></td></tr>
+        <tr><td class="mono">Tsys / Tdia</td><td>on→dn / dn→off</td><td>수축기·이완기 길이</td><td>pyPPG <a class="cite" href="references.html#ref-3">[3]</a> · PPG-LVET vs Doppler <a class="cite" href="references.html#ref-8">[8]</a></td><td><span class="tag hold">LVET, LVET/IBI</span></td></tr>
+        <tr><td class="mono">Tpw<sub>x</sub></td><td>피크 높이 x%에서의 폭 (10·25·33·50·66·75%)</td><td>전신혈관저항 (W50이 진폭보다 상관 높음)</td><td>Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a> · pyPPG <a class="cite" href="references.html#ref-3">[3]</a></td><td><span class="tag hold">W25 W50 W75</span></td></tr>
+        <tr><td class="mono">IPA = A₂/A₁</td><td>절흔 이후 면적 / 이전 면적</td><td>총말초저항</td><td>Wang 2009 <a class="cite" href="references.html#ref-6">[6]</a> · Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag hold">IPA</span></td></tr>
+        <tr><td class="mono">AI = (p₂−p₁)/x</td><td>증강지수. 후기 수축기 피크 − 초기 피크</td><td>파 반사·중심동맥 경직도. 압력파형 AIx의 PPG 판</td><td>Takazawa 1998 <a class="cite" href="references.html#ref-2">[2]</a> · pyPPG <a class="cite" href="references.html#ref-3">[3]</a></td><td><span class="tag dim">미채택 — 3차 미분</span></td></tr>
+        <tr><td class="mono">b/a, d/a, e/a</td><td>APG 파 진폭비</td><td>b/a↑·d/a↓ 연령·경직도. d/a는 좌심실 후부하</td><td>Takazawa 1998 <a class="cite" href="references.html#ref-2">[2]</a> · Elgendi 2012 <a class="cite" href="references.html#ref-1">[1]</a></td><td><span class="tag hold">b/a c/a d/a e/a</span></td></tr>
+        <tr><td class="mono">AGI = (b−c−d−e)/a</td><td>노화지수</td><td>혈관연령. 심혈관 위험·사망의 독립 예측인자로 보고</td><td>Takazawa 1998 <a class="cite" href="references.html#ref-2">[2]</a> · Charlton 2022 <a class="cite" href="references.html#ref-5">[5]</a></td><td><span class="tag hold">aging_index</span></td></tr>
+        <tr><td class="mono">PTT / PAT</td><td>ECG R파→PPG 도달 시간</td><td>혈압·PWV. PEP 오염</td><td>Charlton 2022 <a class="cite" href="references.html#ref-5">[5]</a> · 문서 7</td><td><span class="tag dim">제외 — ECG 필요</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="bigfig" id="litfigB" style="margin-top:28px"></div>
+    <div class="scroll"><table>
+      <thead><tr><th>지점</th><th>어디</th><th>정의 (pyPPG, Goda 2024 <a class="cite" href="references.html#ref-3">[3]</a>)</th><th class="r">검출 MAE</th><th>우리 사용</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">on</td><td>PPG</td><td>수축기 상승의 시작. 보통 최소점</td><td class="num r">7 ms</td><td><span class="tag hold">on</span></td></tr>
+        <tr><td class="mono">sp</td><td>PPG</td><td>두 onset 사이의 최대 진폭</td><td class="num r">5 ms</td><td><span class="tag hold">sp</span></td></tr>
+        <tr><td class="mono">dn</td><td>PPG</td><td>이완기 피크가 있으면 그 직전의 국소최소, 없으면 sp와 f 사이의 변곡점</td><td class="num r">9 ms</td><td><span class="tag hold">dn (e파로)</span></td></tr>
+        <tr><td class="mono">dp</td><td>PPG</td><td>dn 이후, 박동의 0.8 지점 이전의 첫 국소최대</td><td class="num r">—</td><td><span class="tag hold">dp</span></td></tr>
+        <tr><td class="mono">off</td><td>PPG</td><td>다음 박동 상승 직전의 국소최소 (= 다음 on)</td><td class="num r">—</td><td><span class="tag hold">on2</span></td></tr>
+        <tr><td class="mono">u</td><td>PPG′</td><td>on–sp 사이 최대 = 최대 상승 기울기점</td><td class="num r">1 ms</td><td><span class="tag hold">k</span></td></tr>
+        <tr><td class="mono">v</td><td>PPG′</td><td>u–dp 사이 최소 = 최대 하강 기울기점</td><td class="num r">2 ms</td><td><span class="tag dim">미사용</span></td></tr>
+        <tr><td class="mono">w</td><td>PPG′</td><td>dn 이후 첫 국소최대 또는 변곡점</td><td class="num r">3 ms</td><td><span class="tag dim">fallback만</span></td></tr>
+        <tr><td class="mono">a</td><td>PPG″</td><td>on–sp 사이 최대</td><td class="num r">1 ms</td><td><span class="tag hold">a</span></td></tr>
+        <tr><td class="mono">b</td><td>PPG″</td><td>a 이후 첫 국소최소</td><td class="num r">2 ms</td><td><span class="tag hold">b</span></td></tr>
+        <tr><td class="mono">c</td><td>PPG″</td><td>b–e 사이 최대 국소최대, 없으면 변곡점</td><td class="num r">4 ms</td><td><span class="tag hold">c (변곡점 대체 없음 → NaN)</span></td></tr>
+        <tr><td class="mono">d</td><td>PPG″</td><td>c–e 사이 최소 국소최소, 없으면 변곡점</td><td class="num r">4 ms</td><td><span class="tag hold">d (NaN 허용)</span></td></tr>
+        <tr><td class="mono">e</td><td>PPG″</td><td>b 이후, dp 이전의 최대 국소최대 = 중복절흔</td><td class="num r">2 ms</td><td><span class="tag hold">e</span></td></tr>
+        <tr><td class="mono">f</td><td>PPG″</td><td>e 이후 첫 국소최소</td><td class="num r">3 ms</td><td><span class="tag dim">미사용</span></td></tr>
+        <tr><td class="mono">p₁</td><td>PPG‴</td><td>b 이후 첫 국소최대 = 초기 수축기 피크</td><td class="num r">1 ms</td><td><span class="tag dim">미사용</span></td></tr>
+        <tr><td class="mono">p₂</td><td>PPG‴</td><td>b 이후, d 이전의 마지막 국소최소 = 후기 수축기 피크</td><td class="num r">2 ms</td><td><span class="tag dim">미사용</span></td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">MAE는 pyPPG가 PPG-BP 데이터베이스의 수기 주석 219박동에 대해 보고한 값이다 <a class="cite" href="references.html#ref-3">[3]</a>. 모든 지점이 10 ms 이내이며,
+    미분 지점(u, a, p₁)이 원파형 지점(on, dn)보다 정확하다 — 미분이 변곡을 극값으로 바꾸기 때문이다.
+    우리 파이프라인은 같은 이유로 dn을 원파형이 아니라 s″의 e파에서 잡는다.</p>
+
+    <div class="note ok"><strong>우리 세트의 선택 기준.</strong> 위 표에서 "제외"된 항목은 전부 한 가지 이유다 —
+    절대 진폭(x), 외부 정보(신장 h, ECG), 또는 125 Hz·8 Hz 대역에서 신뢰할 수 없는 3차 미분(p₁, p₂).
+    남은 것은 시간·비율·면적비뿐이며, 이것이 문서 0의 제1 설계 원칙(스케일 불변)이다.</div>
+  </section>
+
+  <h3 style="margin-top:44px">4-2. 우리 파이프라인의 기준점 검출 규칙</h3>
+  <p>미분은 Savitzky–Golay 필터로 구한다 <a class="cite" href="references.html#ref-12">[12]</a> — 이동창 안에서 다항식을 맞추고 그 도함수를 취하므로 잡음을 키우지 않는다. 기준점은 아래 규칙으로만 잡고, 조건을 만족하지 못하면 값을 만들지 않고 NaN으로 남긴다.</p>
+  <div class="bigfig" id="bigfig"></div>
+  <div class="scroll"><table>
+    <thead><tr><th>기호</th><th>이름</th><th>어디서</th><th>검출 규칙</th><th class="r">이 박동</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">on</td><td>박동 시작</td><td>s(t)</td><td>수축기 피크 직전 0.45 s 구간의 최소점. t = 0</td><td class="num r">0</td></tr>
+      <tr><td class="mono">sp</td><td>수축기 피크</td><td>s(t)</td><td><code>find_peaks(prominence 0.4)</code>. 정규화 후 s(sp) = 1</td><td class="num r">33</td></tr>
+      <tr><td class="mono">dn</td><td>중복절흔</td><td>s(t) ← s″</td><td>s″의 e파 위치. e파 실패 시 s′의 sp 이후 첫 국소최대</td><td class="num r">60</td></tr>
+      <tr><td class="mono">dp</td><td>이완기 피크(반사파)</td><td>s(t)</td><td>dn 이후 구간에서 가장 높은 국소최대. 없으면 NaN</td><td class="num r">79</td></tr>
+      <tr><td class="mono">k</td><td>최대 기울기점</td><td>s′</td><td>[0, sp) 구간에서 s′ 최대</td><td class="num r">24</td></tr>
+      <tr><td class="mono">a b c d e</td><td>APG 파</td><td>s″</td><td>a = [0, sp) 최대 · b = a 이후 국소최소 · e = b 이후 최대 국소최대 · c, d = b–e 사이 국소최대·국소최소 쌍(없으면 NaN)</td><td class="num r">19 31 43 50 60</td></tr>
+      <tr><td class="mono">N</td><td>박동 길이</td><td>—</td><td>다음 onset까지 샘플 수. Δt = 1000/fs = 8 ms</td><td class="num r">120</td></tr>
+    </tbody>
+  </table></div>
+
+  <div id="families"></div>
+
+<section id="s4b" style="margin-top:60px;padding-top:8px">
+  <h3>4-8. 환자 요약 — 박동 분포를 세 가지로 압축</h3>
+  <p>환자 한 명은 수백 개의 박동을 갖는다. 박동 하나하나를 그대로 회귀에 넣으면 같은 사람이 수백 번 세어져 p값이 수백 자릿수로 부풀어 오른다(의사반복 <a class="cite" href="references.html#ref-13">[13]</a>, 문서 8). 그래서 환자마다 박동 분포를 세 숫자로 압축한다.</p>
+
+  <div class="bigfig">
+    <svg viewBox="0 0 800 210" role="img" aria-label="한 환자의 CT 박동 분포를 중앙값, IQR, 검출률로 요약하는 개념도">
+      <text x="20" y="24" fill="var(--faint)" font-family="IBM Plex Mono, monospace" font-size="12">한 환자의 박동별 CT (ms) — 코호트 대표값으로 표시</text>
+      <line x1="60" y1="120" x2="740" y2="120" stroke="var(--line)" stroke-width="1.5"/>
+      <g fill="var(--faint)" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
+        <text x="60" y="140">80</text><text x="230" y="140">140</text><text x="400" y="140">200</text><text x="570" y="140">260</text><text x="740" y="140">320</text>
+      </g>
+      <!-- IQR band: Q1=152 → x=60+ (152-80)/240*680 = 264 ; Q3=216 → x=445 ; median 176 → 332 -->
+      <rect x="264" y="96" width="181" height="48" fill="var(--trace-soft)"/>
+      <line x1="264" y1="92" x2="264" y2="148" stroke="var(--trace)" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <line x1="445" y1="92" x2="445" y2="148" stroke="var(--trace)" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <line x1="332" y1="86" x2="332" y2="154" stroke="var(--trace)" stroke-width="3"/>
+      <text x="332" y="76" text-anchor="middle" fill="var(--trace)" font-family="IBM Plex Mono, monospace" font-size="12">median 176</text>
+      <text x="264" y="166" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11">Q1 152</text>
+      <text x="445" y="166" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11">Q3 216</text>
+      <path d="M264,182 L264,188 L445,188 L445,182" fill="none" stroke="var(--muted)" stroke-width="1"/>
+      <text x="354" y="203" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11">IQR 64 → 변동성</text>
+      <!-- NaN bin -->
+      <rect x="620" y="40" width="120" height="34" rx="4" fill="var(--panel2)"/>
+      <text x="680" y="55" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11">계산 실패 (NaN)</text>
+      <text x="680" y="69" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11">→ 검출률로 승격</text>
+    </svg>
+  </div>
+
+  <section>
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:24px 0 0">중앙값 — 20개</h4>
+    <p>박동 단위 특징 2–21번(<code>CT</code> … <code>aging_index</code>)의 환자 내 중앙값.
+    평균 대신 중앙값을 쓰는 이유는 잡음 박동 몇 개가 전체를 끌지 못하게 하기 위해서다.</p>
+    <div class="formula">X̃<sub>p</sub> = median{ X<sub>p,i</sub> : i = 1 … n<sub>p</sub>, X<sub>p,i</sub> ≠ NaN }
+      <span class="ex">환자 p의 박동 i에서 잰 특징 X. 결측 박동은 제외하고 중앙값을 취한다.</span></div>
+    <p>홀수·짝수 박동으로 나눠 두 번 계산했을 때 상관 <span class="mono">0.97–0.99</span>(가장 낮은 RI 0.836).
+    측정 자체는 안정적이다.</p>
+  </section>
+
+  <section>
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:24px 0 0">박동간 변동성 — 20개</h4>
+    <p>같은 20개 특징의 환자 내 산포. 같은 사람 안에서 박동마다 얼마나 흔들리는가를 잰다.</p>
+    <div class="formula">X<sub>iqr,p</sub> = Q<sub>3</sub>(X<sub>p</sub>) − Q<sub>1</sub>(X<sub>p</sub>)
+      <span class="ex">원단위 IQR. 중앙값으로 나누는 형태는 부호가 바뀌는 특징(c/a, d/a, aging_index)에서 분모가 0에 가까워지면 발산하므로 쓰지 않는다.</span></div>
+  </section>
+
+  <section>
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:24px 0 0">검출률 — 3개</h4>
+    <p>계산에 실패한 박동의 비율을 버리지 않고 특징으로 승격한다. 중복절흔 소실과 c·d파 융합은
+    잡음에서도, 동맥 경직에서도 나타난다 <a class="cite" href="references.html#ref-2">[2]</a><a class="cite" href="references.html#ref-5">[5]</a>. 결측으로 처리하면 병든 환자를 체계적으로 배제하게 된다(문서 7 §4-2).</p>
+    <div class="formula">cd_rate<sub>p</sub> = P(d_over_a ≠ NaN) &nbsp;·&nbsp; ri_rate<sub>p</sub> = P(RI ≠ NaN) &nbsp;·&nbsp; lvet_rate<sub>p</sub> = P(LVET ≠ NaN)
+      <span class="ex">각각 환자 p의 박동 중 해당 특징이 계산된 비율. 코호트 평균: cd 0.485 · ri 0.371 · lvet 0.994.</span></div>
+    <div class="bigfig" id="cdfig" style="margin-top:18px"></div>
+    <p style="margin-top:12px">왼쪽은 위 카드들에 쓴 예시 박동 — s″에서 b 뒤에 c(국소최대)·d(국소최소)가 실제로 있다. 오른쪽은 같은 코호트의 다른 실제 박동 —
+    b에서 e까지 극값 없이 한 번에 올라가 c·d가 존재하지 않는다. 이 박동은 <code>c_over_a</code>·<code>d_over_a</code>·<code>aging_index</code>가 NaN이고,
+    반사파 피크도 없어 <code>RI</code>·<code>dT</code>도 NaN이다. 환자 안에서 오른쪽 같은 박동의 비율이 1 − <code>cd_rate</code>다.
+    코호트 전체로는 박동의 48.5%에서만 c·d가 검출된다.</p>
+    <div class="note"><strong>cd_rate의 절대값은 대역통과 상한의 함수다.</strong> 8 Hz에서 0.501, 20 Hz에서 0.888.
+    절대값 자체에는 생리적 의미를 두지 않는다.</div>
+  </section>
+</section>
+
+  <section id="s49" style="margin-top:56px;padding-top:8px">
+    <h3>4-9. 환자 요약 방식 — 네 가지를 실측 비교</h3>
+    <p>박동 395개(중앙값)를 환자값 하나로 줄이는 방법은 여럿이다. 어느 것이 나은지는 논증이 아니라 측정으로 갈랐다.
+    세 지표로 쟀다 — <strong>재현성</strong>(홀·짝 박동으로 나눠 두 번 계산했을 때 일치도),
+    <strong>검출률</strong>(특징이 계산되는 환자 비율), <strong>질환 신호</strong>(로지스틱 오즈비, Bonferroni 통과 셀).</p>
+
+    <div class="scroll"><table>
+      <thead><tr><th>방식</th><th class="r">특징</th><th class="r">재현성</th><th class="r">최저</th><th class="r">검출률</th><th class="r">유의 셀</th><th class="r">유의율</th><th class="r">|log OR|</th><th class="r">질환</th></tr></thead>
+      <tbody>
+        <tr><td><strong>① 박동별 → 중앙값</strong></td><td class="num r">20</td><td class="num r"><strong>0.989</strong></td><td class="num r"><strong>0.895</strong></td><td class="num r">1.000</td><td class="num r">196</td><td class="num r"><strong>5.7%</strong></td><td class="num r"><strong>0.318</strong></td><td class="num r">47</td></tr>
+        <tr><td>② 박동별 → 분위수 p25·p50·p75</td><td class="num r">60</td><td class="num r">0.988</td><td class="num r">0.866</td><td class="num r">1.000</td><td class="num r">536</td><td class="num r">5.2%</td><td class="num r">0.317</td><td class="num r"><strong>51</strong></td></tr>
+        <tr><td>③ 앙상블 평균 박동</td><td class="num r">20</td><td class="num r">0.967</td><td class="num r">0.790</td><td class="num r">0.996</td><td class="num r">124</td><td class="num r">3.6%</td><td class="num r">0.260</td><td class="num r">32</td></tr>
+        <tr><td>④ 대표 박동 (medoid)</td><td class="num r">20</td><td class="num r">0.929</td><td class="num r">0.734</td><td class="num r">0.998</td><td class="num r">176</td><td class="num r">5.1%</td><td class="num r">0.279</td><td class="num r">40</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">③은 박동 파형을 겹쳐 평균한 합성 파형에서 특징을 1회 잰다(임상 맥파분석의 표준 <a class='cite' href='#ref-4'>[4]</a>).
+    ④는 그 환자의 중앙 특징 벡터에 가장 가까운 <em>실제</em> 박동 하나를 골라 잰다.</p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">③이 탈락한 이유 — 평균이 봉우리를 지운다</h4>
+    <div class="scroll"><table>
+      <thead><tr><th>특징</th><th class="r">① 박동별</th><th class="r">③ 앙상블</th><th class="r">④ 대표 박동</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">RI</td><td class="num r">0.998</td><td class="num r"><strong>0.102</strong></td><td class="num r">0.512</td></tr>
+        <tr><td class="mono">dT</td><td class="num r">0.998</td><td class="num r"><strong>0.102</strong></td><td class="num r">0.512</td></tr>
+        <tr><td class="mono">d_over_a</td><td class="num r">0.996</td><td class="num r">0.413</td><td class="num r">0.823</td></tr>
+        <tr><td class="mono">LVET</td><td class="num r">1.000</td><td class="num r">0.993</td><td class="num r">0.998</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">박동마다 반사파가 나타나는 <strong>시점이 조금씩 다르다.</strong> 겹쳐 평균하면 그 봉우리가 완만한 언덕으로 뭉개져
+    <code>find_peaks</code>에 잡히지 않는다. RI와 dT가 90% 사라지고 c·d파도 절반이 날아간다.
+    반면 중복절흔처럼 위치가 안정적인 지점은 멀쩡하다(0.993). 앙상블은 <strong>박동간 위치가 흔들리는 특징을 지운다.</strong></p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">④가 ①에 못 미친 이유 — 표본이 하나</h4>
+    <p>대표 박동은 실제 파형이라 반사파가 살아 있다(RI 0.512로 앙상블의 5배). 그러나 395개 중 하나만 쓰므로
+    <strong>그 하나가 우연히 어느 박동이냐에 값이 좌우된다.</strong> 재현성이 0.929(최저 0.734)로 가장 낮고,
+    따라서 효과 크기도 작아진다(0.279 vs 0.318).</p>
+
+    <div class="note ok"><strong>확정 — ① 박동별 특징의 중앙값.</strong>
+    “중앙값이 뭉갠다”는 우려와 반대로, 395개 박동에서 계산된 값들의 중심을 잡으면 측정 잡음이 크게 줄어든다.
+    정보를 버리는 대신 정밀도를 얻는 교환인데, 이 자료에서는 그 교환이 이득이었다 —
+    재현성·검정 효율·효과 크기 모두 ①이 가장 높다.
+    ②는 질환 5개(I49 · I60 · I67 · J98 · L89)를 더 찾지만 검정 수가 3배가 되므로 <strong>보충 분석</strong>으로 둔다.</div>
+  </section>
+
+
+  <h3 style="margin-top:56px;padding-top:18px;border-top:1px solid var(--line)">질환 연관을 어떻게 보는가</h3>
+  <p>특정 질환을 고르지 않고, 환자 100명 이상인 ICD-10 3자리 코드 전부에 같은 절차를 적용한다.
+  가설을 세워 검증하는 것이 아니라, 파형의 어느 부분이 어느 질환과 함께 움직이는지를 한 번에 훑는 구조다.</p>
+<section>
+    <h3>4-10. 모형 — 로지스틱 회귀, 효과 크기는 오즈비</h3>
+    <p>선행 연구를 따라 <strong>질환을 결과로, 특징을 설명변수로</strong> 두는 로지스틱 회귀를 쓴다.
+    효과 크기는 <strong>특징 1 표준편차당 오즈비</strong>다.
+    <strong>공변량은 넣지 않는다</strong> — 파형 특징 자체와 질환의 연관을 보는 것이 목적이기 때문이다.</p>
+    <div class="formula">logit P(D<sub>p</sub> = 1) = β<sub>0</sub> + β·z(X̃<sub>p</sub>)
+      <span class="ex">D<sub>p</sub> ∈ {0, 1} = 해당 ICD 코드 보유 여부 · X̃<sub>p</sub> = 환자 p의 요약 특징(박동별 중앙값)을 코호트 전체에서 z-표준화한 값 ·
+      exp(β) = 특징이 1 표준편차 높을 때 질환의 오즈가 몇 배가 되는가.</span></div>
+    <div class="pipe">
+      <div><b>분석 단위</b>환자. 박동 단위로 회귀하면 같은 사람이 수백 번 세어져 p값이 부풀어 오른다 <a class='cite' href='#ref-14'>[13]</a></div>
+      <div><b>환자 요약</b>박동별 특징의 중앙값 — 네 방식을 실측 비교해 확정(4-9)</div>
+      <div><b>표준화</b>특징을 z-화하므로 오즈비를 특징 간 비교할 수 있다</div>
+      <div><b>대조군</b>해당 코드가 없는 나머지 전원</div>
+      <div><b>검정 수</b>질환 171 × 특징 43 = 7,353</div>
+    </div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:30px 0 0">왜 «1 표준편차당 오즈비»인가</h4>
+    <p>특징 43개는 단위가 제각각이다. <code>LVET</code>은 밀리초, <code>b_over_a</code>는 무차원 비율,
+    <code>cd_rate</code>는 0–1 사이 비율이다. 원단위 그대로 회귀하면 «LVET 1 ms당 오즈비»와
+    «b/a 1단위당 오즈비»가 나오는데, 이 둘은 서로 비교할 수 없다 — 1 ms는 이 코호트에서 흔한 변화이지만
+    b/a가 1 움직이는 일은 없다. 한 그림 안에 43행을 나란히 놓으려면 <strong>공통의 자</strong>가 필요하다.</p>
+    <p>그래서 특징을 코호트 전체에서 z-표준화한다. 그러면 «1단위»가 곧 <strong>그 특징이 이 코호트에서
+    실제로 흩어져 있는 폭 한 칸(1 표준편차)</strong>이 된다. 어느 특징이든 «흔히 관찰되는 만큼 달라졌을 때
+    오즈가 몇 배가 되는가»라는 같은 질문에 답하게 되고, 그래서 셀끼리 비교할 수 있다.</p>
+    <div class="formula">z(X̃<sub>p</sub>) = <span class="frac"><span>X̃<sub>p</sub> − mean(X̃)</span><span>SD(X̃)</span></span>
+      &nbsp;·&nbsp; logit P(D<sub>p</sub>=1) = β<sub>0</sub> + β·z(X̃<sub>p</sub>) &nbsp;·&nbsp; OR = e<sup>β</sup>
+      <span class="ex"><b>logit</b> p = log[p/(1−p)] — 확률을 «오즈의 로그»로 바꾼 것. 확률은 0–1에 갇혀 직선으로 못 늘어나지만
+      로그 오즈는 −∞~+∞라 선형 모형에 들어간다.<br>
+      <b>β</b>는 z가 1 늘 때 <i>로그 오즈</i>가 얼마나 변하는가. 지수를 취한 <b>e<sup>β</sup> = 오즈비</b>가
+      «오즈가 몇 배가 되는가»다. β가 0이면 OR = 1 — 아무 변화 없음.<br>
+      <b>β<sub>0</sub></b>는 z = 0(특징이 코호트 평균)인 환자의 기준 로그 오즈. 그림에는 쓰지 않는다.</span></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">값을 어떻게 읽는가</h4>
+    <p><strong>오즈</strong>는 «있을 확률 ÷ 없을 확률»이다. 100명 중 20명이 그 코드를 가지면 오즈는 20/80 = 0.25.
+    오즈<strong>비</strong>는 그 오즈가 특징 1 SD당 몇 배가 되는가다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th class="r">오즈비</th><th>뜻</th><th>세기</th></tr></thead>
+      <tbody>
+        <tr><td class="num r">2.00</td><td>특징이 1 SD 높은 환자에서 그 코드의 오즈가 2배</td><td>큰 연관</td></tr>
+        <tr><td class="num r">1.50</td><td>1.5배</td><td>뚜렷한 연관</td></tr>
+        <tr><td class="num r">1.20</td><td>1.2배</td><td>약한 연관</td></tr>
+        <tr><td class="num r">1.00</td><td>변화 없음 — 셀을 비워 두는 기준</td><td>—</td></tr>
+        <tr><td class="num r">0.83</td><td>1/1.2배 — 특징이 높을수록 그 코드가 <b>덜</b> 관찰된다</td><td>약한 역연관</td></tr>
+        <tr><td class="num r">0.67</td><td>1/1.5배</td><td>뚜렷한 역연관</td></tr>
+        <tr><td class="num r">0.50</td><td>1/2배</td><td>큰 역연관</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">오즈비는 <strong>곱으로 대칭</strong>이다 — 2.0과 0.5는 방향만 반대이고 세기가 같다.
+    선형 눈금에 칠하면 2.0(1에서 +1.0)이 0.5(1에서 −0.5)보다 두 배 진해 보이므로,
+    Figure 2의 색은 <strong>log₂ 오즈비</strong>로 매핑한다. log₂ 2.0 = +1, log₂ 0.5 = −1로 좌우 대칭이 맞는다.</p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">실제 셀로 보면</h4>
+    <p>환자를 그 특징 값으로 5분위로 나누고 각 분위의 코드 보유율을 세면 오즈비가 무엇을 요약한 값인지 보인다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>셀</th><th class="r">1분위</th><th class="r">2</th><th class="r">3</th><th class="r">4</th><th class="r">5분위</th><th class="r">OR / 1 SD</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">I35</span> 대동맥판막 × <span class="mono">CT_over_LVET</span></td>
+          <td class="num r">1.9%</td><td class="num r">2.5%</td><td class="num r">5.0%</td><td class="num r">6.8%</td><td class="num r">10.9%</td><td class="num r"><b>1.83</b></td></tr>
+        <tr><td><span class="mono">I73</span> 말초혈관질환 × <span class="mono">max_slope_norm</span></td>
+          <td class="num r">8.4%</td><td class="num r">4.3%</td><td class="num r">2.3%</td><td class="num r">1.5%</td><td class="num r">0.9%</td><td class="num r"><b>0.50</b></td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">위 칸은 상승시간이 박출시간에서 차지하는 비율이 큰 쪽으로 갈수록 대동맥판막 코드가 1.9%에서 10.9%로 늘어난다 — 붉은 셀.
+    아래 칸은 정규화 상승기울기가 큰 쪽으로 갈수록 말초혈관질환이 8.4%에서 0.9%로 줄어든다 — 파란 셀.
+    <strong>오즈비는 이 단조로운 기울기를 «1 SD당 몇 배»라는 한 숫자로 압축한 것</strong>이며, 그 숫자가 셀의 색이 된다.</p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">색을 읽을 때 넘지 말아야 할 선</h4>
+    <div class="note"><p style="margin:0 0 10px"><strong>붉은색 = «그 특징이 질환을 일으킬 위험을 높인다»가 아니다.</strong>
+    붉은색이 말하는 것은 «그 특징이 1 SD 높은 환자들에서 그 진단코드가 더 자주 관찰된다»는 사실 하나뿐이다.
+    아래 네 가지가 그 사이를 막고 있다.</p>
+    <ul class="plain" style="margin-top:0">
+      <li><b>단면이지 발생이 아니다</b> — PPG는 그 환자가 <i>이미 그 진단을 갖고 입원해 있는 동안</i> 기록됐다.
+        앞으로 병에 걸릴 위험을 잰 것이 아니라, 지금 그 코드를 갖고 있을 오즈를 잰 것이다</li>
+      <li><b>방향은 모형의 관례일 뿐이다</b> — 질환을 결과, 특징을 설명변수로 둔 것은 오즈비를 얻기 위한 배치이지 인과의 방향이 아니다.
+        생리적으로는 <i>질환이 파형을 바꾸는</i> 쪽이 자연스럽다. 대동맥판막이 좁아져 상승시간이 길어지는 것이지, 상승시간이 길어서 판막이 좁아지는 것이 아니다</li>
+      <li><b>오즈는 위험이 아니다</b> — 드문 코드(사례 100~200명, 유병률 2~3%)에서는 오즈비가 상대위험도에 가깝지만,
+        흔한 코드(<span class="mono">I10</span> 고혈압 46%)에서는 오즈비가 상대위험도보다 크게 나온다. «몇 배 위험»으로 옮겨 읽지 않는다</li>
+      <li><b>무보정이다</b> — 연령·심박수를 넣지 않았으므로 환자군 사이의 인구학적 차이가 계수에 섞여 있다.
+        외상(<span class="mono">S27</span>·<span class="mono">S22</span>)처럼 대조군보다 뚜렷하게 젊은 환자군에서 이 몫이 크다</li>
+    </ul>
+    <p style="margin:10px 0 0">그래서 이 그림이 답하는 질문은 <strong>«PPG 파형의 어느 부분이 어느 질환과 함께 움직이는가»</strong>이고,
+    «어느 특징이 어느 병을 일으키는가»가 아니다. 1단계는 그 함께 움직임의 지형을 그리는 데까지다.</p></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">Firth 보정은 쓰지 않는다</h4>
+    <p>사례가 적은 로지스틱 회귀는 계수가 과대추정되어 PheWAS 표준 도구(SAIGE·REGENIE)는 Firth 벌점을 건다.
+    우리 자료에서 실측한 결과 <strong>사례 수 최소 코드(n=100~103)에서도 계수 변화가 0.0~2.8%</strong>에 그쳤다.
+    사건당 변수 수(EPV)가 14라 보정이 필요한 구간이 아니다.</p>
+    <p>다만 검정력 차이는 남는다 — 같은 특징에서 표준오차가 사례 100–150명 코드는 0.109,
+    1,000명 이상은 0.037로 <strong>3배</strong>다. 171개 코드의 40%(69개)가 사례 200명 미만이다.</p>
+  </section>
+
+  <section>
+    <h3>4-11. 선행 연구는 어떻게 하는가 — 그리고 그 방식으로 산출한 Figure 2</h3>
+    <div class="scroll"><table>
+      <thead><tr><th>연구</th><th>환자 요약</th><th>검정</th><th>효과 크기</th><th>다중검정</th></tr></thead>
+      <tbody>
+        <tr><td>ECG PheWAS<br><span class="cap">EHJ Digital Health 2025</span></td><td>요약 안 함 — ECG 개별이 단위</td><td>Mann–Whitney U</td><td>AUROC</td><td>Bonferroni (~8×10⁻⁶)</td></tr>
+        <tr><td>ECG 비지도 표현<br><span class="cap">npj Digital Medicine 2025</span></td><td>잠재공간 사영 점수 1개</td><td>로지스틱</td><td>오즈비</td><td>Bonferroni 3.1×10⁻⁵</td></tr>
+        <tr><td>AnyPPG<br><span class="cap">arXiv 2025-11</span></td><td>입원당 세그먼트 20개 무작위</td><td>다중라벨 분류</td><td>AUC</td><td>명시 없음</td></tr>
+        <tr><td>맥파 dicrotic notch<br><span class="cap">UK Biobank 148,310명</span></td><td>CNN 점수 1개</td><td>로지스틱 · Cox</td><td>SD당 오즈비·위험비</td><td>Bonferroni</td></tr>
+        <tr><td><strong>본 연구</strong></td><td><strong>박동별 중앙값 43개</strong></td><td><strong>로지스틱</strong></td><td><strong>오즈비</strong></td><td>Bonferroni 6.8×10⁻⁶</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px">선행은 대부분 <strong>점수 하나</strong>를 환자값으로 쓴다. 그림의 행이 1개다.
+    우리는 행이 43개라 어느 파형 특징이 움직이는지가 보이지만, 검정 수가 43배다.
+    다중검정 기준은 선행 세 편이 모두 쓰는 <strong>Bonferroni</strong>를 그대로 따랐다 — 7,353 검정에 p &lt; 6.8×10⁻⁶.</p>
+
+    <div class="fig2">
+      <img src="assets/figures/figure2_or.png" alt="Figure 2 — 진단코드 × 파형 특징 오즈비">
+    </div>
+    <p class="cap2"><b>Figure 2.</b> 셀 하나는 <b>로지스틱 회귀 하나</b>다 —
+    그 파형 특징이 1 SD 높을 때 그 ICD-10 코드를 갖고 있을 <b>오즈비</b>. 공변량 보정 없음.
+    붉은색 OR &gt; 1, 파란색 OR &lt; 1.<br>
+    <b>색 스케일</b>은 log₂ 오즈비 ±1.0, 즉 <b>오즈비 0.50 ~ 2.00</b>으로 여섯 판 전부에 고정했다.
+    유의 셀 |log₂ OR|의 99 백분위수가 1.005여서 반올림한 값이며, 이를 넘는 9개 셀은 양 끝 색으로 눌린다.<br>
+    <b>칠하지 않은 셀</b>은 p ≥ 6.8×10⁻⁶(Bonferroni, 7,353 검정)이며, «차이가 없다»는 증거가 아니다. 유의 852 / 7,353 (11.6%).<br>
+    <b>축</b> — 열은 ICD-10 3자리 171개로 장(색띠)별로 묶고 장 안에서는 유의 특징 수 내림차순.
+    행은 환자 요약 특징 43개로 계열별로 묶었다(왼쪽 라벨).<br>
+    <b>막대</b> — 상단 «Significant features (of 43)»는 그 진단코드에서 43개 특징 중 몇 개가 Bonferroni를 통과했는가.
+    우측 «Significant codes (of 171)»는 그 특징이 171개 코드 중 몇 개에서 통과했는가.<br>
+    <b>코호트</b> — MIMIC-III-Ext-PPG 6,114명 · 전 리듬 · 환자당 10세그먼트 · 236만 박동 · 환자값은 박동별 중앙값.</p>
+
+    <div class="scroll"><table style="margin-top:22px">
+      <thead><tr><th>산출</th><th class="r">값</th></tr></thead>
+      <tbody>
+        <tr><td>검정 수</td><td class="num r">171 × 43 = 7,353</td></tr>
+        <tr><td>Bonferroni 임계</td><td class="num r">6.76 × 10⁻⁶</td></tr>
+        <tr><td>유의 셀</td><td class="num r">852 (11.6%)</td></tr>
+        <tr><td>유의 셀을 하나 이상 가진 질환</td><td class="num r">105 / 171</td></tr>
+        <tr><td>유의 셀을 하나 이상 가진 특징</td><td class="num r">43 / 43</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">유의 특징이 가장 넓게 퍼진 질환</h4>
+    <div class="scroll"><table>
+      <thead><tr><th>ICD-10</th><th>질환</th><th class="r">유의 특징 수 / 43</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">I50</td><td>심부전</td><td class="num r">31</td></tr>
+        <tr><td class="mono">I48</td><td>심방세동·조동</td><td class="num r">30</td></tr>
+        <tr><td class="mono">R57</td><td>쇼크</td><td class="num r">27</td></tr>
+        <tr><td class="mono">N18</td><td>만성 신질환</td><td class="num r">26</td></tr>
+        <tr><td class="mono">I25</td><td>만성 허혈성 심질환</td><td class="num r">26</td></tr>
+        <tr><td class="mono">N17</td><td>급성 신손상</td><td class="num r">25</td></tr>
+        <tr><td class="mono">J96</td><td>호흡부전</td><td class="num r">24</td></tr>
+        <tr><td class="mono">E87</td><td>수분·전해질 이상</td><td class="num r">24</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">효과가 가장 큰 셀</h4>
+    <div class="scroll"><table>
+      <thead><tr><th>ICD-10</th><th>질환</th><th>특징</th><th class="r">오즈비</th><th class="r">p</th><th class="r">n</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">I60</td><td>지주막하출혈</td><td class="mono">t_max_slope_rel</td><td class="num r">0.33</td><td class="num r">3.8e−07</td><td class="num r">137</td></tr>
+        <tr><td class="mono">S27</td><td>외상성 흉부손상</td><td class="mono">W75</td><td class="num r">0.35</td><td class="num r">5.0e−17</td><td class="num r">125</td></tr>
+        <tr><td class="mono">S27</td><td>외상성 흉부손상</td><td class="mono">max_slope_norm</td><td class="num r">2.65</td><td class="num r">3.3e−16</td><td class="num r">125</td></tr>
+        <tr><td class="mono">I61</td><td>뇌내출혈</td><td class="mono">t_max_slope_rel</td><td class="num r">0.42</td><td class="num r">6.6e−09</td><td class="num r">284</td></tr>
+        <tr><td class="mono">I65</td><td>뇌전동맥 협착</td><td class="mono">RI</td><td class="num r">0.48</td><td class="num r">1.3e−07</td><td class="num r">109</td></tr>
+        <tr><td class="mono">I73</td><td>말초혈관질환</td><td class="mono">max_slope_norm</td><td class="num r">0.50</td><td class="num r">3.6e−27</td><td class="num r">212</td></tr>
+        <tr><td class="mono">S22</td><td>늑골 골절</td><td class="mono">W50</td><td class="num r">0.50</td><td class="num r">4.6e−13</td><td class="num r">193</td></tr>
+      </tbody>
+    </table></div>
+    <p class="link" style="margin-top:12px">산출: <code>reports/02_logistic/02_association_figure2/</code> —
+    <code>figure2_or.png</code> · <code>figure2_or.csv</code> · 변형 5종 ·
+    노트북 <code>02_logistic/02_association_figure2.ipynb</code></p>
+  </section>
+
+
+  <section>
+    <h3>Figure 2 변형 — 같은 자료를 다르게 자른 판</h3>
+    <p>여섯 판 모두 색 스케일을 오즈비 0.50~2.00으로 고정했다. 파일은 <code>reports/02_logistic/02_association_figure2/</code>에서 생성된다.</p>
+    <div class="gal">
+      <figure><a href="assets/figures/figure2_compact.png"><img src="assets/figures/figure2_compact.png" alt="compact"></a><figcaption>compact — 유의 특징 ≥5인 54코드, 질환명 표기</figcaption></figure>
+      <figure><a href="assets/figures/figure2_circulatory.png"><img src="assets/figures/figure2_circulatory.png" alt="circulatory"></a><figcaption>순환계 27코드 확대</figcaption></figure>
+      <figure><a href="assets/figures/figure2_panels.png"><img src="assets/figures/figure2_panels.png" alt="panels"></a><figcaption>ICD 장별 소패널 6개</figcaption></figure>
+      <figure><a href="assets/figures/figure2_top_cells.png"><img src="assets/figures/figure2_top_cells.png" alt="top cells"></a><figcaption>효과 상위 40셀을 오즈비 축에</figcaption></figure>
+      <figure><a href="assets/figures/figure2_feature_breadth.png"><img src="assets/figures/figure2_feature_breadth.png" alt="feature breadth"></a><figcaption>특징별 유의 질환 수, 방향 구분</figcaption></figure>
+    </div>
+  </section>
+</div>

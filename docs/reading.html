@@ -1,0 +1,396 @@
+---
+layout: default
+title: 정독 기록
+---
+<div class="part" id="s56">
+  <p class="kicker">PART 5 · 6</p>
+  <h2>정독 기록 — 무엇을 레퍼런스로 삼는가</h2>
+  <p>선행 파운데이션 모델 논문을 한 편씩 원문으로 읽고 설계 논리를 남기는 자리다. 왜 그 감독 신호를 골랐는가, 무엇을 근거로 그 선택이 옳다고 주장하는가, 결과가 그 주장을 실제로 뒷받침하는가.</p>
+<section>
+    <h3>5-6. 정독 기록 — 무엇을 레퍼런스로 삼는가</h3>
+    <p>5-5가 지형이라면 여기는 <strong>한 편씩 원문을 읽고 남기는 기록</strong>이다.
+    설계 논리를 중심으로 본다 — 왜 그 감독 신호를 골랐는가, 무엇을 근거로 그 선택이 옳다고 주장하는가,
+    결과가 그 주장을 실제로 뒷받침하는가.</p>
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:26px 0 0">
+      ① PaPaGei — 계산식으로 «같음»을 만든 첫 사례 <a class="cite" href="references.html#ref-9">[9]</a></h4>
+    <p><span class="cap">ICLR 2025 · Nokia Bell Labs · arXiv:2410.20542 · 가중치 공개 · 정독 260909</span></p>
+
+    <div class="pipe">
+      <div><b>문제 설정</b>기존 PPG 자기지도학습의 «같음»은 둘 중 하나였다 —
+        <b>증강 불변성</b>(한 신호의 변형판)과 <b>참가자 대조</b>(같은 사람의 두 세그먼트).
+        저자들의 지적은 <b>둘 다 파형의 모양이 심혈관 상태를 담고 있다는 사실을 학습 신호로 쓰지 않는다</b>는 것이다.
+        전자는 동어반복이고 후자는 신호 바깥의 정보다</div>
+      <div><b>그들의 답</b>파형에서 계산한 지표로 «같음»을 정의한다.
+        sVRI를 <b>8개 구간으로 이산화</b>한 뒤 <b>같은 구간에 든 서로 다른 세그먼트를 양성쌍</b>으로 삼는다.
+        같은 사람일 필요도, 같은 신호일 필요도 없다 — <b>라벨 없는 데이터에 계산식으로 라벨을 만들어 붙인 것</b></div>
+      <div><b>보조 목표</b>회귀 목표 둘을 상보성 논리로 추가 — <b>sVRI는 진폭, IPA는 폭,
+        SQI는 절흔이 안 잡혀 형태학 계산 자체가 실패하는 경우</b>를 담당한다.
+        주장을 말로 두지 않고 실측으로 뒷받침했다 — 중복절흔이 있는 신호에서 SQI(5초 창 왜도)가 유의하게 크다(p&lt;0.05)</div>
+      <div><b>증강 선택</b>형태학판(PaPaGei-S)은 <b>cropping과 가우시안 잡음만</b> 쓴다.
+        참가자 대조판(PaPaGei-P)이 쓰는 negation·time flip·magnitude scaling을 뺐다 —
+        형태학이 감독 신호인데 형태를 흔드는 증강을 쓰면 자기모순이기 때문. <b>설계 원칙을 세부까지 끌고 간 예</b></div>
+      <div><b>평가</b><b>동결 임베딩 + 선형 프로브만.</b> 미세조정은 하지 않았다.
+        환자 단위 80/10/10(in-domain)·60/20/20(out-of-domain) 분할, 10개 데이터셋 20개 과제</div>
+    </div>
+
+    <div class="scroll"><table style="margin-top:20px">
+      <thead><tr><th>구성 요소</th><th>정의 · 값</th></tr></thead>
+      <tbody>
+        <tr><td>sVRI</td><td>수축기 정점 이후 평균 / 이전 평균 &nbsp;
+          <span class="mono">sVRI(x) = Σ<sub>sys→n</sub>x<sub>i</sub> / [(n−sys)·Σ<sub>1→sys</sub>x<sub>i</sub>]</span> &nbsp; 말초 저항 변화</td></tr>
+        <tr><td>IPA</td><td>중복절흔 기준 수축기/이완기 면적비 · 혈관 컴플라이언스</td></tr>
+        <tr><td>SQI</td><td>5초 창 왜도 · «형태학을 못 뽑는 경우»의 대비책</td></tr>
+        <tr><td>손실</td><td><span class="mono">L = α·L<sub>sVRI</sub> + (1−α)(L<sub>IPA</sub> + L<sub>SQI</sub>), α = 0.6</span> ·
+          대조항 InfoNCE(코사인 유사도·온도 τ), 회귀항 MAE. α는 경험적으로 정한 값이고 근거는 제시하지 않았다</td></tr>
+        <tr><td>회귀 헤드</td><td>전문가 3개 MoE(각 2층 FC) · softmax 가중합 — 「전문가마다 다른 성질을 특화하도록」</td></tr>
+        <tr><td>백본</td><td>ResNet1D 18블록(필터 32→512) · 임베딩 512 · <b>약 5.0M</b></td></tr>
+        <tr><td>전처리</td><td>10초 비중첩 · 125 Hz 재표본화 · Chebyshev 4차 0.5–12 Hz · 평탄 25% 초과 제외 · 세그먼트별 z-정규화</td></tr>
+        <tr><td>사전학습 자료</td><td>VitalDB · MIMIC-III Waveform · MESA 합계 <b>57,641시간 / 13,517명</b> · 8×V100 15,000스텝</td></tr>
+      </tbody>
+    </table></div>
+
+    <p style="margin-top:22px"><strong>결과가 주장을 뒷받침하는가.</strong>
+    형태학판이 참가자 대조판을 이겼고(AUROC 0.67 vs 0.63), 5M이 범용 시계열 모델 Moment(385M) 0.63·Chronos(200M) 0.62를 앞섰다.
+    절제 실험은 그런데 단순하지 않다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>구성</th><th class="r">AUROC</th><th class="r">MAE</th></tr></thead>
+      <tbody>
+        <tr><td>sVRI 단독</td><td class="num r">0.64</td><td class="num r">10.35</td></tr>
+        <tr><td>sVRI + SQI</td><td class="num r">0.62</td><td class="num r">10.80</td></tr>
+        <tr><td>sVRI + IPA</td><td class="num r">0.64</td><td class="num r">10.73</td></tr>
+        <tr><td><b>sVRI + IPA + SQI</b></td><td class="num r"><b>0.67</b></td><td class="num r"><b>10.12</b></td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px"><b>둘씩 붙이면 단독보다 낫지 않거나 오히려 나빠지고, 셋이 다 있을 때만 오른다.</b>
+    상보성 주장과는 맞지만 왜 그런지는 논문이 설명하지 않는다.
+    <b>목표를 하나 더 얹는 것이 항상 이득은 아니라는 관찰</b>로 남긴다.</p>
+
+    <p style="margin-top:18px"><strong>과제별로 승패가 갈린다.</strong>
+    형태학판은 혈압·고혈압·심박에서, 참가자 대조판은 흡연·각성 같은 사람 수준 결과에서 이긴다(저자 해석 — 후자는 느리게 변하는 신호).
+    성능 차이라기보다 <b>«같음»의 정의가 downstream에서 무엇을 잘하게 될지를 정한다</b>는 이야기로 읽힌다.</p>
+
+    <p style="margin-top:14px"><strong>저자들이 명시한 한계</strong> — 어두운 피부색에서 견고성 부족 ·
+    표본화율 혼재(500·256·125 Hz)의 영향 미검증 · 연령 예측이 단일기기 대규모 연구에 뒤짐(MAE 7.78 vs 5.19) ·
+    그리고 <b>「파형 형태가 다양해 PPG 특징 추출이 자명하지 않으므로, 특징에 대한 계통적 평가가 앞으로 필요하다」</b>.</p>
+
+    <div class="note" style="margin-top:24px">
+      <p style="margin:0 0 10px"><strong>이 논문을 기준선으로 삼는다 — 논의 중, 확정 아님.</strong></p>
+      <p style="margin:0 0 10px">PaPaGei가 보여준 것은 «모델에게 무엇을 이해시킬 것인가»를 <b>파형에서 계산한 양으로 지정할 수 있다</b>는 것이다.
+      다만 그들이 고른 셋은 <b>생리학적 보완성</b>을 근거로 삼았고, 저자들 스스로 특징에 대한 계통적 평가가 필요하다고 남겼다.</p>
+      <p style="margin:0 0 10px">우리는 1단계에서 <b>어떤 파형 특징이 어떤 질환과 함께 움직이는지</b>를 통계적으로나마 측정해 두었다
+      (43특징 × 171코드 · 유의 852셀). 그렇다면 <b>질환 연관에 근거해 그 정보를 모으는 Index를 만들고,
+      그것을 감독 신호(손실함수)로 삼아 사전학습을 하는 방향</b>을 PaPaGei의 확장선으로 놓고 검토한다.</p>
+      <p style="margin:0"><b>아직 정하지 않은 것</b> — Index를 어떤 형태로 만들 것인가(단일 축인가 다차원인가),
+      몇 개를 쓸 것인가(절제 실험은 늘리는 것이 항상 이득은 아니라고 말한다),
+      대조로 쓸 것인가 회귀로 쓸 것인가, 그리고 «모델이 계산식을 재현하는 데 그칠 위험»을 어떻게 배제할 것인가.
+      남은 논문들을 읽으면서 이어서 본다.</p>
+    </div>
+
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
+      ② Robust PPG FM — 감독 신호를 PPG 밖에서 가져오다 <a class="cite" href="references.html#ref-18">[18]</a></h4>
+    <p><span class="cap">arXiv:2606.07365 · 정독 260909 · <b>참고 문헌 — 우리 경로는 아니다</b></span></p>
+
+    <div class="pipe">
+      <div><b>PaPaGei에 던진 문제</b>같은 계열의 확장이 아니라 정면 비판이다.
+        형태학 지표를 감독 신호로 쓰려면 <b>깨끗한 파형이 먼저 있어야 한다</b> —
+        그래서 잡음이 낀 세그먼트는 버려지거나, 버리지 않으면 <b>부정확한 학습 목표</b>가 된다.
+        현실의 PPG는 대부분 그쪽인데도</div>
+      <div><b>그들의 답</b>감독 신호를 PPG 안에서 만들지 말고 <b>같이 기록된 다른 신호에서 가져온다.</b>
+        ECG에서 HR·RMSSD, 호흡에서 RR·RA·RVT — 10초 세그먼트마다 다섯 값</div>
+      <div><b>지표로 뽑는 이유</b>원신호를 그대로 쓰지 않는 근거를 명시한다 — 「ECG나 호흡 원신호를 필터링하는 것 자체가 어렵다」.
+        지표로 바꾸면 <b>생리학적 정상 범위(HR 상·하한 등)로 잡음을 걸러낼 수 있다.</b>
+        파형을 정제하는 대신 <b>값의 타당성으로 정제</b>하는 설계</div>
+      <div><b>«같음»을 등급으로</b>PaPaGei가 sVRI를 8구간으로 <b>잘라</b> 같은 칸이면 같다고 했다면,
+        이쪽은 자르지 않고 5차원 지표 공간의 <b>거리 순위</b>를 그대로 쓴다(rank-n-contrast).
+        기준 임베딩에 대해 «이보다 더 먼 것들»만 분모에 넣어,
+        <b>생리적으로 가까우면 임베딩도 가깝게, 순서까지 맞춘다.</b> 지표별 가중치는 두지 않았다</div>
+      <div><b>자료 선택</b>MIMIC-III Waveform Matched Subset 단독 · 4,998명 · 약 2천만 개 10초 세그먼트 · 약 56,000시간.
+        이 데이터를 고른 이유도 명시적이다 — <b>환자가 깨어 있어 실제 움직임 잡음이 들어오기 때문</b></div>
+      <div><b>평가</b>동결 임베딩 + 선형 프로브. 여기에 <b>피험자 내(within-subject) 평가</b>를 추가했다 —
+        한 사람 안에서 시간으로 나눠 프로브를 학습한다. 웨어러블 실사용에서는 라벨이 사용자별로 쌓이기 때문</div>
+    </div>
+
+    <p style="margin-top:20px"><strong>결과.</strong> 피험자 간 15개 중 14개, 피험자 내 9개 중 9개에서 앞섰다.
+    <b>PaPaGei보다 피험자를 3배 적게 쓰고도</b> 이겼다는 것이 핵심 주장이다(현장 HR 오차 MAE 7.78 vs 10.5).
+    그런데 <b>지표 개수에 대한 절제는 그 주장을 강하게 뒷받침하지 않는다.</b></p>
+    <div class="scroll"><table>
+      <thead><tr><th>구성</th><th class="r">분류 F1</th><th class="r">회귀 MAE</th></tr></thead>
+      <tbody>
+        <tr><td>HR + 호흡</td><td class="num r">0.58</td><td class="num r">9.70</td></tr>
+        <tr><td>ECG만 (HR·RMSSD)</td><td class="num r">0.58</td><td class="num r"><b>9.25</b></td></tr>
+        <tr><td>호흡만</td><td class="num r">0.58</td><td class="num r">9.87</td></tr>
+        <tr><td>ECG + 호흡 <span class="cap">(채택)</span></td><td class="num r">0.58</td><td class="num r">9.45</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px"><b>분류는 네 구성이 전부 0.58로 같고, 회귀는 ECG 둘만 쓴 쪽이 제일 좋다.</b>
+    저자들은 다섯을 다 쓴 구성이 15개 중 14개에서 이겼다는 이유로 「가장 다재다능하고 견고한 구성」이라며 채택했으나,
+    <b>지표를 늘린 것 자체가 이득이었다는 근거는 이 표에 없다.</b>
+    PaPaGei 절제와 나란히 놓으면 방향이 같다 — <b>감독 신호를 늘리는 것이 단조롭게 이득이 되지는 않는다.</b></p>
+
+    <p style="margin-top:16px"><strong>저자들이 명시한 한계</strong> — ICU 인구 편향 · 피험자당 세션 하나만 사용 ·
+    <b>10초 창이 HRV 추출에 부족</b> · <b>혈압 회귀가 약함</b>(「혈역학 추정에는 더 풍부한 다중모달 감독이 필요할 수 있다」) ·
+    피부톤·연령·성별 간 성능 격차 · 피험자 내 평가의 검정력 부족.</p>
+
+    <div class="note ok" style="margin-top:24px">
+      <p style="margin:0 0 10px"><strong>이 논문의 자리 — 참고 문헌으로 둔다.</strong>
+      감독 신호를 동반 신호에서 가져오는 길은 우리 자료로도 열려 있으나(MIMIC-III 원본의 PLETH+ECG+RESP · VitalDB의 ECG+동맥압),
+      우리가 갈 길은 아니다.</p>
+      <p style="margin:0 0 10px"><b>대신 이 논문이 제기한 «지적»을 우리 흐름의 근거로 삼는다.</b>
+      Robust-FM은 PaPaGei의 한계를 <b>«형태학 지표는 깨끗한 파형을 전제한다»</b>로 정확히 짚었고,
+      그 해법으로 PPG 바깥(ECG·호흡)으로 나갔다.
+      <b>우리는 같은 지적을 받아들이되 PPG 안에 남아서 그 한계를 개선하는 흐름</b>으로 놓는다 —
+      즉 이 두 논문의 관계는 «경쟁»이 아니라 <b>①의 한계를 ②가 지적했고, 우리는 ①의 자리에서 그 지적에 답한다</b>는 구도다.</p>
+      <p style="margin:0"><b>우리가 그 지적에 답할 수 있는 근거</b> — 1단계에서 검출률을 실측해 두었다.
+      <code>cd_rate</code> 중앙값 <span class="mono">0.452</span> · <code>ri_rate</code> <span class="mono">0.307</span>로,
+      절흔 기반 특징은 <b>절반이 안 되는 박동에서만</b> 계산된다(고품질 SQI를 통과한 세그먼트 안에서 나온 값이다).
+      Robust-FM이 말한 «부정확한 학습 목표»가 우리에게는 잡음이 아니라 <b>형태학 검출 실패</b>의 형태로 이미 측정되어 있다.
+      PaPaGei가 SQI를 세 번째 목표로 넣어 막으려던 자리를, 우리는 <b>검출률 3개</b>(<code>cd_rate</code>·<code>ri_rate</code>·<code>lvet_rate</code>)로
+      이미 43개 안에 갖고 있다. 이를 어떻게 쓸지는 아직 정하지 않았다.</p>
+    </div>
+
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
+      ③ AnyPPG — 이미 똑똑한 모델을 교사로 세우다 <a class="cite" href="references.html#ref-17">[17]</a></h4>
+    <p><span class="cap">arXiv:2511.01747 v3 · 정독 260909 · <b>참고 문헌 — 학습 방식 설계 참고, 우리와 연관은 낮다</b></span></p>
+
+    <div class="pipe">
+      <div><b>문제 설정</b>앞의 둘보다 앞을 건다 — <b>PPG 하나만으로 자기지도학습을 하는 것 자체가</b>
+        표현의 견고성과 전이성을 제약한다. 근거 둘 — PPG는 순환계에서 나오고 순환계는 전신 장기·조직과 맞물려 있으므로
+        심혈관을 넘는 범위를 담을 수 있다는 것, 그리고 <b>ECG 연구들이 이미 훨씬 넓은 임상 범위를 다룰 수 있음을 보였다</b>는 것</div>
+      <div><b>설계의 핵심</b>CLIP 구조 대칭 InfoNCE로 동시 기록 10초 PPG–ECG 쌍을 정렬한다(τ 학습 가능, 0.07에서 시작).
+        중요한 것은 <b>ECG 인코더가 기성 모델 ECGFounder(1천만 건 이상 사전학습)이고 학습 내내 동결</b>된다는 점 —
+        투영 헤드만 갱신된다. 두 신호가 서로를 향해 만나는 정렬이 아니라
+        <b>PPG가 고정된 «이미 임상적으로 풍부한» 표현을 향해 끌려가는 구조</b>다.
+        감독 신호를 계산식(①)이나 동반 신호의 지표(②)가 아니라 <b>다른 모델의 학습된 지식</b>에서 가져왔다</div>
+      <div><b>규모</b>MC-MED · PulseDB · MESA · HSP · CFS 합계 <b>58,796명 · 109,909시간 · 약 4천만 쌍.</b>
+        PaPaGei 대비 피험자 4배 · 시간 2배. PPG 인코더는 Net1D <b>4.04M</b> — 여기서도 작다</div>
+      <div><b>평가 프로토콜이 갈린다</b>일반 과제 15개는 <b>동결 임베딩 + 선형 프로브</b>,
+        phenome-wide는 <b>전체 미세조정</b> 다중라벨 분류. 같은 논문 안에서 목적에 따라 프로토콜을 바꿨다</div>
+    </div>
+
+    <p style="margin-top:20px"><strong>결과.</strong> MC-MED에서 ICD-9/10을 매핑한 표현형 1,468개(홀드아웃 양성 100명 초과),
+    홀드아웃 15,759명은 사전학습에서 완전히 배제. <b>AUC ≥ 0.70이 307개 — 순환계 77개, 비순환계 230개.</b>
+    AUC ≥ 0.60은 845개. 심부전 0.84 · 치매 0.81 · 만성신부전 0.75 · 녹내장 0.72.
+    일반 과제 15개 중 13개 1위, PaPaGei 대비 14개 우세.
+    <b>«PPG의 신호가 심혈관을 훨씬 넘는다»</b>가 주장이고 230 대 77이 그 근거다.</p>
+
+    <div class="note" style="margin-top:20px">
+      <p style="margin:0 0 8px"><strong>검증되지 않은 자리 — ECG 교사를 뺀 절제가 없다.</strong></p>
+      <p style="margin:0">SimCLR·BYOL을 같은 데이터로 학습해 비교했으므로 «단일모달보다 낫다»까지는 지지된다.
+      그러나 AnyPPG는 PaPaGei에 대해 <b>감독 신호와 데이터 규모를 동시에 바꿨다.</b>
+      저자들 스스로 PaPaGei 대비 우세를 설명하며 「사전학습 데이터의 규모와 다양성이 결정적 역할」이라고 쓴다 —
+      그러면 <b>교사 ECG의 기여분은 이 논문 안에서 분리되지 않는다.</b>
+      저자들이 명시한 한계도 함께 둔다 — phenome-wide 평가가 <b>단일 코호트</b>라 코호트 특성을 반영할 수 있다는 것,
+      그리고 결과는 <b>연관을 정량화한 것이지 인과가 아니라는 것.</b></p>
+    </div>
+
+    <div class="note ok" style="margin-top:20px">
+      <p style="margin:0 0 10px"><strong>이 논문의 자리 — 학습 방식 설계의 참고 문헌. 우리와 직접 연관은 낮다.</strong></p>
+      <p style="margin:0 0 10px"><b>겹친다</b> — PPG × ICD phenome-wide는 이미 이들이 했고 규모도 우리보다 크다.
+      <b>갈린다</b> — ⑴ <b>자가 다르다.</b> 이들은 미세조정 후 AUC, 우리는 코드별 로지스틱의 1 SD당 오즈비와 Bonferroni다.
+      ⑵ <b>계산식과의 비교가 없다.</b> 다른 파운데이션 모델들과만 겨루고
+      「사람이 계산한 특징으로 같은 것을 하면 어디까지 가는가」는 묻지 않는다 — 우리 2단계의 판단 기준이 그 질문이다.
+      ⑶ 결과의 방향은 우리 1단계와 같은 쪽을 가리킨다 — 비순환계 230/307과 우리 171코드 중 105개는 같은 이야기의 두 판본이며,
+      「연관이지 인과가 아니다」라는 단서도 우리가 무보정 결과에 붙여 둔 단서와 같은 성격이다.</p>
+      <p style="margin:0"><b>확인할 것 — MC-MED.</b> 이 논문 사전학습 자료의 절반 가까이를 차지한 데이터셋으로,
+      Stanford 응급실 2020.09–2022.09 · <b>내원 118,385건 · 환자 70,545명</b>이며
+      ECG·PPG·호흡 파형과 분단위 활력징후 추세, 그리고 <b>ICD-9/10 진단코드</b>·처분·검사·판독문·중증도가 함께 있다.
+      PhysioNet 자격 인증(CITI 교육 + DUA)이 필요하다. <b>우리도 파악해서 쓸 수 있는지 확인한다.</b>
+      파형 표본화율은 실제 내려받아 확인이 필요하다(AnyPPG는 이 자료로 10초 PPG–ECG 쌍을 만들었다).</p>
+    </div>
+
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
+      ④ MMR — 복원 목표를 바꾼다 <a class="cite" href="references.html#ref-19">[19]</a></h4>
+    <p><span class="cap">arXiv:2601.12215 · 정독 260909 · <b>고찰 참고 — 다중 스케일 한계 · 도메인 시프트</b></span></p>
+
+    <div class="pipe">
+      <div><b>문제 설정</b>앞의 셋과 갈래가 다르다. «무엇을 같다고 볼 것인가»를 아예 묻지 않고 가린 뒤 복원시킨다.
+        대신 다른 곳에서 문제를 찾는다 — <b>무엇을 복원 목표로 삼을 것인가.</b>
+        지적은 <b>PPG가 본질적으로 다중 스케일</b>이라는 것 — 국소 파형 형태는 혈관 상태를, 긴 추세는 심박변이를 담는데
+        원신호 시간영역에서 그냥 가리고 복원시키면 이 위계 구조를 쓰지 못한다.
+        고정창 푸리에를 쓴 기존 주파수 접근도 <b>비정상 신호의 적응적·위계적 시간–주파수 구조</b>를 담지 못한다</div>
+      <div><b>그들의 답</b><b>Haar DWT 3레벨</b>로 분해해 세부 계수 D₁·D₂·D₃와 근사 계수 A₃를 각각 원 신호 길이로 보간,
+        <b>[부대역, 시간] 2차원 배열</b>을 복원 목표로 삼는다. 마스킹 75%, 패치는 시간축 (1, 25),
+        손실은 가려진 패치의 MSE이며 <b>모든 스케일 동일 가중.</b>
+        위치 임베딩도 설계와 맞물린다 — <b>시간 순서와 부대역 번호를 함께 담는 2차원 sine-cosine.</b> 백본 ViT <b>7M</b>(경량판 2M)</div>
+      <div><b>자료</b>스마트워치 사용자 약 <b>32,000명</b> · 10초 세그먼트 약 1,700만 개(약 48,000시간) · <b>25–100 Hz.</b>
+        임상 데이터가 아니라 저전력 웨어러블이다</div>
+    </div>
+
+    <div class="note ok" style="margin-top:20px">
+      <p style="margin:0 0 8px"><strong>지금까지 읽은 넷 중 유일하게 깨끗하게 통제된 비교가 여기 있다.</strong></p>
+      <p style="margin:0 0 10px">같은 7M 백본, 같은 사전학습 데이터로 <b>복원 목표만 시간영역(MTR)으로 바꾼 판</b>을 만들어 겨뤘다 —
+      연령 분류 <b>78.15% vs 75.15%</b>, 일상생활 고혈압 <b>69.55% vs 67.01%</b>, 19개 중 17개 우세.
+      다른 것을 하나도 바꾸지 않고 <b>목표만 바꿔서 얻은 차이</b>라 주장이 깨끗하다.
+      AnyPPG가 감독 신호와 데이터 규모를 동시에 바꿔 기여분을 분리하지 못한 것과 정확히 대비된다.</p>
+      <p style="margin:0"><b>우리가 물어야 할 질문도 같은 모양이다</b> —
+      「1단계 질환 연관에서 만든 Index를 감독 신호로 썼을 때 실제로 이득인가」는
+      <b>백본·데이터·평가를 고정하고 감독 신호만 바꾸는</b> 실험으로만 답할 수 있다.
+      ①과 ②의 절제가 모호했던 이유도 이 통제가 없었기 때문이다.</p>
+    </div>
+
+    <p style="margin-top:20px"><strong>짚어 둘 것.</strong>
+    평가가 «선형 프로브»가 아니다 — 동결 인코더 위에 <b>랜덤 포레스트</b>를 얹었다(앞 세 논문은 로지스틱·릿지).
+    논문 간 «동결 평가» 수치를 나란히 놓을 때 주의해야 한다.
+    절대 수치도 소박하다 — 14개 이진 과제 평균 AUROC <b>66.70%</b>로, PVC 검출 84.62%가 끌어올린 값이다.
+    Haar를 고른 근거는 실험뿐이고 이론적 정당화는 없으며, 별도의 한계 절도 두지 않았다.</p>
+
+    <div class="note" style="margin-top:20px">
+      <p style="margin:0 0 10px"><strong>이 논문의 자리 — 고찰(Discussion)에서 두 곳에 쓴다.</strong></p>
+      <p style="margin:0 0 10px"><b>㉠ 우리 연구의 한계 — PPG 신호의 다중 스케일 측면.</b>
+      우리 1단계는 <b>박동 하나 안에서</b> 시간·비율·미분을 잰다. MMR이 말하는 국소 형태와 긴 추세의 위계 중
+      <b>긴 쪽은 우리 특징 정의에 들어 있지 않다</b>(박동간 IQR 20개가 그 방향의 유일한 대리 변수다).
+      이 한계를 고찰에서 다룰 때 참고한다.</p>
+      <p style="margin:0 0 10px"><b>㉡ 도메인 시프트.</b>
+      우리는 25 Hz 자료(GalaxyPPG·Samsung)를 박동당 24샘플이라 절흔조차 잡히지 않는다는 이유로 1단계에서 제외했다.
+      MMR은 <b>바로 그 대역(25–100 Hz)의 웨어러블 자료로 학습한다</b> — 복원 계열은 형태학 검출을 요구하지 않기 때문이다.
+      우리 모델을 웨어러블 일반 PPG에 쓸 때의 도메인 시프트를 논의할 근거가 된다.</p>
+      <p style="margin:0"><b>같은 사실이 우리 방향에 대한 반론이기도 하다.</b>
+      복원 계열은 감독 신호를 만들지 않으므로 <b>형태학 검출 실패 문제에서 자유롭다.</b>
+      우리가 검출률(<code>cd_rate</code> 0.452 · <code>ri_rate</code> 0.307)을 함께 쓰겠다고 말하려는 자리에
+      「애초에 형태학을 요구하지 않으면 그만 아닌가」라는 반론이 성립한다. 답하지 않은 채로 기록해 둔다.</p>
+    </div>
+
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
+      ⑤ SIGMA-PPG — 어디를 가릴지를 학습한다 <a class="cite" href="references.html#ref-21">[21]</a></h4>
+    <p><span class="cap">arXiv:2601.21031 · 정독 260909</span></p>
+
+    <div class="pipe">
+      <div><b>두 계열 모두를 겨냥한다</b><b>마스크 복원에 대해</b> — PPG는 준주기 신호라 무작위로 가리면
+        모델이 <b>옆 심박 주기를 베껴서</b> 채운다. 혈역학적 의미가 아니라 보간을 배운다(저자들 표현으로 «trivial solution»).
+        <b>대조학습에 대해</b> — 견고한 특징은 배우나 <b>미세하지만 임상적으로 의미 있는 형태학적 세부를 억제한다.</b>
+        논문이 든 예가 <b>중복절흔의 변이</b>다 — 대조 목표는 그런 미세 형태를 잡음으로 취급한다는 것</div>
+      <div><b>1단 — 스펙트럼 인지 토크나이저</b>1초 패치를 VQ로 이산 토큰화(코드북 4,096 × 64차원).
+        손실 셋 — 푸리에 진폭 스펙트럼의 L₁ 복원 · VQ 커밋먼트 · <b>의미 일관성</b>(교란을 준 두 판이 같은 코드북 인덱스로 가도록)</div>
+      <div><b>2단 — 사전 유도 적대적 마스킹</b>교사망(0.1M)이 학생의 복원 손실을 <b>최대화</b>하는 마스크를 만든다.
+        보상이 곧 학생의 손실, 정확히 50%를 가리며 REINFORCE로 학습.
+        여기에 <b>통계적 사전</b>을 건다 — 진폭 안정성 <span class="mono">S<sub>amp</sub></span>(MAD 기반 Z-점수 + 시그모이드 게이트)와
+        형태학적 왜도 <span class="mono">S<sub>skew</sub> = tanh(|skewness|)</span>를 <span class="mono">β = 0.5</span>로 섞어,
+        교사의 로짓에 편향으로 더한 뒤(<span class="mono">α = 2.0</span>) Gumbel-Top-k로 정확히 k개를 뽑는다</div>
+      <div><b>자료</b>VitalDB(6,388명 · 500 Hz) + MIMIC-III(10,282명 · 125 Hz) · 약 <b>120,000시간</b> ·
+        0.5–8 Hz 대역통과 후 <b>4분 창을 50 Hz로</b> 재표본화. 백본은 5.8M / 30M / 80M / 350M 네 판</div>
+    </div>
+
+    <p style="margin-top:20px"><strong>사전이 왜 필요한지를 절제가 답한다.</strong>
+    무작위 마스킹은 보간으로 풀리고, 정적 사전은 적응적 커리큘럼이 없으며,
+    <b>사전 없이 적대적 교사만 두면 퇴화한다</b> — 교사가 잡음과 인공물만 골라 가려 학생이 배울 것이 없어진다.
+    <b>적대적이되 사전으로 묶인 것</b>만 작동했다.
+    의미 일관성 손실을 빼는 절제도 뚜렷하다 — 선형 프로브 SBP MAE 13.07 → 15.62, HR 5.83 → 9.21.
+    <b>불변성 요소가 동결 표현을 쓸 만하게 만드는 부분</b>이라는 뜻이다.</p>
+
+    <p style="margin-top:16px"><strong>평가 방식에 따라 순위가 뒤집힌다.</strong>
+    미세조정에서는 자릿수 차이로 앞선다(SpO₂ MAE 0.1457 vs Pulse-PPG 1.265 · 호흡수 0.2930 vs 1.261).
+    그러나 <b>동결 상태에서는 대조 계열에 진다</b>(스트레스 AUC 0.9083 vs 0.9687 · 개인 식별 0.8906 vs 0.9892).
+    저자들의 설명은 둘이다 — 도메인 시프트(임상 학습 → 웨어러블 평가), 그리고 <b>목표의 성격</b>:
+    생성 목표는 <b>보편적 파형 다양체</b>를 겨냥하고 대조 목표는 <b>피험자별 분리 가능성</b>을 만든다.
+    한계에서도 「견고한 교차 도메인 일반화에는 <b>미세조정이 여전히 필요하다</b>」고 다시 쓴다.</p>
+
+    <p style="margin-top:16px"><strong>그 밖의 관찰 둘.</strong>
+    규모는 5.8M → 30M → 80M까지 오르고 <b>350M에서 포화·소폭 하락</b>한다 —
+    데이터 대비 과매개변수화와 <b>PPG의 유한한 내재 차원</b>이 이유라고 본다(PaPaGei의 5M이 385M을 이긴 것과 같은 방향).
+    창 길이는 <b>240초가 가장 좋고 120 → 60 → 30초로 갈수록 나빠진다</b> —
+    트랜스포머 자기주의가 긴 맥락에서 잡음을 억제하기 때문이라고 설명한다.</p>
+
+    <div class="note ok" style="margin-top:24px">
+      <p style="margin:0 0 10px"><strong>이 논문에서 배운 것.</strong> 어느 것도 우리 설계를 정하지 않는다 — 알아 둘 관찰이다.</p>
+      <p style="margin:0 0 8px"><b>㉠ 통계량의 제3의 용법.</b> 이 논문은 통계량을 <b>학습 목표로 쓰지 않고 «어디를 볼지»의 안내로</b> 쓴다.
+      파형에서 계산한 양을 감독 신호(①·②)나 복원 목표(④)로 쓰는 것 말고도, <b>마스킹·표집의 사전</b>으로 쓰는 길이 있다.</p>
+      <p style="margin:0 0 8px"><b>㉡ 적대적 신호는 사전 없이는 퇴화한다.</b> 「어려운 곳을 골라 학습시킨다」는 발상 자체가
+      <b>무엇이 신호이고 무엇이 인공물인지에 대한 사전 지식 없이는 잡음으로 끌려간다.</b></p>
+      <p style="margin:0 0 8px"><b>㉢ 동결과 미세조정에서 순위가 뒤집힌 사례가 있다.</b>
+      생성 계열은 미세조정에서, 대조 계열은 동결에서 유리했다. 평가 방식을 정할 때 알아 둘 것.</p>
+      <p style="margin:0 0 8px"><b>㉣ 대조 목표가 미세 형태를 억제한다는 주장.</b>
+      이 저자들의 주장이며, 하필 예로 든 것이 중복절흔의 변이다. 우리가 감독 신호의 형태를 정할 때 참고할 지적이다.</p>
+      <p style="margin:0"><b>㉤ 창 길이.</b> 이들의 최적은 4분이고 30초가 가장 나빴다. 우리 1단계 세그먼트는 30초다.
+      2단계에서 창을 어떻게 잡을지에 걸리는 관찰이다.</p>
+    </div>
+
+
+    <h4 style="font-family:'Gothic A1',sans-serif;font-weight:600;font-size:16.5px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line)">
+      ⑥ GPT-PPG — 언어모델처럼 <a class="cite" href="references.html#ref-20">[20]</a></h4>
+    <p><span class="cap">arXiv:2503.08015 · Physiol Meas 2025 · 정독 260909 ·
+      <b>배경·서론 참고 — 신호를 토큰으로 다루는 설계의 사례</b></span></p>
+
+    <div class="pipe">
+      <div><b>왜 자기회귀인가</b>근거가 표현의 질이 아니라 <b>표본 효율</b>이다 —
+        BERT식 마스킹은 매 반복에서 약 15%의 토큰에만 손실이 걸리는데 <b>자기회귀는 모든 토큰 예측에 손실이 걸린다.</b>
+        대조나 마스크 계열을 왜 택하지 않았는지에 대한 논의는 거의 없다</div>
+      <div><b>설계</b>30초 PPG를 <b>40 Hz</b>로 두고 <b>1초 패치 30개</b>(패치당 40샘플)로 자른다.
+        Min-Max로 [0,1] 정규화한 뒤 다음 패치를 예측한다.
+        백본은 트랜스포머 디코더(RMSNorm 선정규화 · 회전 위치 임베딩), 문맥 길이 30토큰</div>
+      <div><b>자료</b>UCSF 중환자실 2013–2018 · 환자 <b>24,100명 이상</b> · 연속 기록 <b>2.6백만 시간</b> ·
+        30초 표본 2억 개 이상. 지금까지 읽은 것 중 가장 크다</div>
+      <div><b>평가</b><b>미세조정만</b> 했다 — 동결 평가가 없다.
+        예측 헤드를 선형·주의 두 가지로 두고 <b>둘 중 나은 쪽을 보고</b>한다.
+        미세조정 손실은 과제 손실에 신호 모델링 손실을 λ로 섞고 <b>λ를 0으로 점차 소거</b>한다</div>
+    </div>
+
+    <div class="note" style="margin-top:20px">
+      <p style="margin:0 0 8px"><strong>손실함수가 학습을 무너뜨린 사례.</strong></p>
+      <p style="margin:0">MSE로 학습시키자 모델이 붕괴해 <b>입력이 무엇이든 상수 0.5를 뱉었다.</b>
+      진단이 명확하다 — MSE의 지지집합은 실수 전체인데 <b>데이터는 [0,1]에 있고</b>,
+      Min-Max 정규화된 PPG는 <b>평균에 대해 대칭</b>이라 0.5가 퇴화 해가 된다.
+      해법은 지지집합이 (0,1)인 <b>logit-Laplace 분포 손실</b>로, 모델이 위치 μ와 척도 b를 예측해 각 패치의 우도를 최대화한다.
+      <b>정규화 방식과 손실함수를 따로 고른 결과 둘의 조합이 최적해를 상수로 만든 것</b>이다.</p>
+    </div>
+
+    <div class="scroll"><table style="margin-top:20px">
+      <thead><tr><th>과제</th><th>데이터셋</th><th class="r">기존 최고</th><th class="r">GPT-85M</th></tr></thead>
+      <tbody>
+        <tr><td>심방세동 (F1)</td><td class="mono">Stanford</td><td class="num r">0.67</td><td class="num r"><b>0.826 / 0.904</b></td></tr>
+        <tr><td>수축기 혈압 (MAE)</td><td class="mono">Vital</td><td class="num r">10.1</td><td class="num r"><b>8.794</b></td></tr>
+        <tr><td>이완기 혈압</td><td class="mono">Vital</td><td class="num r">7.64</td><td class="num r"><b>7.119</b></td></tr>
+        <tr><td>심박수</td><td class="mono">DaLiA</td><td class="num r"><b>2.61</b></td><td class="num r">3.102 / 1.887</td></tr>
+        <tr><td>심박수</td><td class="mono">WESAD</td><td class="num r"><b>3.63</b></td><td class="num r">3.769 / 4.102</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:12px"><b>결과가 섞여 있다</b> — 심방세동과 혈압에서는 크게 앞서고 웨어러블 심박수에서는 진다.
+    <b>규모 분석도 없다</b> — arXiv 판에는 19M·85M·345M·1B 넷을 학습했다고 되어 있으나
+    보고된 결과는 19M(데이터 5%)과 85M 둘뿐이고 규모에 따른 경향은 다루지 않는다.
+    <b>2.6백만 시간을 쓰고도 결과가 압도적이지 않다</b>는 점 자체를 기록해 둔다.
+    저자들이 명시한 한계는 <b>단방향성</b>이다 — 시퀀스 앞쪽에 저품질 패치가 들어오면 그 뒤 전체가 영향을 받고,
+    복원 품질도 70%를 가리면 눈에 띄게 떨어진다.</p>
+
+    <div class="note ok" style="margin-top:24px">
+      <p style="margin:0 0 10px"><strong>이 논문의 자리 — 배경·서론에서 «신호를 토큰으로 다루는 설계»의 사례로 쓴다.</strong></p>
+      <p style="margin:0 0 10px"><b>다만 «토큰»의 뜻이 두 갈래로 갈린다는 점을 함께 둔다.</b>
+      GPT-PPG의 토큰은 <b>이산 어휘가 아니다</b> — 1초 패치를 선형 임베딩으로 연속 벡터에 얹고
+      다음 패치의 <b>분포(μ, b)를 예측</b>한다. 반면 SIGMA-PPG(⑤)의 1단은
+      <b>VQ 코드북 4,096개</b>로 진짜 이산 토큰을 만든다.
+      생체신호를 토큰화하는 설계를 소개할 때 <b>연속 패치 임베딩과 이산 코드북</b>이 갈린다는 구분이 필요하다.</p>
+      <p style="margin:0 0 8px"><b>㉠ 목표값의 지지집합과 손실의 지지집합을 맞춰야 한다.</b>
+      1단계 특징에서 무언가를 만들어 학습 목표로 삼는다면 <b>그 값의 분포와 범위를 먼저 보고 손실을 골라야 한다.</b>
+      우리 43개는 범위가 제각각이다 — 비율(0~1 부근) · 시간(초) · 미분비(부호가 바뀜) · 검출률(0~1).
+      하나의 손실로 묶을 수 있는 것들이 아니다.</p>
+      <p style="margin:0 0 8px"><b>㉡ 단방향 구조는 앞쪽 품질 저하에 취약하다.</b>
+      우리 형태학 검출 실패가 세그먼트 안에서 균등하지 않고 구간에 몰릴 수 있다는 점과 이어진다.</p>
+      <p style="margin:0"><b>㉢ 규모가 답이 아닌 세 번째 사례다.</b>
+      PaPaGei의 5M이 385M을 이겼고, SIGMA는 350M에서 포화했으며, 여기서는 2.6백만 시간이 압도적 결과로 이어지지 않았다.
+      <b>㉣ 동결 평가를 하지 않은 논문도 있다</b> — 논문 간 «성능» 비교가 왜 어려운지의 사례로 남긴다.</p>
+    </div>
+
+    <div class="scroll"><table style="margin-top:20px">
+      <thead><tr><th class="r">순서</th><th>논문</th><th>이 논문에서 확인할 것</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td class="num r">1</td><td><b>PaPaGei</b> <span class="cap">ICLR 2025</span></td>
+          <td>파형에서 만든 감독 신호가 성립하는가 · 지표를 고르는 근거</td><td>정독 완료 · 기준선</td></tr>
+        <tr><td class="num r">2</td><td><b>Robust PPG FM</b> <span class="cap">arXiv 2606</span></td>
+          <td>지표를 1개에서 5개로 늘린 방식과 그 효과 · PaPaGei의 한계를 어떻게 짚었는가</td><td>정독 완료 · 참고</td></tr>
+        <tr><td class="num r">3</td><td><b>AnyPPG</b> <span class="cap">arXiv 2511</span></td>
+          <td>ICD phenome-wide 평가 · 교사 모델을 쓰는 방식</td><td>정독 완료 · 참고</td></tr>
+        <tr><td class="num r">4</td><td><b>MMR</b> <span class="cap">arXiv 2601</span></td>
+          <td>복원 목표를 무엇으로 삼는가 · 통제된 비교의 본보기</td><td>정독 완료 · 고찰 참고</td></tr>
+        <tr><td class="num r">5</td><td><b>SIGMA-PPG</b> <span class="cap">arXiv 2601</span></td>
+          <td>마스킹을 학습하는 방식 · 통계량을 안내로 쓰는 용법</td><td>정독 완료</td></tr>
+        <tr><td class="num r">6</td><td><b>GPT-PPG</b> <span class="cap">Physiol Meas 2025</span></td>
+          <td>자기회귀 계열 · 신호를 토큰으로 다루는 설계</td><td>정독 완료 · 배경 참고</td></tr>
+        <tr><td class="num r">7</td><td><b>Pulse-PPG</b> · <b>ECG 사전학습 체계 비교</b></td>
+          <td>평가 방식(선형 프로브 대 미세조정)과 백본 선택의 근거</td><td>다음</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>

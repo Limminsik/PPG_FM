@@ -1,0 +1,41 @@
+{
+  "notebook": "01_dataset/03_labels_icd",
+  "note": "ICD-10 라벨 지형과 분석 대상 코드",
+  "last_run": "2026-09-08T08:13:43",
+  "elapsed_sec": 1.7,
+  "environment": {
+    "python": "3.11.15",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "scipy": "1.17.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.1",
+    "wfdb": "4.3.1",
+    "pyarrow": "25.0.1"
+  },
+  "files": [
+    {
+      "file": "analysis_codes.csv",
+      "note": "환자 100명 이상 코드",
+      "bytes": 1407,
+      "saved_at": "2026-09-08T08:13:43",
+      "rows": 172,
+      "cols": 2
+    },
+    {
+      "file": "icd_case_count_hist.png",
+      "note": "코드별 환자 수 분포",
+      "bytes": 32101,
+      "saved_at": "2026-09-08T08:13:43"
+    },
+    {
+      "file": "icd_code_counts.csv",
+      "note": "코드별 환자 수 전수",
+      "bytes": 7265,
+      "saved_at": "2026-09-08T08:13:43",
+      "rows": 1092,
+      "cols": 2
+    }
+  ]
+}

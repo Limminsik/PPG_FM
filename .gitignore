@@ -1,0 +1,22 @@
+.venv/
+.venv-*/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+*.log
+
+# 중간 산출물 — 재생성 가능
+data/interim/*
+data/processed/*
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+
+# 결과물: 파일은 무시하되 manifest는 추적한다
+reports/**/*.csv
+reports/**/*.png
+reports/**/*.xlsx
+reports/**/*.parquet
+!reports/**/manifest.json
+reports/_legacy/
+src/ppg_fm.egg-info/

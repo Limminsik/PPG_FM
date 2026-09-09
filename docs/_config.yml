@@ -1,0 +1,7 @@
+title: PPG_FM
+description: PPG 파형 특징과 질환 연관 — 대규모 생체신호 기반 파운데이션 모델 연구 진행 현황
+version: PPG_FM_v0.14_260909
+repo_url: ""            # 저장소 주소를 넣으면 상단에 GitHub 링크가 생긴다
+lang: ko
+markdown: kramdown
+exclude: [README.md]

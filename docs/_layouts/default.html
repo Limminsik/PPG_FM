@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ page.title }} · {{ site.title }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;700&family=IBM+Plex+Sans+KR:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+</head>
+<body>
+<nav class="site-nav"><div class="in">
+  <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}<span class="v">{{ site.version }}</span></a>
+  {% for n in site.data.nav %}<a class="l{% if page.url == n.url %} on{% endif %}" href="{{ n.url | relative_url }}">{{ n.label }}</a>{% endfor %}
+  {% if site.repo_url %}<a class="gh" href="{{ site.repo_url }}">GitHub</a>{% endif %}
+</div></nav>
+<div class="wrap">
+{{ content }}
+<footer>
+  문서 <span class="mono">{{ site.version }}</span> · 이 페이지는 <code>docs/</code>의 소스에서 GitHub Pages가 만든다<br>
+  코드 <span class="mono">src/ppg_fm/</span> · 노트북 <span class="mono">01_dataset/ · 02_logistic/</span> · 산출물 <span class="mono">reports/&lt;단계&gt;/&lt;노트북&gt;/manifest.json</span><br>
+  예시 박동: MIMIC-III-Ext-PPG, 125 Hz, N=120 · 검출률·분포 통계는 코호트 전체 박동 기준
+</footer>
+</div>
+{% if page.scripts %}{% for sc in page.scripts %}<script src="{{ sc | relative_url }}"></script>{% endfor %}{% endif %}
+</body>
+</html>

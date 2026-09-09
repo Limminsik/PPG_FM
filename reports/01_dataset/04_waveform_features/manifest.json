@@ -1,0 +1,42 @@
+{
+  "notebook": "01_dataset/04_waveform_features",
+  "note": "박동 특징 23개 추출과 환자 요약 43개",
+  "last_run": "2026-09-08T15:58:57",
+  "elapsed_sec": 0.0,
+  "environment": {
+    "python": "3.11.15",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "scipy": "1.17.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.1",
+    "wfdb": "4.3.1",
+    "pyarrow": "25.0.1"
+  },
+  "files": [
+    {
+      "file": "beat_detection_rate.csv",
+      "note": "박동 단위 검출률",
+      "bytes": 334,
+      "saved_at": "2026-09-08T08:14:26",
+      "rows": 20,
+      "cols": 2
+    },
+    {
+      "file": "patient_feature_summary.csv",
+      "note": "환자 요약 특징 43개 분포",
+      "bytes": 5244,
+      "saved_at": "2026-09-08T15:58:57",
+      "rows": 45,
+      "cols": 9
+    },
+    {
+      "file": "reliability_projection.csv",
+      "note": "세그먼트 수별 신뢰도 투영",
+      "bytes": 6297,
+      "saved_at": "2026-09-08T08:18:55",
+      "rows": 43
+    }
+  ]
+}

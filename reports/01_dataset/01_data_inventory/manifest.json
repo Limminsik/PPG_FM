@@ -1,0 +1,27 @@
+{
+  "notebook": "01_dataset/01_data_inventory",
+  "note": "보유 PPG 현황과 단계별 사용 계획",
+  "last_run": "2026-09-08T08:14:14",
+  "elapsed_sec": 0.0,
+  "environment": {
+    "python": "3.11.15",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "scipy": "1.17.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.1",
+    "wfdb": "4.3.1",
+    "pyarrow": "25.0.1"
+  },
+  "files": [
+    {
+      "file": "dataset_plan.csv",
+      "note": "단계별 사용 계획",
+      "bytes": 671,
+      "saved_at": "2026-09-08T08:14:14",
+      "rows": 9,
+      "cols": 6
+    }
+  ]
+}

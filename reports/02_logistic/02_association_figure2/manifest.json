@@ -1,0 +1,94 @@
+{
+  "notebook": "02_logistic/02_association_figure2",
+  "note": "로지스틱 회귀 · 오즈비 · Figure 2와 변형 5종",
+  "last_run": "2026-09-08T16:18:02",
+  "elapsed_sec": 0.2,
+  "environment": {
+    "python": "3.11.15",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "scipy": "1.17.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.1",
+    "wfdb": "4.3.1",
+    "pyarrow": "25.0.1"
+  },
+  "files": [
+    {
+      "file": "covariate_ablation.csv",
+      "note": "공변량 절제 비교(참고)",
+      "bytes": 3029726,
+      "saved_at": "2026-09-08T08:18:55",
+      "rows": 26832
+    },
+    {
+      "file": "figure2_circulatory.png",
+      "note": "",
+      "bytes": 371934,
+      "saved_at": "2026-09-08T16:18:02"
+    },
+    {
+      "file": "figure2_compact.png",
+      "note": "",
+      "bytes": 510028,
+      "saved_at": "2026-09-08T16:18:02"
+    },
+    {
+      "file": "figure2_feature_breadth.png",
+      "note": "",
+      "bytes": 192811,
+      "saved_at": "2026-09-08T16:18:02"
+    },
+    {
+      "file": "figure2_or.csv",
+      "note": "질환 × 특징 오즈비 전수",
+      "bytes": 726544,
+      "saved_at": "2026-09-08T16:18:02",
+      "rows": 7353,
+      "cols": 8
+    },
+    {
+      "file": "figure2_or.png",
+      "note": "",
+      "bytes": 481666,
+      "saved_at": "2026-09-08T16:18:02"
+    },
+    {
+      "file": "figure2_panels.png",
+      "note": "",
+      "bytes": 232223,
+      "saved_at": "2026-09-08T16:18:02"
+    },
+    {
+      "file": "figure2_summary.csv",
+      "note": "검정 수 · 유의 셀 요약",
+      "bytes": 146,
+      "saved_at": "2026-09-08T16:18:02",
+      "rows": 6,
+      "cols": 2
+    },
+    {
+      "file": "figure2_top_cells.png",
+      "note": "",
+      "bytes": 361450,
+      "saved_at": "2026-09-08T16:18:02"
+    },
+    {
+      "file": "significant_breadth.csv",
+      "note": "질환별 유의 특징 수",
+      "bytes": 2381,
+      "saved_at": "2026-09-08T16:18:02",
+      "rows": 105,
+      "cols": 3
+    },
+    {
+      "file": "significant_cells.csv",
+      "note": "Bonferroni 통과 셀 전수",
+      "bytes": 63732,
+      "saved_at": "2026-09-08T16:18:02",
+      "rows": 852,
+      "cols": 6
+    }
+  ]
+}
