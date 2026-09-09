@@ -3,7 +3,7 @@ tagline: PPG 파형 특징과 질환 연관 · 파운데이션 모델
 description: 손끝 맥파(PPG)의 파형 특징으로 질환 연관을 훑고, 그 위에서 파운데이션 모델을 설계하는 연구
 baseurl: "/PPG_FM"     # 프로젝트 페이지 경로. 사용자 페이지로 옮기면 ""
 url: "https://limminsik.github.io"
-version: PPG_FM_v0.16_260909
+version: PPG_FM_v0.17_260909
 repo_url: "https://github.com/Limminsik/PPG_FM"
 lang: ko
 markdown: kramdown

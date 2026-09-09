@@ -25,6 +25,7 @@
   {% endfor %}
   <div class="ptoc" id="toc"></div>
   <div class="foot">
+    <button class="theme" id="themeBtn" type="button" aria-label="밝게/어둡게 전환">◐ 화면</button><br>
     {% if site.repo_url %}<a href="{{ site.repo_url }}">GitHub 저장소</a><br>{% endif %}
     src/ppg_fm · 01_dataset · 02_logistic<br>
     reports/&lt;단계&gt;/&lt;노트북&gt;/manifest.json
@@ -56,6 +57,18 @@
     html+='<a class="'+(h.tagName==='H2'?'h2':'h3')+'" href="#'+h.id+'">'+t+'</a>';
   });
   toc.innerHTML=html;
+})();
+(function(){
+  var K='ppgfm-theme', r=document.documentElement, b=document.getElementById('themeBtn');
+  try{ var v=localStorage.getItem(K); if(v) r.setAttribute('data-theme', v); }catch(e){}
+  if(!b) return;
+  b.addEventListener('click', function(){
+    var cur=r.getAttribute('data-theme');
+    if(!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var nx = cur==='dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme', nx);
+    try{ localStorage.setItem(K, nx); }catch(e){}
+  });
 })();
 </script>
 </body>
